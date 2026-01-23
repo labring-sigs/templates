@@ -27,7 +27,7 @@ jobs:
       - name: List all changed files
         run: echo ${{ steps.changed-files.outputs.all_changed_files }}
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
     permissions:
       contents: read
       packages: write
@@ -35,6 +35,7 @@ jobs:
     strategy:
       matrix:
         target: ${{ fromJSON(needs.gen-targets.outputs.targets) }}
+        arch: [ amd64, arm64 ]
       fail-fast: false
     steps:
       - name: Free Disk Space (Ubuntu)
@@ -91,8 +92,12 @@ jobs:
           else
             template_name=$(basename ${{ matrix.target }} .yaml | tr '[:upper:]' '[:lower:]')
           fi
+          upload_dir="cloud/template"
+          if [[ "${{ matrix.arch }}" == "arm64" ]]; then
+            upload_dir="cloud/template/arm64"
+          fi
           ossutil64 cp -f -e ${{ secrets.OSS_ENDPOINT }} \
             -i ${{ secrets.OSS_ACCESS_KEY_ID }} \
             -k ${{ secrets.OSS_ACCESS_KEY_SECRET }} \
             $template_name.tar \
-            oss://${{ secrets.OSS_BUCKET }}/cloud/template/$template_name.tar
+            oss://${{ secrets.OSS_BUCKET }}/$upload_dir/$template_name.tar
