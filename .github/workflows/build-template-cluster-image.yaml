@@ -68,7 +68,8 @@ jobs:
           else
             template_name=$(basename ${{ matrix.target }} .yaml | tr '[:upper:]' '[:lower:]')
           fi
-          sudo bash scripts/build-cluster-image.sh ${{ matrix.target }} ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest
+          image_tag=latest-${{ matrix.arch }}
+          sudo bash scripts/build-cluster-image.sh ${{ matrix.target }} ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:$image_tag
       #https://github.com/labring/sealos/issues/6112
       - name: Login to ghcr.io
         run: |
@@ -81,8 +82,9 @@ jobs:
           else
             template_name=$(basename ${{ matrix.target }} .yaml | tr '[:upper:]' '[:lower:]')
           fi
-          sudo sealos push ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest
-          sudo sealos save ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest -o $template_name.tar
+          image_tag=latest-${{ matrix.arch }}
+          sudo sealos push ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:$image_tag
+          sudo sealos save ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:$image_tag -o $template_name.tar
       - name: Upload cluster image tar
         if: github.repository_owner == 'labring-sigs'
         run: |
