@@ -1,11 +1,11 @@
-name: build-all-template-cluster-image
+name: build-all-template-cluster-image-arm64
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
     paths:
       - "scripts/build-cluster-image.sh"
-      - ".github/workflows/build-all-template-cluster-image.yaml"
+      - ".github/workflows/build-all-template-cluster-image-arm64.yaml"
 jobs:
   gen-targets:
     runs-on: ubuntu-latest
@@ -22,7 +22,7 @@ jobs:
           files=$(find template/ -name "*.yaml" -type f | jq -R . | jq -s -c .)
           echo "targets=$files" >> "$GITHUB_OUTPUT"
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     permissions:
       contents: read
       packages: write
@@ -62,7 +62,7 @@ jobs:
           else
             template_name=$(basename ${{ matrix.target }} .yaml | tr '[:upper:]' '[:lower:]')
           fi
-          sudo bash scripts/build-cluster-image.sh ${{ matrix.target }} ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest-amd64
+          sudo bash scripts/build-cluster-image.sh ${{ matrix.target }} ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest-arm64
       #https://github.com/labring/sealos/issues/6112
       - name: Login to ghcr.io
         run: |
@@ -75,8 +75,8 @@ jobs:
           else
             template_name=$(basename ${{ matrix.target }} .yaml | tr '[:upper:]' '[:lower:]')
           fi
-          sudo sealos push ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest-amd64
-          sudo sealos save ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest-amd64 -o $template_name.tar
+          sudo sealos push ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest-arm64
+          sudo sealos save ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest-arm64 -o $template_name.tar
       - name: Upload cluster image tar
         if: github.repository_owner == 'labring-sigs'
         run: |
@@ -90,4 +90,4 @@ jobs:
             -i ${{ secrets.OSS_ACCESS_KEY_ID }} \
             -k ${{ secrets.OSS_ACCESS_KEY_SECRET }} \
             $template_name.tar \
-            oss://${{ secrets.OSS_BUCKET }}/cloud/template/$template_name.tar
+            oss://${{ secrets.OSS_BUCKET }}/cloud/template/arm64/$template_name.tar
