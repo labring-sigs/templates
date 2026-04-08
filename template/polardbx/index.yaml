@@ -1,0 +1,155 @@
+apiVersion: app.sealos.io/v1
+kind: Template
+metadata:
+  name: polardbx
+spec:
+  title: 'polardbx'
+  author: 'Sealos'
+  description: 'PolarDB分布式版是阿里云自主研发的高性能云原生分布式数据库产品，其采用 Shared-nothing 与存储计算分离架构，支持水平扩展、分布式事务、混合负载等能力，具备企业级、云原生、高可用、高度兼容 MySQL 系统及生态等特点。'
+  readme: ''
+  icon: 'https://img.alicdn.com/imgextra/i2/O1CN01dthTLq1jTwwfjl1LO_!!6000000004550-73-tps-32-32.ico'
+  templateType: inline
+  categories:
+    - database
+  defaults:
+    app_name:
+      type: string
+      value: polardbx-${{ random(4) }}
+  inputs:
+    storage:
+      description: 'database storage size (Gi)'
+      type: string
+      default: '10'
+      required: false
+
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    sealos-db-provider-cr: ${{ defaults.app_name }}
+    app.kubernetes.io/instance: ${{ defaults.app_name }}
+    app.kubernetes.io/managed-by: kbcli
+  name: ${{ defaults.app_name }}
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    sealos-db-provider-cr: ${{ defaults.app_name }}
+    app.kubernetes.io/instance: ${{ defaults.app_name }}
+    app.kubernetes.io/managed-by: kbcli
+  name: ${{ defaults.app_name }}
+rules:
+  - apiGroups:
+      - '*'
+    resources:
+      - '*'
+    verbs:
+      - '*'
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    sealos-db-provider-cr: ${{ defaults.app_name }}
+    app.kubernetes.io/instance: ${{ defaults.app_name }}
+    app.kubernetes.io/managed-by: kbcli
+  name: ${{ defaults.app_name }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: ${{ defaults.app_name }}
+subjects:
+  - kind: ServiceAccount
+    name: ${{ defaults.app_name }}
+
+---
+apiVersion: apps.kubeblocks.io/v1alpha1
+kind: Cluster
+metadata:
+  finalizers:
+    - cluster.kubeblocks.io/finalizer
+  labels:
+    clusterdefinition.kubeblocks.io/name: polardbx
+    clusterversion.kubeblocks.io/name: polardbx-v2.3
+  name: ${{ defaults.app_name }}
+spec:
+  clusterDefinitionRef: polardbx
+  clusterVersionRef: polardbx-v2.3
+  componentSpecs:
+    - componentDefRef: gms
+      monitor: false
+      name: gms
+      noCreatePDB: false
+      replicas: 1
+      resources:
+        limits:
+          cpu: "1"
+          memory: 2Gi
+        requests:
+          cpu: "1"
+          memory: 1Gi
+      rsmTransformPolicy: ToSts
+      serviceAccountName: ${{ defaults.app_name }}
+      volumeClaimTemplates:
+        - name: data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: ${{ inputs.storage }}Gi
+    - componentDefRef: dn
+      monitor: false
+      name: dn-0
+      noCreatePDB: false
+      replicas: 3
+      resources:
+        limits:
+          cpu: "1"
+          memory: 2Gi
+        requests:
+          cpu: "1"
+          memory: 1Gi
+      rsmTransformPolicy: ToSts
+      serviceAccountName: ${{ defaults.app_name }}
+      volumeClaimTemplates:
+        - name: data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: ${{ inputs.storage }}Gi
+    - componentDefRef: cn
+      monitor: false
+      name: cn
+      noCreatePDB: false
+      replicas: 2
+      resources:
+        limits:
+          cpu: "1"
+          memory: 2Gi
+        requests:
+          cpu: "1"
+          memory: 1Gi
+      rsmTransformPolicy: ToSts
+    - componentDefRef: cdc
+      monitor: false
+      name: cdc
+      noCreatePDB: false
+      replicas: 2
+      serviceAccountName: ${{ defaults.app_name }}
+      resources:
+        limits:
+          cpu: "1"
+          memory: 2Gi
+        requests:
+          cpu: "1"
+          memory: 1Gi
+      rsmTransformPolicy: ToSts
+  terminationPolicy: WipeOut
