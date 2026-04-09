@@ -31,12 +31,13 @@ spec:
       default: '1'
       required: false
     db_mode:
-      description: 'database mode for first initialization, optional: oracle / pg'
+      description: 'database mode for first initialization, optional: oracle / pg / mysql'
       type: choice
       default: ${{ defaults.db_mode }}
       options:
         - oracle
         - pg
+        - mysql
       required: false
     db_user:
       description: 'database initialization username'
@@ -150,10 +151,10 @@ spec:
               echo "=== DB_MODE = $DB_MODE ==="
 
               case "$DB_MODE" in
-                oracle|pg)
+                oracle|pg|mysql)
                   ;;
                 *)
-                  echo "ERROR: unsupported DB_MODE: $DB_MODE, allowed values: oracle / pg"
+                  echo "ERROR: unsupported DB_MODE: $DB_MODE, allowed values: oracle / pg / mysql"
                   exit 1
                   ;;
               esac
