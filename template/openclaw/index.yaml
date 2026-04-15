@@ -15,7 +15,7 @@ spec:
   i18n:
     zh:
       description: AI 智能体网关，支持 WhatsApp、Telegram、Discord 等多渠道集成
-      readme: https://gitea.cloud.xinyun.cn/admin/templates/raw/branch/main/template/openclaw/README_zh.md
+      readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/openclaw/README_zh.md
   categories: [ai, tool]
   defaults:
     app_name:
@@ -58,7 +58,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: ghcr.io/openclaw/openclaw:2026.3.2
+    originImageName: ghcr.io/openclaw/openclaw:2026.3.8
     deploy.cloud.sealos.io/minReplicas: "1"
     deploy.cloud.sealos.io/maxReplicas: "1"
   labels:
@@ -98,7 +98,7 @@ spec:
             - name: vn-homevn-nodevn-npm
               mountPath: /home/node/.npm
         - name: init-openclaw-config
-          image: ghcr.io/openclaw/openclaw:2026.3.2
+          image: ghcr.io/openclaw/openclaw:2026.3.8
           imagePullPolicy: IfNotPresent
           env:
             - name: OPENCLAW_PROVIDER_KIND
@@ -156,7 +156,7 @@ spec:
               memory: 512Mi
       containers:
         - name: ${{ defaults.app_name }}
-          image: ghcr.io/openclaw/openclaw:2026.3.2
+          image: ghcr.io/openclaw/openclaw:2026.3.8
           imagePullPolicy: IfNotPresent
           env:
             - name: NODE_ENV
@@ -184,20 +184,27 @@ spec:
               containerPort: 3000
               protocol: TCP
           startupProbe:
-            tcpSocket:
+            httpGet:
+              path: /healthz
               port: 3000
             initialDelaySeconds: 10
-            periodSeconds: 10
-            failureThreshold: 20
-          livenessProbe:  
-            tcpSocket:
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /healthz
               port: 3000
             periodSeconds: 30
             timeoutSeconds: 5
+            failureThreshold: 5
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /readyz
               port: 3000
-            periodSeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
           volumeMounts:
             - name: vn-homevn-nodevn-openclaw
               mountPath: /home/node/.openclaw
