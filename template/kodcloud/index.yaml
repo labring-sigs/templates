@@ -118,7 +118,7 @@ spec:
               memory: 256Mi
             limits:
               cpu: 1000m
-              memory: 2048Mi
+              memory: 4Gi
           command: []
           args: []
           ports:
@@ -208,7 +208,7 @@ spec:
   displayType: normal
   icon: "https://kodcloud.com/static/images/common/ico.ico"
   name: ${{ defaults.app_name }}
-  type: iframe
+  type: link
 
 ---
 apiVersion: apps.kubeblocks.io/v1alpha1
