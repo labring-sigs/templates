@@ -1,0 +1,90 @@
+apiVersion: app.sealos.io/v1
+kind: Template
+metadata:
+  name: RabbitMQ
+spec:
+  title: 'RabbitMQ'
+  url: 'https://www.rabbitmq.com'
+  gitRepo: 'https://github.com/rabbitmq/rabbitmq-server'
+  author: 'Sealos'
+  description: 'Open source RabbitMQ: core server and tier 1 (built-in) plugins'
+  readme: 'https://raw.githubusercontent.com/rabbitmq/rabbitmq-server/refs/heads/main/README.md'
+  icon: 'https://www.rabbitmq.com/img/rabbitmq-logo.svg'
+  templateType: inline
+  locale: en
+  categories:
+    - tools
+  defaults:
+    app_host:
+      type: string
+      value: rabbitmq-${{ random(8) }}
+    app_name:
+      type: string
+      value: rabbitmq-${{ random(8) }}
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: ${{ defaults.app_name }}
+spec:
+  replicas: 3
+  service:
+    labels:
+      cloud.sealos.io/deploy-on-sealos: ${{ defaults.app_name }}
+    type: NodePort
+  resources:
+    requests:
+      cpu: 1
+      memory: 2Gi
+    limits:
+      cpu: 4
+      memory: 8Gi
+  rabbitmq:
+    additionalConfig: |
+      cluster_partition_handling = pause_minority
+      disk_free_limit.relative = 1.0
+      collect_statistics_interval = 10000
+  persistence:
+    # storageClassName: ssd
+    storage: "30Gi"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ${{ defaults.app_name }}
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    cloud.sealos.io/app-deploy-manager-domain: ${{ defaults.app_host }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 32m
+    nginx.ingress.kubernetes.io/server-snippet: |
+      client_header_buffer_size 64k;
+      large_client_header_buffers 4 128k;
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 64k
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 64k
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '300'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '300'
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($request_uri ~* \.(js|css|gif|jpe?g|png)) {
+        expires 30d;
+        add_header Cache-Control "public";
+      }
+spec:
+  rules:
+    - host: ${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: ${{ defaults.app_name }}
+                port:
+                  number: 15672
+  tls:
+    - hosts:
+        - ${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
+      secretName: ${{ SEALOS_CERT_SECRET_NAME }}
