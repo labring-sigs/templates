@@ -25,6 +25,27 @@ spec:
     app_name:
       type: string
       value: rabbitmq-${{ random(8) }}
+  inputs:
+    replica_count:
+      description: 'RabbitMQ replicas count'
+      type: number
+      default: "3"
+      required: true
+    storage_size:
+      description: 'Persistent storage size'
+      type: string
+      default: '5Gi'
+      required: true
+    cpu_limit:
+      description: 'CPU limit'
+      type: string
+      default: '4'
+      required: true
+    memory_limit:
+      description: 'Memory limit'
+      type: string
+      default: '8Gi'
+      required: true
 ---
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
@@ -32,18 +53,18 @@ metadata:
   name: ${{ defaults.app_name }}
 spec:
   image: rabbitmq:4.1.3-management
-  replicas: 3
+  replicas: ${{ inputs.replica_count }}
   service:
     labels:
       cloud.sealos.io/deploy-on-sealos: ${{ defaults.app_name }}
     type: NodePort
   resources:
     requests:
-      cpu: 1
-      memory: 2Gi
+      cpu: 10m
+      memory: 50Mi
     limits:
-      cpu: 4
-      memory: 8Gi
+      cpu: ${{ inputs.cpu_limit }}
+      memory: ${{ inputs.memory_limit }}
   rabbitmq:
     additionalConfig: |
       cluster_partition_handling = pause_minority
@@ -51,7 +72,7 @@ spec:
       collect_statistics_interval = 10000
   persistence:
     # storageClassName: ssd
-    storage: "30Gi"
+    storage: ${{ inputs.storage_size }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
