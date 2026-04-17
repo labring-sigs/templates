@@ -11,7 +11,6 @@ spec:
   readme: 'https://raw.githubusercontent.com/elastic/elasticsearch/refs/heads/main/README.asciidoc'
   icon: 'https://www.elastic.co/apple-touch-icon.png'
   templateType: inline
-  locale: en
   categories:
     - tools
   defaults:
@@ -21,38 +20,167 @@ spec:
     app_name:
       type: string
       value: elasticsearch-${{ random(8) }}
+  inputs:
+    ES_ALLOW_MMAP:
+      description: 'ElasticSearch 开启内存优化'
+      type: boolean
+      default: 'false'
+      required: false
+    ES_MASTERS_COUNT:
+      description: 'ElasticSearch master 节点数量'
+      type: string
+      default: "1"
+      required: false
+    ES_DATA_NODES_COUNT:
+      description: 'ElasticSearch data 节点数量'
+      type: string
+      default: "1"
+      required: false
+    ES_DATA_JAVA_OPTS:
+      description: 'ElasticSearch data JVM 参数'
+      type: string
+      default: '-Xms1g -Xmx1g'
+      required: false
+    ES_DATA_RESOURCES_CPU:
+      description: 'ElasticSearch data 节点资源 cpu'
+      type: string
+      default: "1"
+      required: false
+    ES_DATA_RESOURCES_MEMORY:
+      description: 'ElasticSearch data 节点资源 memory'
+      type: string
+      default: "2Gi"
+      required: false
 ---
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
   name: ${{ defaults.app_name }}
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
 spec:
-  version: 9.3.3
-  http:
-    service:
-      spec:
-        type: ClusterIP
+  image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+  version: 7.10.2
   nodeSets:
-    - name: default
-      # 调整副本数量
-      count: 1
+    - name: masters
+      count: ${{ inputs.ES_MASTERS_COUNT }}
+      config:
+        node.roles: ["master"]
+        cluster.remote.connect: false
+        node.store.allow_mmap: ${{ inputs.ES_ALLOW_MMAP }}
       podTemplate:
+        metadata:
+          labels:
+            cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
         spec:
           containers:
             - name: elasticsearch
+              env:
+                - name: ES_JAVA_OPTS
+                  value: '-Xms1g -Xmx1g'
               resources:
                 limits:
-                  memory: 4Gi
-                  cpu: 4
-                requests:
                   memory: 2Gi
-                  cpu: 2
+                  cpu: 1
+                requests:
+                  memory: 10Mi
+                  cpu: 10m
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data
+            labels:
+              cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
           spec:
-            accessModes:
-              - ReadWriteOnce
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 1Gi
+    - name: data-nodes
+      count: ${{ inputs.ES_DATA_NODES_COUNT }}
+      config:
+        node.roles: ["data", "ingest"]
+        indices.memory.index_buffer_size: 10%
+        node.store.allow_mmap: ${{ inputs.ES_ALLOW_MMAP }}
+      podTemplate:
+        metadata:
+          labels:
+            cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+        spec:
+          containers:
+            - name: elasticsearch
+              env:
+                - name: ES_JAVA_OPTS
+                  value: ${{ inputs.ES_DATA_JAVA_OPTS }}
+              resources:
+                requests:
+                  memory: 10Mi
+                  cpu: 10m
+                limits:
+                  cpu: ${{ inputs.ES_DATA_RESOURCES_CPU }}
+                  memory: ${{ inputs.ES_DATA_RESOURCES_MEMORY }}
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data
+            labels:
+              cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+          spec:
+            accessModes: ["ReadWriteOnce"]
             resources:
               requests:
                 storage: 5Gi
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ${{ defaults.app_name }}
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    cloud.sealos.io/app-deploy-manager-domain: ${{ defaults.app_name }}
+    cloud.sealos.io/deploy-on-sealos: ${{ defaults.app_name }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 128m
+    nginx.ingress.kubernetes.io/server-snippet: |
+      client_header_buffer_size 64k;
+      large_client_header_buffers 4 128k;
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 64k
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 64k
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '300'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '300'
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($request_uri ~* \.(js|css|gif|jpe?g|png)) {
+        expires 30d;
+        add_header Cache-Control "public";
+      }
+spec:
+  rules:
+    - host: ${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: ${{ defaults.app_name }}-es-http
+                port:
+                  number: 9200
+  tls:
+    - hosts:
+        - ${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
+      secretName: wildcard-cert
+---
+apiVersion: app.sealos.io/v1
+kind: App
+metadata:
+  name: ${{ defaults.app_name }}
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+spec:
+  data:
+    url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
+  displayType: normal
+  icon: "https://www.elastic.co/cn/favicon.ico"
+  name: "ElasticSearch"
+  type: link
