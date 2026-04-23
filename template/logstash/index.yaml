@@ -18,15 +18,20 @@ spec:
       type: string
       value: logstash-${{ random(8) }}
   inputs:
-    elasticsearch_username:
+    ELASTICSEARCH_USERNAME:
       description: "Elasticsearch username for Logstash output"
       type: string
       default: "elastic"
       required: true
-    elasticsearch_password:
+    ELASTICSEARCH_PASSWORD:
       description: "Elasticsearch password for Logstash output"
       type: string
       default: ""
+      required: true
+    ELASTICSEARCH_HOST:
+      description: "Elasticsearch host for Logstash output"
+      type: string
+      default: "elasticsearch.logging.svc.cluster.local:9200"
       required: true
 
 ---
@@ -87,9 +92,9 @@ data:
 
     output {
       elasticsearch {
-        hosts => ["http://elasticsearch.logging.svc.cluster.local:9200"]
-        user => "${ELASTICSEARCH_USERNAME}"
-        password => "${ELASTICSEARCH_PASSWORD}"
+        hosts => ["http://${{ inputs.ELASTICSEARCH_HOST }}"]
+        user => "${{ inputs.ELASTICSEARCH_USERNAME }}"
+        password => "${{ inputs.ELASTICSEARCH_PASSWORD }}"
         index => "logstash-%{+YYYY.MM.dd}"
         ilm_enabled => false
       }
