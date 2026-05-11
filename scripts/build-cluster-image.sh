@@ -8,10 +8,12 @@ echo "Building cluster image for $1"
 template_file=$1
 image_name=$2
 
-if [[ $(basename "$template_file") == "index.yaml" ]]; then
+if [[ $(basename "$template_file") == "index.yaml" || $(basename "$template_file") == "index.yml" ]]; then
   template_name=$(basename $(dirname "$template_file"))
 else
-  template_name=$(basename "$template_file" .yaml)
+  template_name=$(basename "$template_file")
+  template_name=${template_name%.yaml}
+  template_name=${template_name%.yml}
 fi
 
 if [[ ! -f "$template_file" ]]; then
