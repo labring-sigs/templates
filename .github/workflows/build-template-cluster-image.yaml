@@ -12,16 +12,16 @@ jobs:
       targets: ${{ steps.changed-files.outputs.all_changed_files }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Get all changed template files
         id: changed-files
-        uses: tj-actions/changed-files@v41
+        uses: tj-actions/changed-files@v47
         with:
           files: |
-            template/**/*.yaml
             template/**/index.yaml
+            template/**/index.yml
           json: true
           escape_json: false
       - name: List all changed files
@@ -55,7 +55,7 @@ jobs:
           docker-images: true
           swap-storage: true
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Set up sealos
@@ -63,10 +63,12 @@ jobs:
           curl -sfL https://raw.githubusercontent.com/labring/sealos/main/scripts/install.sh | sh -s v5.1.0 labring/sealos
       - name: Build cluster image
         run: |
-          if [[ $(basename ${{ matrix.target }}) == "index.yaml" ]]; then
+          if [[ $(basename ${{ matrix.target }}) == "index.yaml" || $(basename ${{ matrix.target }}) == "index.yml" ]]; then
             template_name=$(basename $(dirname ${{ matrix.target }}) | tr '[:upper:]' '[:lower:]')
           else
-            template_name=$(basename ${{ matrix.target }} .yaml | tr '[:upper:]' '[:lower:]')
+            template_name=$(basename ${{ matrix.target }} | tr '[:upper:]' '[:lower:]')
+            template_name=${template_name%.yaml}
+            template_name=${template_name%.yml}
           fi
           image_tag=latest-${{ matrix.arch }}
           sudo bash scripts/build-cluster-image.sh ${{ matrix.target }} ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:$image_tag
@@ -77,10 +79,12 @@ jobs:
           sudo sealos login -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Push and save cluster image
         run: |
-          if [[ $(basename ${{ matrix.target }}) == "index.yaml" ]]; then
+          if [[ $(basename ${{ matrix.target }}) == "index.yaml" || $(basename ${{ matrix.target }}) == "index.yml" ]]; then
             template_name=$(basename $(dirname ${{ matrix.target }}) | tr '[:upper:]' '[:lower:]')
           else
-            template_name=$(basename ${{ matrix.target }} .yaml | tr '[:upper:]' '[:lower:]')
+            template_name=$(basename ${{ matrix.target }} | tr '[:upper:]' '[:lower:]')
+            template_name=${template_name%.yaml}
+            template_name=${template_name%.yml}
           fi
           image_tag=latest-${{ matrix.arch }}
           sudo sealos push ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:$image_tag
@@ -89,10 +93,12 @@ jobs:
         if: github.repository_owner == 'labring-sigs'
         run: |
           sudo -v ; curl https://gosspublic.alicdn.com/ossutil/install.sh | sudo bash
-          if [[ $(basename ${{ matrix.target }}) == "index.yaml" ]]; then
+          if [[ $(basename ${{ matrix.target }}) == "index.yaml" || $(basename ${{ matrix.target }}) == "index.yml" ]]; then
             template_name=$(basename $(dirname ${{ matrix.target }}) | tr '[:upper:]' '[:lower:]')
           else
-            template_name=$(basename ${{ matrix.target }} .yaml | tr '[:upper:]' '[:lower:]')
+            template_name=$(basename ${{ matrix.target }} | tr '[:upper:]' '[:lower:]')
+            template_name=${template_name%.yaml}
+            template_name=${template_name%.yml}
           fi
           upload_dir="offline/template"
           if [[ "${{ matrix.arch }}" == "arm64" ]]; then
