@@ -197,25 +197,25 @@ metadata:
     app: ${{ defaults.app_name }}
 type: Opaque
 stringData:
-  DEEPSEEK_API_KEY: ${{ inputs.deepseek_api_key }}
-  QIANFAN_API_KEY: ${{ inputs.qianfan_api_key }}
-  MINIMAX_API_KEY: ${{ inputs.minimax_api_key }}
-  ZHIPU_AI_API_KEY: ${{ inputs.zhipu_ai_api_key }}
-  ARK_API_KEY: ${{ inputs.ark_api_key }}
-  MOONSHOT_API_KEY: ${{ inputs.moonshot_api_key }}
-  DASHSCOPE_API_KEY: ${{ inputs.dashscope_api_key }}
-  CLAUDE_API_KEY: ${{ inputs.claude_api_key }}
-  OPEN_AI_API_KEY: ${{ inputs.open_ai_api_key }}
-  GEMINI_API_KEY: ${{ inputs.gemini_api_key }}
-  LINKAI_API_KEY: ${{ inputs.linkai_api_key }}
-  LINKAI_APP_CODE: ${{ inputs.linkai_app_code }}
-  FEISHU_APP_ID: ${{ inputs.feishu_app_id }}
-  FEISHU_APP_SECRET: ${{ inputs.feishu_app_secret }}
-  DINGTALK_CLIENT_ID: ${{ inputs.dingtalk_client_id }}
-  DINGTALK_CLIENT_SECRET: ${{ inputs.dingtalk_client_secret }}
-  WECOM_BOT_ID: ${{ inputs.wecom_bot_id }}
-  WECOM_BOT_SECRET: ${{ inputs.wecom_bot_secret }}
-  WEB_PASSWORD: ${{ inputs.web_password }}
+  DEEPSEEK_API_KEY: "${{ inputs.deepseek_api_key }}"
+  QIANFAN_API_KEY: "${{ inputs.qianfan_api_key }}"
+  MINIMAX_API_KEY: "${{ inputs.minimax_api_key }}"
+  ZHIPU_AI_API_KEY: "${{ inputs.zhipu_ai_api_key }}"
+  ARK_API_KEY: "${{ inputs.ark_api_key }}"
+  MOONSHOT_API_KEY: "${{ inputs.moonshot_api_key }}"
+  DASHSCOPE_API_KEY: "${{ inputs.dashscope_api_key }}"
+  CLAUDE_API_KEY: "${{ inputs.claude_api_key }}"
+  OPEN_AI_API_KEY: "${{ inputs.open_ai_api_key }}"
+  GEMINI_API_KEY: "${{ inputs.gemini_api_key }}"
+  LINKAI_API_KEY: "${{ inputs.linkai_api_key }}"
+  LINKAI_APP_CODE: "${{ inputs.linkai_app_code }}"
+  FEISHU_APP_ID: "${{ inputs.feishu_app_id }}"
+  FEISHU_APP_SECRET: "${{ inputs.feishu_app_secret }}"
+  DINGTALK_CLIENT_ID: "${{ inputs.dingtalk_client_id }}"
+  DINGTALK_CLIENT_SECRET: "${{ inputs.dingtalk_client_secret }}"
+  WECOM_BOT_ID: "${{ inputs.wecom_bot_id }}"
+  WECOM_BOT_SECRET: "${{ inputs.wecom_bot_secret }}"
+  WEB_PASSWORD: "${{ inputs.web_password }}"
 
 ---
 apiVersion: v1
@@ -226,41 +226,26 @@ metadata:
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
     app: ${{ defaults.app_name }}
 data:
-  CHANNEL_TYPE: ${{ inputs.channel_type }}
-  MODEL: ${{ inputs.model }}
-  DEEPSEEK_API_BASE: ${{ inputs.deepseek_api_base }}
-  QIANFAN_API_BASE: ${{ inputs.qianfan_api_base }}
-  MINIMAX_API_BASE: ${{ inputs.minimax_api_base }}
-  ZHIPU_AI_API_BASE: ${{ inputs.zhipu_ai_api_base }}
-  ARK_API_BASE: ${{ inputs.ark_api_base }}
-  MOONSHOT_API_BASE: ${{ inputs.moonshot_api_base }}
-  DASHSCOPE_API_BASE: ${{ inputs.dashscope_api_base }}
-  CLAUDE_API_BASE: ${{ inputs.claude_api_base }}
-  OPEN_AI_API_BASE: ${{ inputs.open_ai_api_base }}
-  GEMINI_API_BASE: ${{ inputs.gemini_api_base }}
+  CHANNEL_TYPE: "${{ inputs.channel_type }}"
+  MODEL: "${{ inputs.model }}"
+  DEEPSEEK_API_BASE: "${{ inputs.deepseek_api_base }}"
+  QIANFAN_API_BASE: "${{ inputs.qianfan_api_base }}"
+  MINIMAX_API_BASE: "${{ inputs.minimax_api_base }}"
+  ZHIPU_AI_API_BASE: "${{ inputs.zhipu_ai_api_base }}"
+  ARK_API_BASE: "${{ inputs.ark_api_base }}"
+  MOONSHOT_API_BASE: "${{ inputs.moonshot_api_base }}"
+  DASHSCOPE_API_BASE: "${{ inputs.dashscope_api_base }}"
+  CLAUDE_API_BASE: "${{ inputs.claude_api_base }}"
+  OPEN_AI_API_BASE: "${{ inputs.open_ai_api_base }}"
+  GEMINI_API_BASE: "${{ inputs.gemini_api_base }}"
   AGENT: "True"
   AGENT_MAX_CONTEXT_TOKENS: "50000"
   AGENT_MAX_CONTEXT_TURNS: "20"
   AGENT_MAX_STEPS: "20"
 
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: ${{ defaults.app_name }}-cow
-  labels:
-    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
-    app: ${{ defaults.app_name }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: ${{ inputs.storage_size }}Gi
-
----
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
@@ -271,9 +256,9 @@ metadata:
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
     app: ${{ defaults.app_name }}
 spec:
+  serviceName: ${{ defaults.app_name }}
   replicas: 1
   revisionHistoryLimit: 3
-  progressDeadlineSeconds: 600
   selector:
     matchLabels:
       app: ${{ defaults.app_name }}
@@ -351,10 +336,21 @@ spec:
           volumeMounts:
             - name: cow-data
               mountPath: /home/agent/cow
-      volumes:
-        - name: cow-data
-          persistentVolumeClaim:
-            claimName: ${{ defaults.app_name }}-cow
+  volumeClaimTemplates:
+    - metadata:
+        name: cow-data
+        annotations:
+          path: /home/agent/cow
+          value: "${{ inputs.storage_size }}"
+        labels:
+          cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+          app: ${{ defaults.app_name }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: ${{ inputs.storage_size }}Gi
 
 ---
 apiVersion: v1

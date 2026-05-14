@@ -58,23 +58,8 @@ spec:
       required: false
 
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: ${{ defaults.app_name }}-data
-  labels:
-    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
-    app: ${{ defaults.app_name }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: ${{ inputs.storage_size }}Gi
-
----
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
@@ -85,6 +70,7 @@ metadata:
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
     app: ${{ defaults.app_name }}
 spec:
+  serviceName: ${{ defaults.app_name }}
   replicas: 1
   revisionHistoryLimit: 1
   selector:
@@ -97,10 +83,6 @@ spec:
     spec:
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 30
-      volumes:
-        - name: hermes-home
-          persistentVolumeClaim:
-            claimName: ${{ defaults.app_name }}-data
       containers:
         - name: ${{ defaults.app_name }}
           image: layzer/hermes-agent:v0.0.4
@@ -109,11 +91,11 @@ spec:
             - name: PORT
               value: "6060"
             - name: BIND_HOST
-              value: ${{ inputs.bind_host }}
+              value: "${{ inputs.bind_host }}"
             - name: AUTH_DISABLED
-              value: ${{ inputs.auth_disabled }}
+              value: "${{ inputs.auth_disabled }}"
             - name: AUTH_TOKEN
-              value: ${{ inputs.auth_token }}
+              value: "${{ inputs.auth_token }}"
             - name: HERMES_ALLOW_ROOT_GATEWAY
               value: "1"
             - name: HOME
@@ -150,6 +132,21 @@ spec:
           volumeMounts:
             - name: hermes-home
               mountPath: /home/agent
+  volumeClaimTemplates:
+    - metadata:
+        name: hermes-home
+        annotations:
+          path: /home/agent
+          value: "${{ inputs.storage_size }}"
+        labels:
+          cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+          app: ${{ defaults.app_name }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: ${{ inputs.storage_size }}Gi
 
 ---
 apiVersion: v1
