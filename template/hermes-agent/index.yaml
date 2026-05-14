@@ -1,0 +1,221 @@
+apiVersion: app.sealos.io/v1
+kind: Template
+metadata:
+  name: hermes-agent
+spec:
+  title: "Hermes Agent"
+  url: "https://github.com/EKKOLearnAI/hermes-web-ui"
+  gitRepo: "https://github.com/EKKOLearnAI/hermes-web-ui"
+  author: "Sealos"
+  description: "Hermes Agent with integrated Hermes Web UI, packaged as a single stable image for Sealos."
+  readme: "https://raw.githubusercontent.com/EKKOLearnAI/hermes-web-ui/main/README.md"
+  icon: "https://github.com/EKKOLearnAI.png"
+  templateType: inline
+  locale: en
+  categories:
+    - ai
+  i18n:
+    zh:
+      description: "集成 Hermes Web UI 的单镜像 Hermes Agent，适合直接在 Sealos 上稳定部署。"
+      readme: "https://raw.githubusercontent.com/EKKOLearnAI/hermes-web-ui/main/README_zh.md"
+  defaults:
+    app_name:
+      type: string
+      value: hermes-agent-${{ random(8) }}
+    app_host:
+      type: string
+      value: ${{ random(8) }}
+  inputs:
+    storage_size:
+      description: "Persistent storage size in Gi for Hermes and Web UI data"
+      type: string
+      default: "10"
+      required: true
+    cpu:
+      description: "CPU allocation for the Hermes Agent pod"
+      type: string
+      default: "1000m"
+      required: true
+    memory:
+      description: "Memory allocation for the Hermes Agent pod"
+      type: string
+      default: "2Gi"
+      required: true
+    bind_host:
+      description: "Web UI bind host"
+      type: string
+      default: "0.0.0.0"
+      required: false
+    auth_disabled:
+      description: "Disable Hermes Web UI login authentication"
+      type: string
+      default: "false"
+      required: false
+    auth_token:
+      description: "Optional fixed auth token for Hermes Web UI"
+      type: string
+      default: ""
+      required: false
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ${{ defaults.app_name }}-data
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    app: ${{ defaults.app_name }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: ${{ inputs.storage_size }}Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${{ defaults.app_name }}
+  annotations:
+    originImageName: layzer/hermes-agent:v0.0.4
+    deploy.cloud.sealos.io/minReplicas: "1"
+    deploy.cloud.sealos.io/maxReplicas: "1"
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    app: ${{ defaults.app_name }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: ${{ defaults.app_name }}
+  template:
+    metadata:
+      labels:
+        app: ${{ defaults.app_name }}
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: hermes-home
+          persistentVolumeClaim:
+            claimName: ${{ defaults.app_name }}-data
+      containers:
+        - name: ${{ defaults.app_name }}
+          image: layzer/hermes-agent:v0.0.4
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "6060"
+            - name: BIND_HOST
+              value: ${{ inputs.bind_host }}
+            - name: AUTH_DISABLED
+              value: ${{ inputs.auth_disabled }}
+            - name: AUTH_TOKEN
+              value: ${{ inputs.auth_token }}
+            - name: HERMES_ALLOW_ROOT_GATEWAY
+              value: "1"
+            - name: HOME
+              value: /home/agent
+            - name: HERMES_HOME
+              value: /home/agent/.hermes
+          ports:
+            - name: web
+              containerPort: 6060
+              protocol: TCP
+          resources:
+            requests:
+              cpu: ${{ inputs.cpu }}
+              memory: ${{ inputs.memory }}
+            limits:
+              cpu: ${{ inputs.cpu }}
+              memory: ${{ inputs.memory }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: web
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 12
+          livenessProbe:
+            httpGet:
+              path: /
+              port: web
+            initialDelaySeconds: 45
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 6
+          volumeMounts:
+            - name: hermes-home
+              mountPath: /home/agent
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${{ defaults.app_name }}
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    app: ${{ defaults.app_name }}
+spec:
+  selector:
+    app: ${{ defaults.app_name }}
+  ports:
+    - name: web
+      port: 6060
+      targetPort: web
+      protocol: TCP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ${{ defaults.app_name }}
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    cloud.sealos.io/app-deploy-manager-domain: ${{ defaults.app_host }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: "32m"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 64k
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 64k
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      client_header_buffer_size 64k;
+      large_client_header_buffers 4 128k;
+spec:
+  rules:
+    - host: ${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: ${{ defaults.app_name }}
+                port:
+                  number: 6060
+  tls:
+    - hosts:
+        - ${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
+      secretName: ${{ SEALOS_CERT_SECRET_NAME }}
+
+---
+apiVersion: app.sealos.io/v1
+kind: App
+metadata:
+  name: ${{ defaults.app_name }}
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+spec:
+  data:
+    url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
+  displayType: normal
+  icon: "https://github.com/EKKOLearnAI.png"
+  name: "Hermes Agent"
+  type: link
