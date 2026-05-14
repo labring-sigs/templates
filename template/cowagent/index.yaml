@@ -1,0 +1,429 @@
+apiVersion: app.sealos.io/v1
+kind: Template
+metadata:
+  name: cowagent
+spec:
+  title: "CowAgent"
+  url: "https://cowagent.ai/"
+  gitRepo: "https://github.com/zhayujie/CowAgent"
+  author: "Sealos"
+  description: "CowAgent is an AI super assistant with long-term memory, skills, tools, and a web console for multi-channel agent workflows."
+  readme: "https://raw.githubusercontent.com/zhayujie/CowAgent/master/docs/en/README.md"
+  icon: "https://raw.githubusercontent.com/zhayujie/CowAgent/master/channel/web/static/logo.jpg"
+  templateType: inline
+  locale: en
+  categories:
+    - ai
+  i18n:
+    zh:
+      description: "CowAgent 是一个支持长期记忆、技能系统、内置工具和 Web 控制台的超级 AI 助理。"
+      readme: "https://raw.githubusercontent.com/zhayujie/CowAgent/master/README.md"
+  defaults:
+    app_name:
+      type: string
+      value: cowagent-${{ random(8) }}
+    app_host:
+      type: string
+      value: ${{ random(8) }}
+  inputs:
+    storage_size:
+      description: "Persistent storage size in Gi for CowAgent workspace data"
+      type: string
+      default: "5"
+      required: true
+    web_password:
+      description: "Password for the CowAgent web console"
+      type: string
+      default: ""
+      required: true
+    channel_type:
+      description: "CowAgent channel type"
+      type: string
+      default: "web"
+      required: false
+    model:
+      description: "Default model name for CowAgent"
+      type: string
+      default: "deepseek-v4-flash"
+      required: false
+    deepseek_api_key:
+      description: "DeepSeek API key"
+      type: string
+      default: ""
+      required: false
+    deepseek_api_base:
+      description: "DeepSeek API base URL"
+      type: string
+      default: "https://api.deepseek.com/v1"
+      required: false
+    qianfan_api_key:
+      description: "Qianfan API key"
+      type: string
+      default: ""
+      required: false
+    qianfan_api_base:
+      description: "Qianfan API base URL"
+      type: string
+      default: ""
+      required: false
+    minimax_api_key:
+      description: "MiniMax API key"
+      type: string
+      default: ""
+      required: false
+    minimax_api_base:
+      description: "MiniMax API base URL"
+      type: string
+      default: ""
+      required: false
+    zhipu_ai_api_key:
+      description: "Zhipu AI API key"
+      type: string
+      default: ""
+      required: false
+    zhipu_ai_api_base:
+      description: "Zhipu AI API base URL"
+      type: string
+      default: ""
+      required: false
+    ark_api_key:
+      description: "ARK API key"
+      type: string
+      default: ""
+      required: false
+    ark_api_base:
+      description: "ARK API base URL"
+      type: string
+      default: ""
+      required: false
+    moonshot_api_key:
+      description: "Moonshot API key"
+      type: string
+      default: ""
+      required: false
+    moonshot_api_base:
+      description: "Moonshot API base URL"
+      type: string
+      default: ""
+      required: false
+    dashscope_api_key:
+      description: "DashScope API key"
+      type: string
+      default: ""
+      required: false
+    dashscope_api_base:
+      description: "DashScope API base URL"
+      type: string
+      default: ""
+      required: false
+    claude_api_key:
+      description: "Claude API key"
+      type: string
+      default: ""
+      required: false
+    claude_api_base:
+      description: "Claude API base URL"
+      type: string
+      default: "https://api.anthropic.com/v1"
+      required: false
+    open_ai_api_key:
+      description: "OpenAI API key"
+      type: string
+      default: ""
+      required: false
+    open_ai_api_base:
+      description: "OpenAI API base URL"
+      type: string
+      default: "https://api.openai.com/v1"
+      required: false
+    gemini_api_key:
+      description: "Gemini API key"
+      type: string
+      default: ""
+      required: false
+    gemini_api_base:
+      description: "Gemini API base URL"
+      type: string
+      default: "https://generativelanguage.googleapis.com"
+      required: false
+    linkai_api_key:
+      description: "LinkAI API key"
+      type: string
+      default: ""
+      required: false
+    linkai_app_code:
+      description: "LinkAI application code"
+      type: string
+      default: ""
+      required: false
+    feishu_app_id:
+      description: "Feishu app ID"
+      type: string
+      default: ""
+      required: false
+    feishu_app_secret:
+      description: "Feishu app secret"
+      type: string
+      default: ""
+      required: false
+    dingtalk_client_id:
+      description: "DingTalk client ID"
+      type: string
+      default: ""
+      required: false
+    dingtalk_client_secret:
+      description: "DingTalk client secret"
+      type: string
+      default: ""
+      required: false
+    wecom_bot_id:
+      description: "WeCom bot ID"
+      type: string
+      default: ""
+      required: false
+    wecom_bot_secret:
+      description: "WeCom bot secret"
+      type: string
+      default: ""
+      required: false
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ${{ defaults.app_name }}-secret
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    app: ${{ defaults.app_name }}
+type: Opaque
+stringData:
+  DEEPSEEK_API_KEY: ${{ inputs.deepseek_api_key }}
+  QIANFAN_API_KEY: ${{ inputs.qianfan_api_key }}
+  MINIMAX_API_KEY: ${{ inputs.minimax_api_key }}
+  ZHIPU_AI_API_KEY: ${{ inputs.zhipu_ai_api_key }}
+  ARK_API_KEY: ${{ inputs.ark_api_key }}
+  MOONSHOT_API_KEY: ${{ inputs.moonshot_api_key }}
+  DASHSCOPE_API_KEY: ${{ inputs.dashscope_api_key }}
+  CLAUDE_API_KEY: ${{ inputs.claude_api_key }}
+  OPEN_AI_API_KEY: ${{ inputs.open_ai_api_key }}
+  GEMINI_API_KEY: ${{ inputs.gemini_api_key }}
+  LINKAI_API_KEY: ${{ inputs.linkai_api_key }}
+  LINKAI_APP_CODE: ${{ inputs.linkai_app_code }}
+  FEISHU_APP_ID: ${{ inputs.feishu_app_id }}
+  FEISHU_APP_SECRET: ${{ inputs.feishu_app_secret }}
+  DINGTALK_CLIENT_ID: ${{ inputs.dingtalk_client_id }}
+  DINGTALK_CLIENT_SECRET: ${{ inputs.dingtalk_client_secret }}
+  WECOM_BOT_ID: ${{ inputs.wecom_bot_id }}
+  WECOM_BOT_SECRET: ${{ inputs.wecom_bot_secret }}
+  WEB_PASSWORD: ${{ inputs.web_password }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${{ defaults.app_name }}-config
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    app: ${{ defaults.app_name }}
+data:
+  CHANNEL_TYPE: ${{ inputs.channel_type }}
+  MODEL: ${{ inputs.model }}
+  DEEPSEEK_API_BASE: ${{ inputs.deepseek_api_base }}
+  QIANFAN_API_BASE: ${{ inputs.qianfan_api_base }}
+  MINIMAX_API_BASE: ${{ inputs.minimax_api_base }}
+  ZHIPU_AI_API_BASE: ${{ inputs.zhipu_ai_api_base }}
+  ARK_API_BASE: ${{ inputs.ark_api_base }}
+  MOONSHOT_API_BASE: ${{ inputs.moonshot_api_base }}
+  DASHSCOPE_API_BASE: ${{ inputs.dashscope_api_base }}
+  CLAUDE_API_BASE: ${{ inputs.claude_api_base }}
+  OPEN_AI_API_BASE: ${{ inputs.open_ai_api_base }}
+  GEMINI_API_BASE: ${{ inputs.gemini_api_base }}
+  AGENT: "True"
+  AGENT_MAX_CONTEXT_TOKENS: "50000"
+  AGENT_MAX_CONTEXT_TURNS: "20"
+  AGENT_MAX_STEPS: "20"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ${{ defaults.app_name }}-cow
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    app: ${{ defaults.app_name }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: ${{ inputs.storage_size }}Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${{ defaults.app_name }}
+  annotations:
+    originImageName: ghcr.io/zhayujie/cowagent:latest
+    deploy.cloud.sealos.io/minReplicas: "1"
+    deploy.cloud.sealos.io/maxReplicas: "1"
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    app: ${{ defaults.app_name }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  progressDeadlineSeconds: 600
+  selector:
+    matchLabels:
+      app: ${{ defaults.app_name }}
+  template:
+    metadata:
+      labels:
+        cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+        app: ${{ defaults.app_name }}
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 60
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: cowagent
+          image: ghcr.io/zhayujie/cowagent:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 9899
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: ${{ defaults.app_name }}-config
+            - secretRef:
+                name: ${{ defaults.app_name }}-secret
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "2"
+              memory: 2Gi
+          startupProbe:
+            httpGet:
+              path: /api/version
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /api/version
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /api/version
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - sleep 10
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
+          volumeMounts:
+            - name: cow-data
+              mountPath: /home/agent/cow
+      volumes:
+        - name: cow-data
+          persistentVolumeClaim:
+            claimName: ${{ defaults.app_name }}-cow
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${{ defaults.app_name }}
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    app: ${{ defaults.app_name }}
+spec:
+  type: ClusterIP
+  selector:
+    app: ${{ defaults.app_name }}
+  ports:
+    - name: http
+      port: 9899
+      targetPort: http
+      protocol: TCP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ${{ defaults.app_name }}
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    cloud.sealos.io/app-deploy-manager-domain: ${{ defaults.app_host }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: "64m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 64k
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 64k
+    nginx.ingress.kubernetes.io/server-snippet: |
+      client_header_buffer_size 64k;
+      large_client_header_buffers 4 128k;
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header X-Forwarded-Proto https;
+spec:
+  rules:
+    - host: ${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: ${{ defaults.app_name }}
+                port:
+                  number: 9899
+  tls:
+    - hosts:
+        - ${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
+      secretName: ${{ SEALOS_CERT_SECRET_NAME }}
+
+---
+apiVersion: app.sealos.io/v1
+kind: App
+metadata:
+  name: ${{ defaults.app_name }}
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+spec:
+  data:
+    url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}/chat
+  displayType: normal
+  icon: "https://raw.githubusercontent.com/zhayujie/CowAgent/master/channel/web/static/logo.jpg"
+  name: "CowAgent"
+  type: link
