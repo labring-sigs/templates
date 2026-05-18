@@ -63,7 +63,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: layzer/hermes-agent:v0.0.4
+    originImageName: layzer/hermes-agent:v0.0.5
     deploy.cloud.sealos.io/minReplicas: "1"
     deploy.cloud.sealos.io/maxReplicas: "1"
   labels:
@@ -85,7 +85,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: ${{ defaults.app_name }}
-          image: layzer/hermes-agent:v0.0.4
+          image: layzer/hermes-agent:v0.0.5
           imagePullPolicy: IfNotPresent
           env:
             - name: PORT
