@@ -26,6 +26,11 @@ spec:
       type: string
       value: ${{ random(8) }}
   inputs:
+    image:
+      description: "Pinned integrated Hermes image"
+      type: string
+      default: "layzer/hermes-agent:v0.0.5"
+      required: true
     storage_size:
       description: "Persistent storage size in Gi for Hermes and Web UI data"
       type: string
@@ -63,7 +68,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: layzer/hermes-agent:v0.0.4
+    originImageName: ${{ inputs.image }}
     deploy.cloud.sealos.io/minReplicas: "1"
     deploy.cloud.sealos.io/maxReplicas: "1"
   labels:
@@ -85,7 +90,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: ${{ defaults.app_name }}
-          image: layzer/hermes-agent:v0.0.4
+          image: ${{ inputs.image }}
           imagePullPolicy: IfNotPresent
           env:
             - name: PORT
