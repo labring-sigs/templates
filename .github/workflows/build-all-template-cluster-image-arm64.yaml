@@ -67,10 +67,12 @@ jobs:
           sudo bash scripts/build-cluster-image.sh ${{ matrix.target }} ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest-arm64
       #https://github.com/labring/sealos/issues/6112
       - name: Login to ghcr.io
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           sudo sealos logout docker.io || true
           sudo sealos login -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
       - name: Push and save cluster image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           if [[ $(basename ${{ matrix.target }}) == "index.yaml" || $(basename ${{ matrix.target }}) == "index.yml" ]]; then
             template_name=$(basename $(dirname ${{ matrix.target }}) | tr '[:upper:]' '[:lower:]')
@@ -82,7 +84,7 @@ jobs:
           sudo sealos push ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest-arm64
           sudo sealos save ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest-arm64 -o $template_name.tar
       - name: Upload cluster image tar
-        if: github.repository_owner == 'labring-sigs'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository_owner == 'labring-sigs'
         run: |
           sudo -v ; curl https://gosspublic.alicdn.com/ossutil/install.sh | sudo bash
           if [[ $(basename ${{ matrix.target }}) == "index.yaml" || $(basename ${{ matrix.target }}) == "index.yml" ]]; then
