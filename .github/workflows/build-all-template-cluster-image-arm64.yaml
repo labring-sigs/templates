@@ -6,10 +6,6 @@ on:
     paths:
       - "scripts/build-cluster-image.sh"
       - ".github/workflows/build-all-template-cluster-image-arm64.yaml"
-  pull_request:
-    paths:
-      - "scripts/build-cluster-image.sh"
-      - ".github/workflows/build-all-template-cluster-image-arm64.yaml"
 jobs:
   gen-targets:
     runs-on: ubuntu-latest
