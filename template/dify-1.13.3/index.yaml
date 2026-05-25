@@ -1032,7 +1032,7 @@ metadata:
     app: "${{ defaults.app_name }}-ssrf"
     cloud.sealos.io/app-deploy-manager: "${{ defaults.app_name }}-ssrf"
   annotations:
-    originImageName: ubuntu/squid@sha256:6a097f68bae708cedbabd6188d68c7e2e7a38cedd05a176e1cc0ba29e3bbe029
+    originImageName: ubuntu/squid
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
 spec:
@@ -1050,7 +1050,7 @@ spec:
         kubernetes.io/os: linux
       containers:
       - name: "${{ defaults.app_name }}-ssrf"
-        image: ubuntu/squid@sha256:6a097f68bae708cedbabd6188d68c7e2e7a38cedd05a176e1cc0ba29e3bbe029
+        image: ubuntu/squid
         env:
         - name: HTTP_PORT
           valueFrom:
@@ -1160,7 +1160,7 @@ spec:
           claimName: "${{ defaults.app_name }}-api-storage"
       initContainers:
       - name: init-permissions
-        image: busybox@sha256:1487d0af5f52b4ba31c7e465126ee2123fe3f2305d638e7827681e7cf6c83d5e
+        image: busybox
         command:
         - sh
         - "-c"
@@ -1285,7 +1285,7 @@ spec:
           claimName: "${{ defaults.app_name }}-api-storage"
       initContainers:
       - name: init-permissions
-        image: busybox@sha256:1487d0af5f52b4ba31c7e465126ee2123fe3f2305d638e7827681e7cf6c83d5e
+        image: busybox
         command:
         - sh
         - "-c"
@@ -1410,7 +1410,7 @@ spec:
           claimName: "${{ defaults.app_name }}-api-storage"
       initContainers:
       - name: init-permissions
-        image: busybox@sha256:1487d0af5f52b4ba31c7e465126ee2123fe3f2305d638e7827681e7cf6c83d5e
+        image: busybox
         command:
         - sh
         - "-c"
@@ -1759,7 +1759,7 @@ metadata:
     app: "${{ defaults.app_name }}-nginx"
     cloud.sealos.io/app-deploy-manager: "${{ defaults.app_name }}-nginx"
   annotations:
-    originImageName: nginx@sha256:c35662d99b40137247cf7913871e97348a0524753a6925e09f7a5320b0b2f78b
+    originImageName: nginx
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
 spec:
@@ -1779,7 +1779,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: "${{ defaults.app_name }}-nginx"
-        image: nginx@sha256:c35662d99b40137247cf7913871e97348a0524753a6925e09f7a5320b0b2f78b
+        image: nginx
         resources:
           requests:
             cpu: 50m
