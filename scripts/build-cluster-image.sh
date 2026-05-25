@@ -8,6 +8,11 @@ echo "Building cluster image for $1"
 template_file=$1
 image_name=$2
 
+if [[ -z "$template_file" || -z "$image_name" ]]; then
+  echo "Usage: $0 <template-file> <cluster-image-name>"
+  exit 1
+fi
+
 if [[ $(basename "$template_file") == "index.yaml" || $(basename "$template_file") == "index.yml" ]]; then
   template_name=$(basename $(dirname "$template_file"))
 else
@@ -23,7 +28,7 @@ fi
 
 # prepare for build cluster image
 rm -rf build
-mkdir -p build && mkdir -p build/manifests
+mkdir -p build/manifests build/registry
 
 cp "$template_file" build/manifests/template.yaml
 
