@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/CorentinTh/it-tools'
   author: 'Sealos'
   description: 'Useful tools for developer and people working in IT.'
-  readme: 'https://raw.githubusercontent.com/CorentinTh/it-tools/main/README.md'
-  icon: 'https://raw.githubusercontent.com/CorentinTh/it-tools/main/public/favicon-32x32.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/it-tools/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/it-tools/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/it-tools/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -22,6 +24,10 @@ spec:
       type: string
       value: it-tools-${{ random(8) }}
 
+  i18n:
+    zh:
+      description: '面向开发者和 IT 从业者的实用工具集合。'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/it-tools/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -142,6 +148,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/CorentinTh/it-tools/main/public/favicon-32x32.png"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/it-tools/logo.png"
   name: IT-Tools
   type: iframe
