@@ -9,7 +9,7 @@ spec:
   author: 'sealos'
   description: '"游戏开发瑞士军刀"：它能自动处理用户登录、实时聊天、排行榜、成就系统，还能智能匹配玩家。这就是Nakama——专为多人游戏和社交应用设计的分布式服务器框架。它支持： - 🎮 自动化用户认证（微信/邮箱/设备ID） - 💬 实时语音+文字聊天 - 🏆 动态排行榜+赛季系统 - 🧩 模块化扩展（Lua/TS/Go）'
   readme: 'https://raw.githubusercontent.com/heroiclabs/nakama/refs/heads/master/README.md'
-  icon: 'https://raw.githubusercontent.com/labring-actions/templates/main/template/nakama/logo.svg'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nakama/logo.svg'
   templateType: inline
   defaults:
     app_name:

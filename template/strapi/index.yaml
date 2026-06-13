@@ -8,7 +8,7 @@ spec:
   gitRepo: "https://github.com/strapi/strapi"
   author: "Sealos"
   description: "Strapi is the leading open-source headless CMS. 100% JavaScript/TypeScript and fully customizable."
-  readme: "https://raw.githubusercontent.com/labring-actions/templates/main/template/strapi/README.md"
+  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/strapi/README.md"
   icon: "https://avatars.githubusercontent.com/u/19872173?s=48&v=4"
   templateType: inline
   locale: en

@@ -11,7 +11,7 @@ spec:
   gitRepo: 'https://github.com/notifuse/notifuse'
   author: 'Sealos'
   description: 'Transactional API, newsletters, automations, blog & real-time user segments'
-  readme: 'https://raw.githubusercontent.com/labring-actions/templates/main/template/notifuse/README.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/notifuse/README.md'
   icon: 'https://avatars.githubusercontent.com/u/12115165?s=48&v=4'
   templateType: inline
   locale: en
