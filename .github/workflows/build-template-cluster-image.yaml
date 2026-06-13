@@ -12,7 +12,7 @@ jobs:
   gen-targets:
     runs-on: ubuntu-latest
     outputs:
-      targets: ${{ steps.changed-files.outputs.all_changed_files }}
+      targets: ${{ steps.targets.outputs.targets }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -25,10 +25,48 @@ jobs:
           files: |
             template/**/index.yaml
             template/**/index.yml
+            template/**/images.txt
           json: true
           escape_json: false
-      - name: List all changed files
-        run: echo ${{ steps.changed-files.outputs.all_changed_files }}
+      - name: Resolve template targets
+        id: targets
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          changed_files = json.loads(os.environ.get("CHANGED_FILES") or "[]")
+          targets = []
+
+          for changed_file in changed_files:
+              path = Path(changed_file)
+              if path.name in {"index.yaml", "index.yml"}:
+                  target = path
+              elif path.name == "images.txt":
+                  index_yaml = path.parent / "index.yaml"
+                  index_yml = path.parent / "index.yml"
+                  if index_yaml.exists():
+                      target = index_yaml
+                  elif index_yml.exists():
+                      target = index_yml
+                  else:
+                      raise SystemExit(f"images.txt has no sibling index.yaml or index.yml: {path}")
+              else:
+                  continue
+
+              target_str = target.as_posix()
+              if target_str not in targets:
+                  targets.append(target_str)
+
+          print(f"targets={json.dumps(targets)}")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"targets={json.dumps(targets)}\n")
+          PY
+      - name: List all changed template targets
+        run: echo '${{ steps.targets.outputs.targets }}'
   build:
     runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
     permissions:
@@ -74,7 +112,7 @@ jobs:
             template_name=${template_name%.yml}
           fi
           image_tag=latest-${{ matrix.arch }}
-          sudo bash scripts/build-cluster-image.sh ${{ matrix.target }} ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:$image_tag
+          sudo bash scripts/build-cluster-image.sh ${{ matrix.target }} ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:$image_tag ${{ matrix.arch }}
       #https://github.com/labring/sealos/issues/6112
       - name: Login to ghcr.io
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

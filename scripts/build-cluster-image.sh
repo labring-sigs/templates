@@ -2,11 +2,13 @@
 
 # $1: template file name
 # $2: cluster image name
+# $3: target architecture (optional: amd64 or arm64)
 
 echo "Building cluster image for $1"
 
 template_file=$1
 image_name=$2
+target_arch=${3:-}
 
 if [[ -z "$template_file" || -z "$image_name" ]]; then
   echo "Usage: $0 <template-file> <cluster-image-name>"
@@ -26,11 +28,29 @@ if [[ ! -f "$template_file" ]]; then
   exit 1
 fi
 
+template_dir=$(dirname "$template_file")
+
 # prepare for build cluster image
 rm -rf build
-mkdir -p build/manifests build/registry
+mkdir -p build/manifests build/registry build/images
 
 cp "$template_file" build/manifests/template.yaml
+
+images_file="$template_dir/images.txt"
+if [[ -f "$images_file" ]]; then
+  mkdir -p build/images/shim
+  : > build/images/shim/images.txt
+
+  while read -r image arches; do
+    if [[ -z "$image" || "$image" == \#* ]]; then
+      continue
+    fi
+
+    if [[ -z "$arches" || -z "$target_arch" || " $arches " == *" $target_arch "* || " $arches " == *" linux/$target_arch "* ]]; then
+      echo "$image" >> build/images/shim/images.txt
+    fi
+  done < "$images_file"
+fi
 
 echo "
 FROM scratch
@@ -39,6 +59,7 @@ USER 65532:65532
 
 COPY registry registry
 COPY manifests manifests
+COPY images images
 " > build/Kubefile
 
 commitDATE=$(date +%Y%m%d%H%M%S)

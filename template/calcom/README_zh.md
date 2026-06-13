@@ -22,7 +22,7 @@ Sealos 会自动创建 PostgreSQL 集群、在首次启动前准备好 `calendso
 
 这个 Sealos 模板已经包含默认自托管部署所需的核心运行依赖：
 
-- **Cal.com Web 运行时**：`calcom.docker.scarf.sh/calcom/cal.com:v6.2.0`
+- **Cal.com Web 运行时**：默认使用 `calcom/cal.com:v6.2.0`。在 arm64 集群上，将镜像输入改为 `calcom/cal.com:v6.2.0-arm`。
 - **PostgreSQL 集群**：Kubeblocks 托管的 `postgresql-14.8.0`
 - **数据库初始化任务**：使用 `postgres:14.8-alpine` 在首次 Web 启动前创建 `calendso` 数据库
 - **Service 与 Ingress**：内部服务监听 `3000` 端口，并通过 Sealos 提供公网 HTTPS 访问
