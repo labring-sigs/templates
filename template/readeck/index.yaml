@@ -9,7 +9,9 @@ spec:
   author: 'mlhiter'
   description: 'Readeck helps you keep all that web content you’ll want to revisit in an hour, tomorrow, or in 20 years.'
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/readeck/README.md'
-  icon: 'https://codeberg.org/repo-avatars/05b1262f738e1417e82c889d8dcb6ba7167a2d266b28d620590f521e58e34a07'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/readeck/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/readeck/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -21,6 +23,9 @@ spec:
       type: string
       value: readeck-${{ random(8) }}
   inputs:
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/readeck/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: StatefulSet

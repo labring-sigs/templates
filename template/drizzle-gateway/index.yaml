@@ -8,13 +8,16 @@ spec:
   gitRepo: 'https://github.com/drizzle-team/drizzle-orm'
   author: 'Sealos'
   description: 'Drizzle Studio (Gateway) is a self-hosted, browser-based interface for exploring and managing your database schema using the Drizzle ORM ecosystem. It acts as a gateway between your database and Drizzle Studio’s frontend, enabling secure connections, schema introspection, and query execution directly from your own infrastructure instead of relying on a public service.'
-  readme: 'https://raw.githubusercontent.com/drizzle-team/drizzle-orm/refs/heads/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/108468352?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/drizzle-gateway/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/drizzle-gateway/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/drizzle-gateway/website-screenshot.webp'
   templateType: inline
   locale: en
   i18n:
     zh:
       description: 'Drizzle Studio (Gateway) 是一款现代化的 TypeScript ORM，主打轻量与强类型体验。它兼容 PostgreSQL、MySQL、SQLite 等主流数据库，并对多种 Serverless/边缘数据库提供现成适配。'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/drizzle-gateway/README_zh.md'
   categories:
     - tool
   defaults:
@@ -164,7 +167,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: 'https://avatars.githubusercontent.com/u/108468352?s=48&v=4'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/drizzle-gateway/logo.png'
   name: ${{ defaults.app_name }}
   type: link
-

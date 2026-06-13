@@ -8,14 +8,17 @@ spec:
   url: "https://www.featbit.co/"
   gitRepo: "https://github.com/featbit/featbit"
   description: "FeatBit is an open-source feature flags management tool that empowers developers (Standard Edition)."
-  readme: "https://raw.githubusercontent.com/featbit/featbit/refs/heads/main/README.md"
-  icon: "https://avatars.githubusercontent.com/u/112318170?s=48&v=4"
+  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/featbit/README.md"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/featbit/logo.svg"
+  screenshots:
+    - "https://raw.githubusercontent.com/labring-sigs/templates/main/template/featbit/website-screenshot.webp"
   templateType: inline
   locale: en
   i18n:
     zh:
       title: 'FeatBit 标准版'
       description: 'FeatBit 是一个开源的企业级功能管理平台，旨在帮助开发者安全地发布、控制和测试新功能。'
+      readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/featbit/README_zh.md"
   categories:
     - tool
   defaults:
@@ -1655,6 +1658,6 @@ spec:
   data:
     url: ${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/112318170?s=48&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/featbit/logo.svg"
   name: "FeatBit Standard"
   type: link
