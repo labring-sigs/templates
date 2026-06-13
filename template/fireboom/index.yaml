@@ -35,7 +35,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: fireboomapi/fireboom_server@sha256:27ff832760dec9cf205f02b3516ad6663fa7cbfcf35da1b49196acd00efb598f
+    originImageName: fireboomapi/fireboom_server:latest
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -58,7 +58,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: fireboomapi/fireboom_server@sha256:27ff832760dec9cf205f02b3516ad6663fa7cbfcf35da1b49196acd00efb598f
+          image: fireboomapi/fireboom_server:latest
           command: []
           args:
             - dev
