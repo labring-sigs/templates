@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/illacloud/illa-builder'
   author: 'ILLA'
   description: 'ILLA is a robust open source low-code platform for developers to build internal tools.'
-  readme: 'https://raw.githubusercontent.com/illacloud/illa-builder/main/README.md'
-  icon: 'https://raw.githubusercontent.com/illacloud/illa-builder/main/apps/cloud/public/logo.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/illa-builder/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/illa-builder/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/illa-builder/website-screenshot.webp'
   templateType: inline
   categories:
     - low-code
@@ -22,6 +24,10 @@ spec:
       type: string
       value: illabuilder-${{ random(8) }}
   inputs:
+
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/illa-builder/README_zh.md'
 
 ---
 apiVersion: apps/v1
