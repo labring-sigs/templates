@@ -26,11 +26,19 @@ if [[ ! -f "$template_file" ]]; then
   exit 1
 fi
 
+template_dir=$(dirname "$template_file")
+
 # prepare for build cluster image
 rm -rf build
-mkdir -p build/manifests build/registry
+mkdir -p build/manifests build/registry build/images
 
 cp "$template_file" build/manifests/template.yaml
+
+images_file="$template_dir/images.txt"
+if [[ -f "$images_file" ]]; then
+  mkdir -p build/images/shim
+  cp "$images_file" build/images/shim/images.txt
+fi
 
 echo "
 FROM scratch
@@ -39,6 +47,7 @@ USER 65532:65532
 
 COPY registry registry
 COPY manifests manifests
+COPY images images
 " > build/Kubefile
 
 commitDATE=$(date +%Y%m%d%H%M%S)

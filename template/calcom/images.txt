@@ -1,0 +1,2 @@
+calcom/cal.com:v6.2.0
+calcom/cal.com:v6.2.0-arm
