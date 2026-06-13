@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/Stirling-Tools/Stirling-PDF'
   author: 'Sealos'
   description: '1 Locally hosted web application that allows you to perform various operations on PDF files.'
-  readme: 'https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/139791695?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/stirling-pdf/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/stirling-pdf/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/stirling-pdf/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -482,6 +484,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/139791695?s=48&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/stirling-pdf/logo.png"
   name: "Stirling-PDF"
   type: link

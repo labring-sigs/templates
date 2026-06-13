@@ -9,8 +9,10 @@ spec:
   gitRepo: "https://github.com/yangchuansheng/derper"
   author: "Sealos"
   locale: en
-  readme: "https://raw.githubusercontent.com/yangchuansheng/derper/main/README.md"
-  icon: "https://tailscale.com/favicon.svg"
+  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/derper/README.md"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/derper/logo.svg"
+  screenshots:
+    - "https://raw.githubusercontent.com/labring-sigs/templates/main/template/derper/website-screenshot.webp"
   templateType: inline
   categories:
     - tool
@@ -30,6 +32,10 @@ spec:
         - "false"
       required: true
       default: "true"
+  i18n:
+    zh:
+      description: "用于自托管 Tailscale DERP 中继与 STUN 服务的精简构建"
+      readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/derper/README_zh.md"
 
 ---
 apiVersion: v1
@@ -155,6 +161,21 @@ spec:
               memory: 128Mi
 
 ---
+apiVersion: app.sealos.io/v1
+kind: App
+metadata:
+  name: ${{ defaults.app_name }}
+  labels:
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+spec:
+  data:
+    url: tcp.${{ SEALOS_CLOUD_DOMAIN }}
+  displayType: normal
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/derper/logo.svg"
+  name: Derper
+  type: link
+
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -171,6 +192,13 @@ spec:
         - name: config-updater
           image: bitnamilegacy/kubectl:1.28.9
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 10m
+              memory: 12Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
           command:
             - /bin/sh
             - -c
