@@ -32,7 +32,7 @@ spec:
     chrome_cli:
       description: Chrome startup URL or CLI flags passed to the browser process.
       type: string
-      default: https://www.linuxserver.io/
+      default: about:blank
       required: false
     custom_user:
       description: HTTP basic auth username for the web desktop.
@@ -59,6 +59,13 @@ data:
       --disable-software-rasterizer \
       --disable-gpu-compositing \
       --disable-dev-shm-usage \
+      --disable-background-networking \
+      --disable-component-update \
+      --disable-sync \
+      --disable-domain-reliability \
+      --safebrowsing-disable-auto-update \
+      --no-default-browser-check \
+      --disable-features=MediaRouter,OptimizationHints,AutofillServerCommunication \
       ${CHROME_CLI}
 ---
 apiVersion: apps/v1
