@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/louislam/uptime-kuma'
   author: 'Sealos'
   description: 'Uptime Kuma is an easy-to-use self-hosted monitoring tool.'
-  readme: 'https://raw.githubusercontent.com/louislam/uptime-kuma/master/README.md'
-  icon: 'https://raw.githubusercontent.com/louislam/uptime-kuma/master/public/icon.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/uptime-kuma/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/uptime-kuma/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/uptime-kuma/website-screenshot.webp'
   templateType: inline
   categories:
     - monitor
@@ -23,6 +25,10 @@ spec:
       type: string
       value: uptimekuma-${{ random(8) }}
   inputs:
+
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/uptime-kuma/README_zh.md'
 
 ---
 apiVersion: apps/v1
