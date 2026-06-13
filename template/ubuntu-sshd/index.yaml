@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/takeyamajp/docker-ubuntu-sshd'
   author: 'Sealos'
   description: 'Ubuntu image with SSH & SFTP'
-  readme: 'https://github.com/takeyamajp/docker-ubuntu-sshd/blob/master/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/11237572?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/ubuntu-sshd/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/ubuntu-sshd/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/ubuntu-sshd/website-screenshot.webp'
   templateType: inline
   draft: true
   categories:
@@ -24,6 +26,9 @@ spec:
       type: string
       default: 'root@qmywad'
       required: true
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/ubuntu-sshd/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: Deployment

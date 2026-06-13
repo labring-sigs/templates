@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/whyour/qinglong'
   author: '孤城落寞'
   description: 'Timed task management platform supporting Python3, JavaScript, Shell, Typescript'
-  readme: 'https://raw.githubusercontent.com/whyour/qinglong/develop/README.md'
-  icon: 'https://user-images.githubusercontent.com/22700758/191449379-f9f56204-0e31-4a16-be5a-331f52696a73.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/qinglong/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/qinglong/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/qinglong/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -22,6 +24,10 @@ spec:
       type: string
       value: qinglong-${{ random(8) }}
   inputs:
+
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/qinglong/README_zh.md'
 
 ---
 apiVersion: apps/v1

@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/yangchuansheng/anki-sync-server'
   author: 'Sealos'
   description: 'Self-Hosted Anki Sync Server'
-  readme: 'https://raw.githubusercontent.com/yangchuansheng/anki-sync-server/main/README.md'
-  icon: 'https://raw.githubusercontent.com/yangchuansheng/anki-sync-server/main/images/logo.jpeg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/anki-sync-server/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/anki-sync-server/logo.jpg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/anki-sync-server/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -31,6 +33,9 @@ spec:
       type: string
       default: '100'
       required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/anki-sync-server/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: StatefulSet

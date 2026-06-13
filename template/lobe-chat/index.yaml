@@ -8,14 +8,16 @@ spec:
   gitRepo: "https://github.com/lobehub/lobe-chat"
   author: "Sealos"
   description: "An open-source, modern-design ChatGPT/LLMs UI/Framework. Supports speech-synthesis, multi-modal, and extensible (function call) plugin system."
-  readme: "https://raw.githubusercontent.com/lobehub/lobe-chat/main/README.md"
-  icon: "https://lobehub.com/_next/static/media/logo.98482105.png"
+  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/lobe-chat/README.md"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/lobe-chat/logo.png"
+  screenshots:
+    - "https://raw.githubusercontent.com/labring-sigs/templates/main/template/lobe-chat/website-screenshot.webp"
   templateType: inline
   locale: en
   i18n:
     zh:
       description: "Lobe Chat 是一款现代化设计的开源 ChatGPT/LLMs 聊天应用与开发框架，支持语音合成、多模态、可扩展的（function call）插件系统。"
-      readme: "https://raw.githubusercontent.com/lobehub/lobe-chat/refs/heads/main/README.zh-CN.md"
+      readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/lobe-chat/README_zh.md"
   categories:
     - ai
   defaults:
