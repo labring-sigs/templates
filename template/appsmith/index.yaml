@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/appsmithorg/appsmith'
   author: 'Sealos'
   description: 'Appsmith is an open-source platform to build, deploy, and maintain internal apps. You can build anything from simple CRUD apps, admin panels, dashboards to custom business apps and complicated multi-step workflows.'
-  readme: 'https://raw.githubusercontent.com/appsmithorg/appsmith/release/README.md'
-  icon: 'https://raw.githubusercontent.com/appsmithorg/appsmith/release/static/logo.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/appsmith/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/appsmith/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/appsmith/website-screenshot.webp'
   templateType: inline
   categories:
     - low-code
@@ -22,6 +24,9 @@ spec:
       type: string
       value: appsmith-${{ random(8) }}
   inputs:
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/appsmith/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: StatefulSet
