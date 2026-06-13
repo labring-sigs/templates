@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/Chanzhaoyu/chatgpt-web'
   author: 'Sealos'
   description: 'A ChatGPT Interactive Demo Web Application Developed with Express and Vue3.'
-  readme: 'https://raw.githubusercontent.com/Chanzhaoyu/chatgpt-web/main/README.zh.md'
-  icon: 'https://raw.githubusercontent.com/Chanzhaoyu/chatgpt-web/main/public/favicon.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatgpt-web/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatgpt-web/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatgpt-web/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
@@ -68,6 +70,9 @@ spec:
       type: string
       default: ''
       required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatgpt-web/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: Deployment

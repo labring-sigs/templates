@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/mckaywrigley/chatbot-ui'
   author: 'Sealos'
   description: 'An open source ChatGPT UI'
-  readme: 'https://raw.githubusercontent.com/mckaywrigley/chatbot-ui/main/README.md'
-  icon: 'https://raw.githubusercontent.com/mckaywrigley/chatbot-ui/main/public/favicon.ico'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatbot-ui/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatbot-ui/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatbot-ui/website-screenshot.webp'
   templateType: inline
   categories:
     - ai
@@ -27,6 +29,9 @@ spec:
       type: string
       default: ''
       required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatbot-ui/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: Deployment
