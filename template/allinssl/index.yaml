@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/allinssl/allinssl'
   author: 'AllinSSL'
   description: 'AllinSSL 是一个集证书申请、管理、部署和监控于一体的SSL证书全生命周期管理工具。'
-  readme: 'https://raw.githubusercontent.com/allinssl/allinssl/refs/heads/1.0.7/README.md'
-  icon: 'https://allinssl.com/logo.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/allinssl/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/allinssl/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/allinssl/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
@@ -38,6 +40,9 @@ spec:
       default: "allinssldocker"
       required: true
 
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/allinssl/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -159,6 +164,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://allinssl.com/logo.svg"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/allinssl/logo.svg"
   name: "AllinSSL"
   type: link
