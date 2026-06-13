@@ -322,6 +322,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}/?token=${{ defaults.gateway_token }}&gatewayUrl=wss%3A%2F%2F${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: https://raw.githubusercontent.com/labring-actions/templates/kb-0.9/template/openclaw/logo.svg
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/openclaw/logo.svg
   name: OpenClaw
   type: link

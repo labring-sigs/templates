@@ -26,7 +26,7 @@ Connect InsForge with any agent. Add authentication, database, storage, function
 
 ### 0. Deploy on Sealos Cloud
 
-[![Deploy on Sealos](https://raw.githubusercontent.com/labring-actions/templates/main/Deploy-on-Sealos.svg)](https://template.hzh.sealos.run/deploy?templateName=insforge)
+[![Deploy on Sealos](https://raw.githubusercontent.com/labring-sigs/templates/main/Deploy-on-Sealos.svg)](https://template.hzh.sealos.run/deploy?templateName=insforge)
 
 ### 1. Connect an AI Agent
 

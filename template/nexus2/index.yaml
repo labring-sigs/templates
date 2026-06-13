@@ -16,7 +16,7 @@ spec:
     zh:
       title: 'Nexus'
       description: '一个强大的软件仓库管理工具，主要用于存储和管理软件开发过程中的各类组件（artifacts）。此模板部署的是 Nexus Repository OSS 2。'
-      readme: 'https://git.icloudnative.io/labring-actions/templates/main/template/nexus/README_cn.md'
+      readme: 'https://git.icloudnative.io/labring-sigs/templates/main/template/nexus/README_cn.md'
   categories:
     - tool
   defaults:
