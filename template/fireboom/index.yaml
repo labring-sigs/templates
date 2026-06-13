@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/fireboomio'
   author: 'Sealos'
   description: 'Fireboom is a visualization API cloud platform designed for developers with the goal of rapidly delivering production-ready APIs.'
-  readme: 'https://raw.githubusercontent.com/fireboomio/product-manual/main/kuai-su-ru-men/kuai-su-shang-shou/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/117984167?s=200&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/fireboom/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/fireboom/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/fireboom/website-screenshot.webp'
   templateType: inline
   categories:
     - low-code
@@ -24,13 +26,16 @@ spec:
       type: string
       value: ${{ random(8) }}
 
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/fireboom/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: fireboomapi/fireboom_server@sha256:27ff832760dec9cf205f02b3516ad6663fa7cbfcf35da1b49196acd00efb598f
+    originImageName: fireboomapi/fireboom_server:latest
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -53,7 +58,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: fireboomapi/fireboom_server@sha256:27ff832760dec9cf205f02b3516ad6663fa7cbfcf35da1b49196acd00efb598f
+          image: fireboomapi/fireboom_server:latest
           command: []
           args:
             - dev
@@ -240,6 +245,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/117984167?s=200&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/fireboom/logo.png"
   name: "Fireboom"
   type: iframe

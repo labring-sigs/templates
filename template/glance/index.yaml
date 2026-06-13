@@ -8,14 +8,17 @@ spec:
   gitRepo: 'https://github.com/glanceapp/glance'
   author: 'Sealos'
   description: 'A self-hosted dashboard that puts all your feeds in one place'
-  readme: 'https://raw.githubusercontent.com/glanceapp/glance/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/159397742?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/glance/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/glance/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/glance/website-screenshot.webp'
   templateType: inline
   locale: en
   i18n:
     zh:
       title: 'Glance'
       description: '一个自托管的仪表板，将您所有的订阅源集中在一个地方'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/glance/README_zh.md'
   categories:
     - tool
   defaults:
@@ -269,6 +272,6 @@ spec:
   data:
     url: ${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/159397742?s=48&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/glance/logo.png"
   name: "Glance"
   type: link

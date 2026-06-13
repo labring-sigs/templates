@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/AykutSarac/jsoncrack.com'
   author: 'Sealos'
   description: 'JSON Crack is a free, open-source data visualization app capable of visualizing data formats such as JSON, YAML, XML, CSV and more, into interactive graphs.'
-  readme: 'https://raw.githubusercontent.com/AykutSarac/jsoncrack.com/main/README.md'
-  icon: 'https://raw.githubusercontent.com/AykutSarac/jsoncrack.com/main/public/assets/512.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/jsoncrack/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/jsoncrack/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/jsoncrack/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -22,6 +24,9 @@ spec:
       value: jsoncrack-${{ random(8) }}
   inputs:
 
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/jsoncrack/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -122,6 +127,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/AykutSarac/jsoncrack.com/main/public/assets/logo.svg"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/jsoncrack/logo.png"
   name: ${{ defaults.app_name }}
   type: iframe
