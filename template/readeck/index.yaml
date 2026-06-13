@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://codeberg.org/readeck/readeck'
   author: 'mlhiter'
   description: 'Readeck helps you keep all that web content you’ll want to revisit in an hour, tomorrow, or in 20 years.'
-  readme: 'https://raw.githubusercontent.com/labring-actions/templates/main/template/readeck/README.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/readeck/README.md'
   icon: 'https://codeberg.org/repo-avatars/05b1262f738e1417e82c889d8dcb6ba7167a2d266b28d620590f521e58e34a07'
   templateType: inline
   categories:
@@ -27,7 +27,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: codeberg.org/readeck/readeck:0.16.0
+    originImageName: codeberg.org/readeck/readeck:0.22.3
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
     deploy.cloud.sealos.io/resize: 1Gi
@@ -55,7 +55,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: ${{ defaults.app_name }}
-          image: codeberg.org/readeck/readeck:0.16.0
+          image: codeberg.org/readeck/readeck:0.22.3
           env: []
           resources:
             requests:

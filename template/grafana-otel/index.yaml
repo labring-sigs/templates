@@ -5,11 +5,11 @@ metadata:
 spec:
   title: "Grafana OpenTelemetry Stack"
   description: "One-click Grafana/OTLP stack deployment"
-  url: "https://github.com/labring-actions/templates/tree/main/template/grafana-otel"
-  gitRepo: "https://github.com/labring-actions/templates/tree/main/template/grafana-otel"
+  url: "https://github.com/labring-sigs/templates/tree/main/template/grafana-otel"
+  gitRepo: "https://github.com/labring-sigs/templates/tree/main/template/grafana-otel"
   author: "Sealos"
-  readme: "https://raw.githubusercontent.com/labring-actions/templates/main/template/grafana-otel/README.md"
-  icon: "https://raw.githubusercontent.com/labring-actions/templates/main/template/grafana-otel/logo.svg"
+  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/grafana-otel/README.md"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/grafana-otel/logo.svg"
   templateType: inline
   locale: en
   categories:
@@ -482,6 +482,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/labring-actions/templates/main/template/grafana-otel/logo.svg"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/grafana-otel/logo.svg"
   name: "Grafana OpenTelemetry Stack"
   type: link
