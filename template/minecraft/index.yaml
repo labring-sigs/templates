@@ -39,7 +39,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: itzg/minecraft-server
+    originImageName: itzg/minecraft-server:2026.5.3-java25
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -62,7 +62,15 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: take-data-dir-ownership
-          image: alpine
+          image: alpine:3.22.4
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 10m
+              memory: 12Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
           command:
             ['/bin/sh', '-c', 'chown -R 1000:1000 /data; chmod -R 770 /data']
           volumeMounts:
@@ -70,7 +78,7 @@ spec:
               mountPath: /data
       containers:
         - name: ${{ defaults.app_name }}
-          image: itzg/minecraft-server
+          image: itzg/minecraft-server:2026.5.3-java25
           imagePullPolicy: IfNotPresent
           env:
             - name: EULA
@@ -79,6 +87,10 @@ spec:
               value: ${{ inputs.TYPE }}
             - name: VERSION
               value: ${{ inputs.VERSION }}
+            - name: MEMORY
+              value: '1024M'
+            - name: USE_AIKAR_FLAGS
+              value: 'true'
             - name: REMOVE_OLD_MODS
               value: 'false'
             - name: PLUGINS
