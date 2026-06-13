@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/binary-husky/gpt_academic'
   author: 'Sealos'
   description: 'GPT Academic Optimization'
-  readme: 'https://raw.githubusercontent.com/binary-husky/gpt_academic/master/README.md'
-  icon: 'https://raw.githubusercontent.com/binary-husky/gpt_academic/master/docs/logo.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/gpt-academic/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/gpt-academic/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/gpt-academic/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
@@ -48,6 +50,9 @@ spec:
       type: string
       default: 'True'
       required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/gpt-academic/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: Deployment

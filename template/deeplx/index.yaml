@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/OwO-Network/DeepLX'
   author: 'Sealos'
   description: 'DeepL Free API (No TOKEN required)'
-  readme: 'https://raw.githubusercontent.com/OwO-Network/DeepLX/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/83310993?s=200&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/deeplx/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/deeplx/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/deeplx/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -26,6 +28,9 @@ spec:
       type: string
       default: ''
       required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/deeplx/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: Deployment

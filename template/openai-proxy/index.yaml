@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/UNICKCHENG/openai-proxy'
   author: 'Sealos'
   description: 'openai-proxy is a solution provided for Chinese users to address the issue of being unable to make requests to the OpenAI API.'
-  readme: 'https://raw.githubusercontent.com/UNICKCHENG/openai-proxy/main/readme.md'
-  icon: 'https://cdn.apifox.com/app/project-icon/builtin/18.jpg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/openai-proxy/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/openai-proxy/logo.jpg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/openai-proxy/website-screenshot.webp'
   templateType: inline
   draft: true
   locale: zh
@@ -24,6 +26,9 @@ spec:
       type: string
       value: openai-proxy-${{ random(8) }}
   inputs:
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/openai-proxy/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: Deployment
