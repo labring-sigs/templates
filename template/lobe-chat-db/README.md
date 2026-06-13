@@ -14,7 +14,7 @@ The app on Sealos will automatically setup your object storage with MinIO, so th
 
 **Step 1**：Click the button below to deploy a Logto service:
 
-[![](https://raw.githubusercontent.com/labring-actions/templates/main/Deploy-on-Sealos.svg)](https://template.usw.sealos.io/deploy?templateName=logto)
+[![](https://raw.githubusercontent.com/labring-sigs/templates/main/Deploy-on-Sealos.svg)](https://template.usw.sealos.io/deploy?templateName=logto)
 
 > Logto is an open-source identity and access management (IAM) platform, an open-source alternative to Auth0, designed to help developers quickly build secure and scalable login and registration systems and user identity systems.
 

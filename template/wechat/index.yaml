@@ -9,7 +9,7 @@ spec:
   author: 'Sealos'
   description: 'Linux 版微信。该项目允许用户通过网页或 VNC 访问微信，从而在不同的操作系统和环境中使用微信，无需直接在本地安装。'
   readme: 'https://raw.githubusercontent.com/RICwang/docker-wechat/main/README.md'
-  icon: 'https://raw.githubusercontent.com/labring-actions/templates/main/template/wechat/logo.png'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wechat/logo.png'
   templateType: inline
   locale: zh
   categories:
@@ -211,6 +211,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: 'https://raw.githubusercontent.com/labring-actions/templates/main/template/wechat/logo.png'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wechat/logo.png'
   name: 'Wechat'
   type: link

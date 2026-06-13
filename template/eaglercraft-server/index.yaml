@@ -8,7 +8,7 @@ spec:
   gitRepo: "https://github.com/yangchuansheng/eaglercraft-server"
   author: "Sealos"
   description: "EaglerCraft 1.12.1 Minecraft server that runs in web browsers with WebSocket support"
-  readme: "https://raw.githubusercontent.com/labring-actions/templates/main/template/eaglercraft-server/README.md"
+  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/eaglercraft-server/README.md"
   icon: "https://eaglercraft.com/img/favicon.ico"
   templateType: inline
   locale: en
