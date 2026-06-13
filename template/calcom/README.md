@@ -22,7 +22,7 @@ This template intentionally keeps the default deployment focused on the core boo
 
 The Sealos template includes all required runtime dependencies for the default self-hosted deployment:
 
-- **Cal.com Web Runtime**: `calcom.docker.scarf.sh/calcom/cal.com:v6.2.0`
+- **Cal.com Web Runtime**: `calcom/cal.com:v6.2.0` by default. On arm64 clusters, set the image input to `calcom/cal.com:v6.2.0-arm`.
 - **PostgreSQL Cluster**: Kubeblocks-managed `postgresql-14.8.0`
 - **Database Init Job**: `postgres:14.8-alpine` creates the `calendso` database before the first web startup
 - **Service and Ingress**: Internal service on port `3000` with Sealos-managed public HTTPS access

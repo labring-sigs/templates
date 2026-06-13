@@ -40,6 +40,11 @@ spec:
       type: string
       value: ${{ random(32) }}
   inputs:
+    calcom_image:
+      description: Cal.com image. Use calcom/cal.com:v6.2.0-arm on arm64 clusters.
+      type: string
+      default: calcom/cal.com:v6.2.0
+      required: true
     email_from:
       description: Sender email address used for notifications and verification emails
       type: string
@@ -214,7 +219,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: calcom.docker.scarf.sh/calcom/cal.com:v6.2.0
+    originImageName: ${{ inputs.calcom_image }}
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -234,7 +239,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: ${{ defaults.app_name }}
-        image: calcom.docker.scarf.sh/calcom/cal.com:v6.2.0
+        image: ${{ inputs.calcom_image }}
         imagePullPolicy: IfNotPresent
         resources:
           limits:
