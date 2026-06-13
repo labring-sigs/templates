@@ -64,7 +64,7 @@ jobs:
             template_name=${template_name%.yaml}
             template_name=${template_name%.yml}
           fi
-          sudo bash scripts/build-cluster-image.sh ${{ matrix.target }} ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest-arm64
+          sudo bash scripts/build-cluster-image.sh ${{ matrix.target }} ghcr.io/${{ github.repository }}/sealos-cloud-template-$template_name:latest-arm64 arm64
       #https://github.com/labring/sealos/issues/6112
       - name: Login to ghcr.io
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

@@ -1,2 +1,2 @@
-calcom/cal.com:v6.2.0
-calcom/cal.com:v6.2.0-arm
+calcom/cal.com:v6.2.0 amd64
+calcom/cal.com:v6.2.0-arm arm64
