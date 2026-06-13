@@ -1,36 +1,36 @@
 apiVersion: app.sealos.io/v1
 kind: Template
 metadata:
-  name: chrome
+  name: chromium
 spec:
-  title: Chrome
-  url: https://www.google.com/chrome/
-  gitRepo: https://github.com/linuxserver/docker-chrome
+  title: Chromium
+  url: https://www.chromium.org/chromium-projects/
+  gitRepo: https://github.com/linuxserver/docker-chromium
   author: Sealos
-  description: Google Chrome browser running in a LinuxServer.io Selkies container with a web-based desktop UI.
-  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chrome/README.md
-  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chrome/logo.svg
+  description: Chromium browser running in a LinuxServer.io Selkies container with a web-based desktop UI.
+  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chromium/README.md
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chromium/logo.svg
   templateType: inline
   locale: en
   i18n:
     zh:
-      description: 在 LinuxServer.io Selkies 容器中运行的 Google Chrome 浏览器，可通过网页桌面界面访问。
-      readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chrome/README_zh.md
+      description: 在 LinuxServer.io Selkies 容器中运行的 Chromium 浏览器，可通过网页桌面界面访问。
+      readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chromium/README_zh.md
   categories:
     - tool
   defaults:
     app_host:
       type: string
-      value: chrome-${{ random(8) }}
+      value: chromium-${{ random(8) }}
     app_name:
       type: string
-      value: chrome-${{ random(8) }}
+      value: chromium-${{ random(8) }}
     password:
       type: string
       value: ${{ random(16) }}
   inputs:
-    chrome_cli:
-      description: Chrome startup URL or CLI flags passed to the browser process.
+    chromium_cli:
+      description: Chromium startup URL or CLI flags passed to the browser process.
       type: string
       default: about:blank
       required: false
@@ -43,17 +43,17 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ${{ defaults.app_name }}-chrome-launcher
+  name: ${{ defaults.app_name }}-chromium-launcher
   labels:
-    app: ${{ defaults.app_name }}-chrome-launcher
-    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}-chrome-launcher
+    app: ${{ defaults.app_name }}-chromium-launcher
+    cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}-chromium-launcher
 data:
   autostart: |
     #!/bin/bash
     export HOME=/config
-    PROFILE=/config/.config/google-chrome
+    PROFILE=/config/.config/chromium
     rm -f "$PROFILE"/Singleton* 2>/dev/null || true
-    wrapped-chrome \
+    wrapped-chromium \
       "$PROFILE" \
       --disable-gpu \
       --disable-software-rasterizer \
@@ -66,15 +66,15 @@ data:
       --safebrowsing-disable-auto-update \
       --no-default-browser-check \
       --disable-features=MediaRouter,OptimizationHints,AutofillServerCommunication \
-      ${CHROME_CLI}
+      ${CHROMIUM_CLI}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: lscr.io/linuxserver/chrome:149.0.7827.114-1-ls99
-    docker-to-sealos.resource-override-source: https://docs.linuxserver.io/images/docker-chrome/#parameters documents shm_size=1gb and browser workload needs more than baseline resources
+    originImageName: lscr.io/linuxserver/chromium:cca5154d-ls37
+    docker-to-sealos.resource-override-source: https://docs.linuxserver.io/images/docker-chromium/#parameters documents shm_size=1gb and browser workload needs more than baseline resources
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -102,7 +102,7 @@ spec:
         - name: ${{ defaults.app_name }}
       containers:
         - name: ${{ defaults.app_name }}
-          image: lscr.io/linuxserver/chrome:149.0.7827.114-1-ls99
+          image: lscr.io/linuxserver/chromium:cca5154d-ls37
           imagePullPolicy: IfNotPresent
           command:
             - /bin/bash
@@ -110,8 +110,8 @@ spec:
           args:
             - |
               export PATH="/lsiopy/bin:${PATH}"
-              install -D -m 755 /chrome-launcher/autostart /config/.config/openbox/autostart
-              install -D -m 755 /chrome-launcher/autostart /config/.config/labwc/autostart
+              install -D -m 755 /chromium-launcher/autostart /config/.config/openbox/autostart
+              install -D -m 755 /chromium-launcher/autostart /config/.config/labwc/autostart
               chown abc:abc /config/.config/openbox/autostart /config/.config/labwc/autostart
               exec /init
           resources:
@@ -130,8 +130,8 @@ spec:
               value: '1000'
             - name: TZ
               value: Etc/UTC
-            - name: CHROME_CLI
-              value: ${{ inputs.chrome_cli }}
+            - name: CHROMIUM_CLI
+              value: ${{ inputs.chromium_cli }}
             - name: CUSTOM_PORT
               value: '3000'
             - name: CUSTOM_USER
@@ -183,13 +183,13 @@ spec:
           volumeMounts:
             - name: vn-config
               mountPath: /config
-            - name: chrome-launcher
-              mountPath: /chrome-launcher
+            - name: chromium-launcher
+              mountPath: /chromium-launcher
               readOnly: true
       volumes:
-        - name: chrome-launcher
+        - name: chromium-launcher
           configMap:
-            name: ${{ defaults.app_name }}-chrome-launcher
+            name: ${{ defaults.app_name }}-chromium-launcher
             defaultMode: 493
   volumeClaimTemplates:
     - metadata:
@@ -271,6 +271,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chrome/logo.svg
-  name: Chrome
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chromium/logo.svg
+  name: Chromium
   type: link
