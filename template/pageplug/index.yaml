@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/cloudtogo/pageplug'
   author: 'Sealos'
   description: 'PagePlug 是 Appsmith 的中国化项目，是一个开源的、声明式的、可视化的前端低代码框架，可以用来制作 web 应用、微信小程序。'
-  readme: 'https://raw.githubusercontent.com/cloudtogo/pageplug/open-v1.9.35/README.md'
-  icon: 'https://raw.githubusercontent.com/cloudtogo/pageplug/open-v1.9.35/app/client/public/static/img/favicon-pageplug.ico'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pageplug/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pageplug/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pageplug/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
@@ -23,6 +25,10 @@ spec:
       type: string
       value: pageplug-${{ random(8) }}
   inputs:
+
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pageplug/README_zh.md'
 
 ---
 apiVersion: apps/v1

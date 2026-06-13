@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/dani-garcia/vaultwarden'
   author: 'Sealos'
   description: 'Alternative implementation of the Bitwarden server API written in Rust and compatible with upstream Bitwarden clients*, perfect for self-hosted deployment where running the official resource-heavy service might not be ideal.'
-  readme: 'https://raw.githubusercontent.com/dani-garcia/vaultwarden/main/README.md'
-  icon: 'https://raw.githubusercontent.com/dani-garcia/vaultwarden/main/resources/vaultwarden-icon.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/vaultwarden/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/vaultwarden/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/vaultwarden/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -22,6 +24,10 @@ spec:
       type: string
       value: vaultwarden-${{ random(8) }}
   inputs:
+
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/vaultwarden/README_zh.md'
 
 ---
 apiVersion: apps/v1
