@@ -8,14 +8,16 @@ spec:
   gitRepo: 'https://github.com/Byaidu/PDFMathTranslate'
   author: 'Sealos'
   description: 'PDFMathTranslate is an open-source PDF scientific paper translation with preserved formats.'
-  readme: 'https://raw.githubusercontent.com/Byaidu/PDFMathTranslate/refs/heads/main/README.md'
-  icon: 'https://raw.githubusercontent.com/Byaidu/PDFMathTranslate/main/docs/images/banner.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pdf2zh/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pdf2zh/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pdf2zh/website-screenshot.webp'
   templateType: inline
   locale: en
   i18n:
     zh:
       description: '基于 AI 完整保留排版的 PDF 文档全文双语翻译，支持 Google/DeepL/Ollama/OpenAI 等服务。'
-      readme: 'https://raw.githubusercontent.com/Byaidu/PDFMathTranslate/refs/heads/main/docs/README_zh-CN.md'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pdf2zh/README_zh.md'
   categories:
     - tool
     - ai
@@ -138,6 +140,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/Byaidu/PDFMathTranslate/main/docs/images/banner.png"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/pdf2zh/logo.png"
   name: "PDFMathTranslate"
   type: link
