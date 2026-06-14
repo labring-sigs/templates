@@ -10,6 +10,8 @@ spec:
   description: '该私服默认最多可容纳 4~6 个玩家流畅玩耍，如需支撑更多玩家则需要调大 CPU 和内存'
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld/logo.jpg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
@@ -38,6 +40,9 @@ spec:
       default: ''
       required: false
 
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld/README_zh.md'
 ---
 apiVersion: v1
 kind: ConfigMap

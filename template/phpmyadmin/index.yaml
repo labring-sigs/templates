@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/phpmyadmin/phpmyadmin'
   author: 'Sealos'
   description: 'A web interface for MySQL and MariaDB.'
-  readme: 'https://raw.githubusercontent.com/phpmyadmin/phpmyadmin/master/README.rst'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/phpmyadmin/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/phpmyadmin/logo.png'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/phpmyadmin/website-screenshot.webp'
@@ -22,6 +22,9 @@ spec:
     app_host:
       type: string
       value: ${{ random(8) }}
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/phpmyadmin/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: Deployment

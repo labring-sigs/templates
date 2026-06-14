@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/photoprism/photoprism'
   author: 'Sealos'
   description: 'AI-Powered Photos App for the Decentralized Web.'
-  readme: 'https://raw.githubusercontent.com/photoprism/photoprism/develop/README.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/photoprism/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/photoprism/logo.svg'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/photoprism/website-screenshot.webp'
@@ -35,6 +35,9 @@ spec:
       default: ""
       required: true
 
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/photoprism/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: StatefulSet
