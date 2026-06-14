@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/dataease/dataease'
   author: 'Sealos'
   description: '🔥 人人可用的开源数据可视化分析工具，帆软、Tableau 等商业 BI 工具的开源替代。'
-  readme: 'https://raw.githubusercontent.com/dataease/dataease/dev-v2/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/75054108?s=48&v=4'
+  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/dataease/README.md
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/dataease/logo.png
+  screenshots:
+    - https://raw.githubusercontent.com/labring-sigs/templates/main/template/dataease/website-screenshot.webp
   templateType: inline
   locale: zh
   categories:
@@ -402,6 +404,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://dataease.io/docs/v2/img/logo-white.png"
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/dataease/logo.png
   name: "DataEase"
   type: link

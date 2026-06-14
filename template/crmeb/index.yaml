@@ -8,8 +8,10 @@ spec:
   gitRepo: "https://github.com/crmeb/CRMEB"
   author: "Sealos"
   description: "CRMEB开源商城系统PHP版"
-  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/README_cn.md"
-  icon: "https://www.crmeb.com/static/images/favicon.ico"
+  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/README.md
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/logo.png
+  screenshots:
+    - https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/website-screenshot.webp
   templateType: inline
   locale: zh
   categories:
@@ -488,6 +490,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://www.crmeb.com/static/images/favicon.ico"
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/logo.png
   name: "crmeb"
   type: link
