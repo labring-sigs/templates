@@ -9,9 +9,9 @@ spec:
   author: "Sealos"
   description: "A modern, open-source search engine alternative to Algolia and an easier-to-use alternative to Elasticsearch."
   readme: "https://raw.githubusercontent.com/typesense/typesense/master/README.md"
-  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/typesense/logo.png"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/typesense/logo.png'
   screenshots:
-    - "https://raw.githubusercontent.com/labring-sigs/templates/main/template/typesense/website-screenshot.webp"
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/typesense/website-screenshot.webp'
   templateType: inline
   locale: en
   categories:
