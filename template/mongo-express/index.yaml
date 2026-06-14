@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/mongo-express/mongo-express'
   author: 'Sealos'
   description: 'A web-based MongoDB admin interface written with Node.js, Express, and Bootstrap3'
-  readme: 'https://raw.githubusercontent.com/mongo-express/mongo-express/master/README.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/mongo-express/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/mongo-express/logo.svg'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/mongo-express/website-screenshot.webp'
@@ -38,6 +38,9 @@ spec:
         type: string
         default: 'sealos'
         required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/mongo-express/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: Deployment
