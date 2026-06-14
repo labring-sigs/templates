@@ -9,7 +9,9 @@ spec:
   author: 'Sealos'
   description: 'NSFW is a project for image pornography recognition'
   readme: 'https://raw.githubusercontent.com/labring/nsfw/master/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/102226726?s=96&v=4'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nsfw/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nsfw/website-screenshot.webp'
   templateType: inline
   defaults:
     app_host:
