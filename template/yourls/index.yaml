@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/YOURLS/YOURLS'
   author: 'Sealos'
   description: 'YOURLS is a set of PHP scripts that will allow you to run Your Own URL Shortener, on your server.'
-  readme: 'https://raw.githubusercontent.com/https://yourls.org/refs/heads/main/README.md'
+  readme: 'https://raw.githubusercontent.com/YOURLS/YOURLS/master/README.md'
   icon: 'https://yourls.org/assets/images/favicon.svg'
   templateType: inline
   locale: en
