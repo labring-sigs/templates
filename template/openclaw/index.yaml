@@ -7,11 +7,11 @@ spec:
   url: https://openclaw.ai/
   gitRepo: https://github.com/openclaw/openclaw
   author: Sealos
-  description: AI 智能体网关，支持 WhatsApp、Telegram、Discord 等多渠道集成
+  description: AI agent gateway with multi-channel support including WhatsApp, Telegram, and Discord integration
   readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/openclaw/README.md
   icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/openclaw/logo.svg
   templateType: inline
-  locale: zh
+  locale: en
   i18n:
     zh:
       description: AI 智能体网关，支持 WhatsApp、Telegram、Discord 等多渠道集成
