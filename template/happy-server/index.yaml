@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/your-org/happy-server'
   author: 'Sealos'
   description: 'Minimal backend for open-source end-to-end encrypted Claude Code clients.'
-  readme: 'https://raw.githubusercontent.com/slopus/happy-server/refs/heads/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/221431600?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/happy-server/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/happy-server/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/happy-server/website-screenshot.webp'
   templateType: inline
   locale: en
   categories:
@@ -17,6 +19,7 @@ spec:
   i18n:
     zh:
       description: '专为 Claude Code 开源、端到端加密客户端打造的极简后端。'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/happy-server/README_zh.md'
   defaults:
     app_name:
       type: string
@@ -820,6 +823,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/221431600?s=48&v=4"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/happy-server/logo.png'
   name: "Happy Server"
   type: link

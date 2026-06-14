@@ -8,9 +8,14 @@ spec:
   url: 'https://flarum.org/'
   gitRepo: 'https://github.com/crazy-max/docker-flarum'
   author: 'Sealos'
-  readme: 'https://raw.githubusercontent.com/crazy-max/docker-flarum/master/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/5549034?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/flarum/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/flarum/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/flarum/website-screenshot.webp'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/flarum/README_zh.md'
   categories:
     - blog
   defaults:
@@ -319,6 +324,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/5549034?s=48&v=4"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/flarum/logo.png'
   name: "Flarum"
   type: iframe
