@@ -954,7 +954,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}-plugins
   annotations:
-    originImageName: ghcr.io/posthog/posthog-node:latest
+    originImageName: ghcr.io/posthog/posthog-node:sha-728e80e
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -991,7 +991,7 @@ spec:
           mountPath: /share
       containers:
       - name: plugin-status-heartbeat
-        image: ghcr.io/posthog/posthog-node:latest
+        image: ghcr.io/posthog/posthog-node:sha-728e80e
         imagePullPolicy: IfNotPresent
         resources:
           limits:
@@ -1054,7 +1054,7 @@ spec:
           })
           NODE
       - name: ${{ defaults.app_name }}-plugins
-        image: ghcr.io/posthog/posthog-node:latest
+        image: ghcr.io/posthog/posthog-node:sha-728e80e
         imagePullPolicy: IfNotPresent
         resources:
           limits:
