@@ -16,9 +16,7 @@ MoneyPrinterTurbo 是一个可在 Sealos 上一键部署的应用，模板会创
 
 ## 配置说明
 
-部署时可以配置以下用户可见输入项：
-
-- `moneyprinterturbo_image`：MoneyPrinterTurbo 容器镜像。默认镜像固定为 `ghcr.io/yangchuansheng/moneyprinterturbo:20240510083200`，目前仅支持 amd64。
+模板使用 `ghcr.io/yangchuansheng/moneyprinterturbo:20240510083200` 作为 MoneyPrinterTurbo 运行镜像。该上游镜像目前仅支持 amd64。
 
 请将敏感信息保存在 Sealos 管理的输入项或生成默认值中，不要把私有凭据提交到模板仓库。
 

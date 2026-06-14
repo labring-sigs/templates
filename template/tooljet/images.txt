@@ -1,1 +1,0 @@
-tooljet/tooljet-ce:v3.20.170-lts amd64

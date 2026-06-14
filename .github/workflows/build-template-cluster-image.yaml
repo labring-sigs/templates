@@ -13,11 +13,66 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       targets: ${{ steps.targets.outputs.targets }}
+      matrix: ${{ steps.targets.outputs.matrix }}
+      has_targets: ${{ steps.targets.outputs.has_targets }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+      - name: Validate platform metadata
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          supported_arches = {"amd64", "arm64"}
+          errors = []
+
+          indexes = sorted(Path("template").glob("*/index.yaml")) + sorted(Path("template").glob("*/index.yml"))
+          for index in indexes:
+              platform_file = index.parent / "platform.json"
+              if not platform_file.exists():
+                  errors.append(f"{index.parent}: missing platform.json")
+                  continue
+
+              try:
+                  platform = json.loads(platform_file.read_text(encoding="utf-8"))
+              except json.JSONDecodeError as exc:
+                  errors.append(f"{platform_file}: invalid JSON: {exc}")
+                  continue
+
+              architectures = platform.get("architectures")
+              if not isinstance(architectures, list) or not architectures:
+                  errors.append(f"{platform_file}: architectures must be a non-empty array")
+                  continue
+
+              invalid = [arch for arch in architectures if arch not in supported_arches]
+              if invalid:
+                  errors.append(f"{platform_file}: unsupported architectures: {', '.join(invalid)}")
+              if len(set(architectures)) != len(architectures):
+                  errors.append(f"{platform_file}: duplicate architectures")
+
+              images_file = index.parent / "images.txt"
+              if images_file.exists():
+                  declared = set(architectures)
+                  for line_number, raw_line in enumerate(images_file.read_text(encoding="utf-8").splitlines(), start=1):
+                      line = raw_line.strip()
+                      if not line or line.startswith("#"):
+                          continue
+                      parts = line.split()
+                      if len(parts) == 1:
+                          errors.append(f"{images_file}:{line_number}: image entries must declare architectures")
+                      for arch in parts[1:]:
+                          arch = arch.removeprefix("linux/")
+                          if arch not in supported_arches:
+                              errors.append(f"{images_file}:{line_number}: unsupported image arch {arch}")
+                          elif arch not in declared:
+                              errors.append(f"{images_file}:{line_number}: image arch {arch} is not declared in platform.json")
+
+          if errors:
+              raise SystemExit("\\n".join(errors))
+          PY
       - name: Get all changed template files
         id: changed-files
         uses: tj-actions/changed-files@v47
@@ -38,8 +93,22 @@ jobs:
           import os
           from pathlib import Path
 
+          supported_arches = {"amd64", "arm64"}
           changed_files = json.loads(os.environ.get("CHANGED_FILES") or "[]")
           targets = []
+
+          def architectures_for(target):
+              platform_file = target.parent / "platform.json"
+              platform = json.loads(platform_file.read_text(encoding="utf-8"))
+              architectures = platform.get("architectures")
+              if not isinstance(architectures, list) or not architectures:
+                  raise SystemExit(f"{platform_file}: architectures must be a non-empty array")
+
+              invalid = [arch for arch in architectures if arch not in supported_arches]
+              if invalid:
+                  raise SystemExit(f"{platform_file}: unsupported architectures: {', '.join(invalid)}")
+
+              return architectures
 
           for changed_file in changed_files:
               path = Path(changed_file)
@@ -61,22 +130,33 @@ jobs:
               if target_str not in targets:
                   targets.append(target_str)
 
+          include = [
+              {"target": target, "arch": arch}
+              for target in targets
+              for arch in architectures_for(Path(target))
+          ]
+          matrix = {"include": include}
+
           print(f"targets={json.dumps(targets)}")
+          print(f"matrix={json.dumps(matrix)}")
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
               output.write(f"targets={json.dumps(targets)}\n")
+              output.write(f"matrix={json.dumps(matrix)}\n")
+              output.write(f"has_targets={'true' if include else 'false'}\n")
           PY
       - name: List all changed template targets
-        run: echo '${{ steps.targets.outputs.targets }}'
+        run: |
+          echo '${{ steps.targets.outputs.targets }}'
+          echo '${{ steps.targets.outputs.matrix }}'
   build:
+    if: needs.gen-targets.outputs.has_targets == 'true'
     runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
     permissions:
       contents: read
       packages: write
     needs: gen-targets
     strategy:
-      matrix:
-        target: ${{ fromJSON(needs.gen-targets.outputs.targets) }}
-        arch: [ amd64, arm64 ]
+      matrix: ${{ fromJSON(needs.gen-targets.outputs.matrix) }}
       fail-fast: false
     steps:
       - name: Free Disk Space (Ubuntu)
