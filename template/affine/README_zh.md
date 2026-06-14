@@ -2,7 +2,7 @@
 
 AFFiNE 是一个本地优先、隐私优先的工作区，可用于笔记、文档、白板和知识管理。此模板会在 Sealos Cloud 上部署 AFFiNE 0.26.6，并自动配置 PostgreSQL、Redis、持久化存储、HTTPS Ingress 和首次管理员初始化流程。
 
-![AFFiNE 截图](https://raw.githubusercontent.com/labring-actions/templates/kb-0.9/template/affine/website-screenshot.webp)
+![AFFiNE 截图](https://raw.githubusercontent.com/labring-sigs/templates/main/template/affine/website-screenshot.webp)
 
 ## 关于 AFFiNE 托管
 

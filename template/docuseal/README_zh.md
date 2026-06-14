@@ -2,7 +2,7 @@
 
 DocuSeal 是一个开源平台，可在线创建、填写和签署 PDF 表单。此模板会在 Sealos Cloud 上部署 DocuSeal，并配套 PostgreSQL、持久化文件存储和公开 HTTPS 访问入口。
 
-![DocuSeal 截图](https://raw.githubusercontent.com/labring-actions/templates/kb-0.9/template/docuseal/website-screenshot.webp)
+![DocuSeal 截图](https://raw.githubusercontent.com/labring-sigs/templates/main/template/docuseal/website-screenshot.webp)
 
 ## 关于托管 DocuSeal
 

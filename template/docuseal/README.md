@@ -2,7 +2,7 @@
 
 DocuSeal is an open source platform for building, filling, and signing PDF forms online. This template deploys DocuSeal with PostgreSQL, persistent file storage, and a public HTTPS endpoint on Sealos Cloud.
 
-![DocuSeal Screenshot](https://raw.githubusercontent.com/labring-actions/templates/kb-0.9/template/docuseal/website-screenshot.webp)
+![DocuSeal Screenshot](https://raw.githubusercontent.com/labring-sigs/templates/main/template/docuseal/website-screenshot.webp)
 
 ## About Hosting DocuSeal
 

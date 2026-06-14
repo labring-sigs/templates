@@ -2,7 +2,7 @@
 
 AFFiNE is a local-first, privacy-focused workspace for notes, documents, whiteboards, and knowledge management. This template deploys AFFiNE 0.26.6 with PostgreSQL, Redis, persistent storage, HTTPS ingress, and first-run admin setup on Sealos Cloud.
 
-![AFFiNE Screenshot](https://raw.githubusercontent.com/labring-actions/templates/kb-0.9/template/affine/website-screenshot.webp)
+![AFFiNE Screenshot](https://raw.githubusercontent.com/labring-sigs/templates/main/template/affine/website-screenshot.webp)
 
 ## About Hosting AFFiNE
 

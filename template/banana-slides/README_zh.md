@@ -2,7 +2,7 @@
 
 Banana Slides 是一款基于 AI 的智能演示文稿生成应用。本模板在 Sealos 云平台上部署了一个生产就绪的 Banana Slides 实例，支持通过想法、大纲或页面描述自动生成完整的 PPT 演示文稿，并支持多种格式导出。
 
-![Banana Slides](https://raw.githubusercontent.com/labring-actions/templates/main/template/banana-slides/logo.png)
+![Banana Slides](https://raw.githubusercontent.com/labring-sigs/templates/main/template/banana-slides/logo.png)
 
 > 推荐使用 [Sealos AI Proxy](os.sealos.io/?openapp=system-aiproxy) 获取API密钥，减小迁移成本
 
