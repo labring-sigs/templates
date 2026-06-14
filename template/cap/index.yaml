@@ -142,7 +142,7 @@ spec:
     spec:
       containers:
         - name: mysql-init
-          image: mysql:8.0-debian
+          image: mysql:8.0
           env:
             - name: MYSQL_PASSWORD
               valueFrom:
