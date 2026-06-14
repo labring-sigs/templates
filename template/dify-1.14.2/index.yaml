@@ -10,8 +10,10 @@ spec:
   description: Dify is an open-source LLM application development platform with API,
     worker, web, plugin daemon, PostgreSQL, Redis, Weaviate, sandbox, SSRF proxy,
     and Nginx.
-  readme: https://raw.githubusercontent.com/langgenius/dify/refs/heads/main/README.md
-  icon: https://avatars.githubusercontent.com/u/127165244?s=48&v=4
+  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/dify-1.14.2/README.md
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/dify-1.14.2/logo.svg
+  screenshots:
+  - https://raw.githubusercontent.com/labring-sigs/templates/main/template/dify-1.14.2/website-screenshot.webp
   templateType: inline
   locale: en
   categories:
@@ -21,7 +23,7 @@ spec:
     zh:
       description: Dify 是开源的大模型应用开发平台，此模板包含 API、Worker、Web、插件服务、PostgreSQL、Redis、Weaviate、Sandbox、SSRF
         代理和 Nginx。
-      readme: https://raw.githubusercontent.com/langgenius/dify/refs/heads/main/README.md
+      readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/dify-1.14.2/README_zh.md
   defaults:
     app_name:
       type: string
