@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/ttttmr/Wechat2RSS'
   author: 'ttttmr'
   description: '自建微信公众号RSS服务'
-  readme: 'https://raw.githubusercontent.com/ttttmr/Wechat2RSS/refs/heads/master/deploy/index.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wechat2rss/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wechat2rss/logo.png'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wechat2rss/website-screenshot.webp'
@@ -42,6 +42,9 @@ spec:
       options:
         - '1'
         - '0'
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wechat2rss/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -171,6 +174,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/wechat2rss/logo.png"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wechat2rss/logo.png'
   name: ${{ defaults.app_name }}
   type: link
