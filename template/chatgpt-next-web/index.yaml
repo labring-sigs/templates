@@ -4,11 +4,11 @@ metadata:
   name: chatgpt-next-web
 spec:
   title: 'chatgpt-next-web'
-  url: 'https://github.com/Yidadaa/ChatGPT-Next-Web'
-  gitRepo: 'https://github.com/Yidadaa/ChatGPT-Next-Web'
+  url: 'https://nextchat.club/'
+  gitRepo: 'https://github.com/ChatGPTNextWeb/NextChat'
   author: 'Sealos'
   description: 'A cross-platform ChatGPT/Gemini UI.'
-  readme: 'https://raw.githubusercontent.com/Yidadaa/ChatGPT-Next-Web/main/README.md'
+  readme: 'https://raw.githubusercontent.com/ChatGPTNextWeb/NextChat/main/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatgpt-next-web/logo.svg'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatgpt-next-web/website-screenshot.webp'
@@ -75,6 +75,9 @@ spec:
       type: string
       default: ''
       required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/ChatGPTNextWeb/NextChat/main/README_CN.md'
 
 ---
 apiVersion: apps/v1
