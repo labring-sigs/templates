@@ -6,13 +6,16 @@ spec:
   title: 'influxdb'
   author: 'Sealos'
   description: 'Real-time insights from any time series data with a single, purpose-built database. Run at any scale in any environment in the cloud, on-premises, or at the edge.'
-  readme: ''
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/influxdb/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/influxdb/logo.svg'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/influxdb/website-screenshot.webp'
   templateType: inline
   categories:
     - database
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/influxdb/README_zh.md'
   defaults:
     app_host:
       type: string

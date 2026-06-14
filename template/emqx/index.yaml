@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/emqx/emqx'
   author: 'sealos'
   description: 'A scalable, open-source MQTT broker for IoT, industrial IoT, and connected vehicle messaging.'
-  readme: 'https://raw.githubusercontent.com/emqx/emqx/refs/heads/master/README.md'
-  icon: 'https://www.emqx.com/favicon.ico'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/emqx/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/emqx/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/emqx/website-screenshot.webp'
   templateType: inline
   locale: en
   i18n:
@@ -328,6 +330,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/25221711?s=96&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/emqx/logo.png"
   name: "EMQX"
   type: link
