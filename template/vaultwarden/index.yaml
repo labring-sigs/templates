@@ -35,7 +35,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: vaultwarden/server:latest
+    originImageName: vaultwarden/server:1.36.0
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -58,7 +58,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: vaultwarden/server:latest
+          image: vaultwarden/server:1.36.0
           env: []
           resources:
             requests:

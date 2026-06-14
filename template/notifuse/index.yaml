@@ -172,7 +172,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: notifuse/notifuse:latest
+    originImageName: notifuse/notifuse:v32.2
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -229,7 +229,7 @@ spec:
               echo "database ${DB_NAME} is ready"
       containers:
         - name: ${{ defaults.app_name }}
-          image: notifuse/notifuse:latest
+          image: notifuse/notifuse:v32.2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080

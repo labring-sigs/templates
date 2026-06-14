@@ -67,7 +67,7 @@ spec:
     spec:
       containers:
       - name: ${{ defaults.app_name }}
-        image: docker.io/allinssl/allinssl:latest
+        image: docker.io/allinssl/allinssl:v1.1.3
         env:
           - name: ALLINSSL_USER
             value: ${{ inputs.ALLINSSL_USER }}

@@ -162,7 +162,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: docuseal/docuseal:latest
+    originImageName: docuseal/docuseal:3.0.3
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -183,7 +183,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: docuseal/docuseal:latest
+          image: docuseal/docuseal:3.0.3
           imagePullPolicy: IfNotPresent
           env:
             - name: FORCE_SSL
