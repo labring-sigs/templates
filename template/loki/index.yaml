@@ -9,7 +9,9 @@ spec:
   author: 'Sealos'
   description: 'Loki is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus.'
   readme: 'https://raw.githubusercontent.com/grafana/loki/refs/heads/main/README.md'
-  icon: 'https://grafana.com/static/img/logos/logo-loki.svg'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/loki/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/loki/website-screenshot.webp'
   templateType: inline
   locale: en
   i18n:
@@ -165,6 +167,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://grafana.com/static/img/logos/logo-loki.svg"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/loki/logo.svg"
   name: Loki
   type: link

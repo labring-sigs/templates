@@ -9,7 +9,9 @@ spec:
   author: 'Sealos'
   description: 'Kitten-TTS-Server hosts the Kitten TTS model behind a small, fast API. It includes a built-in Web UI, audiobook-grade text handling, and GPU support. Use it for prototypes, research, or self-hosted TTS services.'
   readme: 'https://raw.githubusercontent.com/SamThinks-Com/Kitten-TTS-Server/refs/heads/main/README.md'
-  icon: 'https://github.com/favicon.ico'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kitten-tts/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kitten-tts/website-screenshot.webp'
   templateType: inline
   locale: en
   i18n:
@@ -172,6 +174,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://github.com/favicon.ico"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/kitten-tts/logo.svg"
   name: "Kitten TTS"
   type: link

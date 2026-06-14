@@ -7,7 +7,9 @@ spec:
   author: 'Sealos'
   description: 'Real-time insights from any time series data with a single, purpose-built database. Run at any scale in any environment in the cloud, on-premises, or at the edge.'
   readme: ''
-  icon: 'https://avatars.githubusercontent.com/u/5713248?s=200&v=4'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/influxdb/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/influxdb/website-screenshot.webp'
   templateType: inline
   categories:
     - database
