@@ -136,7 +136,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: ghcr.io/yangchuansheng/opencart:4.1.0.3@sha256:eb92c3f24fe3a2b44a09af51dcd8c2ba9aeb2454b26dcae9e85036afb1d04d94
+    originImageName: ghcr.io/yangchuansheng/opencart:4.1.0.3
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -157,7 +157,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: ${{ defaults.app_name }}
-        image: ghcr.io/yangchuansheng/opencart:4.1.0.3@sha256:eb92c3f24fe3a2b44a09af51dcd8c2ba9aeb2454b26dcae9e85036afb1d04d94
+        image: ghcr.io/yangchuansheng/opencart:4.1.0.3
         imagePullPolicy: IfNotPresent
         resources:
           limits:

@@ -35,7 +35,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: programzmh/chatnio@sha256:97587b5cdd85a4f5a9aee509304c594c9d66fa5f71b2164b78c064cec9feed2d
+    originImageName: programzmh/chatnio:4.25.0
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -58,7 +58,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: programzmh/chatnio@sha256:97587b5cdd85a4f5a9aee509304c594c9d66fa5f71b2164b78c064cec9feed2d
+          image: programzmh/chatnio:4.25.0
           env:
             - name: MYSQL_HOST
               valueFrom:

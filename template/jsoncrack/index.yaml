@@ -33,7 +33,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: shokohsc/jsoncrack@sha256:4360a0659ed2fc301904477b9eb3454f8ab7b67af611b1f25e79acfb6165c8ef
+    originImageName: shokohsc/jsoncrack:latest
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -61,7 +61,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: shokohsc/jsoncrack@sha256:4360a0659ed2fc301904477b9eb3454f8ab7b67af611b1f25e79acfb6165c8ef
+          image: shokohsc/jsoncrack:latest
           env: []
           resources:
             limits:
