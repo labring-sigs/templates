@@ -9,7 +9,9 @@ spec:
   author: 'Sealos'
   description: 'WordPress is a powerful, user-friendly and open source content management system (CMS) that can be used to publish websites, news, blogs and other content on the Internet.'
   readme: 'https://raw.githubusercontent.com/WordPress/WordPress/master/readme.html'
-  icon: 'https://raw.githubusercontent.com/WordPress/WordPress/master/wp-admin/images/wordpress-logo.svg'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wordpress/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wordpress/website-screenshot.webp'
   templateType: inline
   categories:
     - blog
