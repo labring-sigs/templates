@@ -78,7 +78,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: registry.cn-shanghai.aliyuncs.com/datamini/asktable-all-in-one:latest
+    originImageName: registry.cn-shanghai.aliyuncs.com/datamini/asktable-all-in-one:4.1.70-0611
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -97,7 +97,7 @@ spec:
     spec:
       containers:
         - name: ${{ defaults.app_name }}
-          image: registry.cn-shanghai.aliyuncs.com/datamini/asktable-all-in-one:latest
+          image: registry.cn-shanghai.aliyuncs.com/datamini/asktable-all-in-one:4.1.70-0611
           env:
             - name: TZ
               value: Asia/Shanghai
