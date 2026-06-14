@@ -9,7 +9,9 @@ spec:
   author: 'ttttmr'
   description: '自建微信公众号RSS服务'
   readme: 'https://raw.githubusercontent.com/ttttmr/Wechat2RSS/refs/heads/master/deploy/index.md'
-  icon: 'https://wechat2rss.xlab.app/image/logo.png'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wechat2rss/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wechat2rss/website-screenshot.webp'
   templateType: inline
   locale: zh
   defaults:
@@ -169,6 +171,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://wechat2rss.xlab.app/image/logo.png"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/wechat2rss/logo.png"
   name: ${{ defaults.app_name }}
   type: link
