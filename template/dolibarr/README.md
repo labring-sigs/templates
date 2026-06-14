@@ -33,7 +33,7 @@ The Sealos template includes all required runtime dependencies: Dolibarr PHP app
 
 This template deploys the following services:
 
-- **Dolibarr StatefulSet**: Main application service running `dolibarr/dolibarr:23.0.3-php8.2` pinned by digest.
+- **Dolibarr StatefulSet**: Main application service running `dolibarr/dolibarr:23.0.3-php8.2`.
 - **MySQL Cluster**: Kubeblocks-managed ApeCloud MySQL `ac-mysql-8.0.30-1` for persistent relational data.
 - **MySQL Init Job**: Creates the `dolibarr` database before the application performs its automatic installer flow.
 - **Service + Ingress**: Internal service on port `80` and public HTTPS ingress with Sealos domain routing.

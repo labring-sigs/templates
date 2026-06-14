@@ -33,7 +33,7 @@ Dolibarr 是基于 Web 的业务管理系统，后端依赖关系型数据库。
 
 该模板会部署以下服务：
 
-- **Dolibarr StatefulSet**：主应用服务，运行按 digest 固定的 `dolibarr/dolibarr:23.0.3-php8.2` 镜像。
+- **Dolibarr StatefulSet**：主应用服务，运行 `dolibarr/dolibarr:23.0.3-php8.2` 镜像。
 - **MySQL 集群**：由 Kubeblocks 管理的 ApeCloud MySQL `ac-mysql-8.0.30-1`，用于持久化关系型数据。
 - **MySQL 初始化任务**：在应用执行自动安装流程前创建 `dolibarr` 数据库。
 - **Service + Ingress**：内部服务监听 `80` 端口，公开 HTTPS Ingress 负责 Sealos 域名路由。
