@@ -4,7 +4,7 @@ metadata:
   name: palacms
 spec:
   title: 'PalaCMS'
-  url: 'https://palacms.org'
+  url: 'https://palacms.com'
   gitRepo: 'https://github.com/palacms/palacms'
   author: 'Sealos'
   description: 'PalaCMS is a modern content management system built for developers and content creators'
