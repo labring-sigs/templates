@@ -9,7 +9,9 @@ spec:
   author: 'Sealos'
   description: 'AI-Powered Photos App for the Decentralized Web.'
   readme: 'https://raw.githubusercontent.com/photoprism/photoprism/develop/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/32436079?s=48&v=4'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/photoprism/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/photoprism/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -258,6 +260,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/32436079?s=48&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/photoprism/logo.svg"
   name: PhotoPrism
   type: iframe
