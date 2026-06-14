@@ -1,0 +1,1 @@
+registry.cn-shanghai.aliyuncs.com/datamini/asktable-all-in-one:latest amd64

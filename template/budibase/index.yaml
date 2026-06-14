@@ -8,14 +8,17 @@ spec:
   gitRepo: 'https://github.com/Budibase/budibase'
   author: 'Sealos'
   description: 'Budibase is an open-source low-code platform that helps you build and deploy modern business apps in minutes'
-  readme: 'https://raw.githubusercontent.com/Budibase/budibase/refs/heads/master/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/45009727?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/budibase/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/budibase/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/budibase/website-screenshot.webp'
   templateType: inline
   locale: en
   i18n:
     zh:
       title: 'Budibase'
       description: 'Budibase 是一个开源的低代码平台，帮助您在几分钟内构建和部署现代化的业务应用'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/budibase/README_zh.md'
   categories:
     - low-code
     - tool
@@ -938,6 +941,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/Budibase/budibase/master/packages/builder/assets/bb-emblem.svg"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/budibase/logo.png"
   name: Budibase
   type: link

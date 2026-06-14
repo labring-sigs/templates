@@ -12,8 +12,13 @@ spec:
   description: '基于AI的PPT生成应用，支持想法/大纲/页面描述生成完整演示文稿，支持多格式导出'
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/banana-slides/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/banana-slides/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/banana-slides/website-screenshot.webp'
   templateType: inline
   locale: zh
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/banana-slides/README_zh.md'
   categories:
     - ai
     - tool
