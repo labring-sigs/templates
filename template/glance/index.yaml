@@ -162,7 +162,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: glanceapp/glance:latest
+          image: glanceapp/glance:v0.8.5
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
