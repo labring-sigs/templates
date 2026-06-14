@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/penpot/penpot'
   author: 'Sealos'
   description: 'The open-source design tool for design and code collaboration.'
-  readme: 'https://raw.githubusercontent.com/penpot/penpot/develop/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/30179644?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/penpot/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/penpot/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/penpot/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -21,6 +23,9 @@ spec:
     app_name:
       type: string
       value: penpot-${{ random(8) }}
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/penpot/README_zh.md'
 
 ---
 apiVersion: v1
@@ -618,6 +623,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/30179644?s=48&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/penpot/logo.png"
   name: "Penpot"
   type: iframe

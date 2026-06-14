@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://gitlab.com/glitchtip/glitchtip'
   author: 'Sealos'
   description: 'GlitchTip makes monitoring software easy.'
-  readme: 'https://gitlab.com/glitchtip/glitchtip/-/raw/master/README.md'
-  icon: 'https://glitchtip.com/assets/home/glitchtip-g.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/glitchtip/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/glitchtip/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/glitchtip/website-screenshot.webp'
   templateType: inline
   categories:
     - monitor
@@ -46,6 +48,9 @@ spec:
       default: ''
       required: true
       if: inputs.EMAIL_ENABLE === 'true'
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/glitchtip/README_zh.md'
 
 ---
 apiVersion: apps/v1
@@ -649,6 +654,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://glitchtip.com/assets/home/glitchtip-g.png"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/glitchtip/logo.png"
   name: ${{ defaults.app_name }}
   type: iframe

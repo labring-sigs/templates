@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/SigNoz/signoz'
   author: 'sealos'
   description: 'SigNoz is an open-source observability platform native to OpenTelemetry with logs, traces and metrics in a single application. An open-source alternative to DataDog, NewRelic, etc.'
-  readme: 'https://raw.githubusercontent.com/SigNoz/signoz/main/README.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/signoz/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/signoz/logo.svg'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/signoz/website-screenshot.webp'
@@ -24,6 +24,9 @@ spec:
       type: string
       value: ${{ random(8) }}
   inputs:
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/signoz/README_zh.md'
 
 ---
 apiVersion: v1

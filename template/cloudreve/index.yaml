@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/cloudreve/Cloudreve'
   author: 'Sealos'
   description: '🌩支持多家云存储的云盘系统'
-  readme: 'https://raw.githubusercontent.com/cloudreve/Cloudreve/master/README_zh-CN.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/cloudreve/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/cloudreve/logo.png'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/cloudreve/website-screenshot.webp'
@@ -30,6 +30,9 @@ spec:
       type: string
       value: ${{ random(64) }}
   inputs:
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/cloudreve/README_zh.md'
 
 ---
 

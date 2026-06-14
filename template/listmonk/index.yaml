@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/knadh/listmonk'
   author: 'Sealos'
   description: 'High performance, self-hosted, newsletter and mailing list manager with a modern dashboard. Single binary app.'
-  readme: 'https://raw.githubusercontent.com/knadh/listmonk/master/README.md'
-  icon: 'https://raw.githubusercontent.com/knadh/listmonk/master/static/public/static/favicon.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/listmonk/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/listmonk/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/listmonk/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -32,6 +34,9 @@ spec:
       type: string
       default: ''
       required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/listmonk/README_zh.md'
 
 ---
 
@@ -335,6 +340,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/knadh/listmonk/master/static/public/static/favicon.png"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/listmonk/logo.png"
   name: listmonk
   type: link
