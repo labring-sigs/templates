@@ -9,9 +9,7 @@ spec:
   author: 'Sealos'
   description: 'PalaCMS is a modern content management system built for developers and content creators'
   readme: 'https://raw.githubusercontent.com/palacms/palacms/main/README.md'
-  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palacms/logo.png'
-  screenshots:
-    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palacms/website-screenshot.webp'
+  icon: 'https://avatars.githubusercontent.com/u/65021206?s=48&v=4'
   templateType: inline
   locale: en
   i18n:
@@ -154,6 +152,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/palacms/logo.png"
+  icon: "https://avatars.githubusercontent.com/u/65021206?s=48&v=4"
   name: PalaCMS
   type: link
