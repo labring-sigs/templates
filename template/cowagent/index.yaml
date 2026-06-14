@@ -249,7 +249,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: ghcr.io/zhayujie/cowagent:latest
+    originImageName: ghcr.io/zhayujie/cowagent:2.1.1
     deploy.cloud.sealos.io/minReplicas: "1"
     deploy.cloud.sealos.io/maxReplicas: "1"
   labels:
@@ -280,7 +280,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: cowagent
-          image: ghcr.io/zhayujie/cowagent:latest
+          image: ghcr.io/zhayujie/cowagent:2.1.1
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
