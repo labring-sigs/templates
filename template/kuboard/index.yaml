@@ -4,7 +4,7 @@ metadata:
   name: kuboard
 spec:
   title: 'kuboard'
-  url: 'https://github.com/eip-work/kuboard-press'
+  url: 'https://kuboard.cn/'
   gitRepo: 'https://github.com/eip-work/kuboard-press'
   author: '孤城落寞'
   description: 'Kuboard 是一款专为 Kubernetes 设计的免费管理界面'

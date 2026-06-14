@@ -4,7 +4,7 @@ metadata:
   name: memos
 spec:
   title: 'memos'
-  url: 'https://github.com/usememos/memos'
+  url: 'https://usememos.com'
   gitRepo: 'https://github.com/usememos/memos'
   author: '孤城落寞'
   description: 'A privacy-first, lightweight note-taking service. Easily capture and share your great thoughts.'
