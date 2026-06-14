@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/bytebase/bytebase'
   author: 'Sealos'
   description: 'Bytebase is GitLab/GitHub for Database DevOps, built for developers, DBAs and platform teams.'
-  readme: 'https://raw.githubusercontent.com/bytebase/bytebase/main/README.md'
-  icon: 'https://raw.githubusercontent.com/bytebase/bytebase/main/frontend/src/assets/logo-icon.svg'
+  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/bytebase/README.md
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/bytebase/logo.svg
+  screenshots:
+    - https://raw.githubusercontent.com/labring-sigs/templates/main/template/bytebase/website-screenshot.webp
   templateType: inline
   categories:
     - database
@@ -259,6 +261,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/bytebase/bytebase/main/frontend/src/assets/logo-icon.svg"
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/bytebase/logo.svg
   name: Bytebase
   type: iframe

@@ -8,14 +8,16 @@ spec:
   gitRepo: 'https://github.com/coaidev/coai'
   author: 'Sealos'
   description: 'Next Generation AI One-Stop Internationalization Solution.'
-  readme: 'https://raw.githubusercontent.com/coaidev/coai/main/README.md'
-  icon: 'https://www.coai.dev/logo.png'
+  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatnio/README.md
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatnio/logo.png
+  screenshots:
+    - https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatnio/website-screenshot.webp
   templateType: inline
   locale: en
   i18n:
     zh:
       description: '下一代 AIGC 一站式商业解决方案'
-      readme: 'https://raw.githubusercontent.com/coaidev/coai/main/README_zh-CN.md'
+      readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatnio/README_zh.md
   categories:
     - ai
     - tool
@@ -438,6 +440,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://www.coai.dev/logo.png"
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatnio/logo.png
   name: ${{ defaults.app_name }}
   type: iframe

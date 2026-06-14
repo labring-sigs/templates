@@ -8,8 +8,10 @@ spec:
   url: "https://www.chatwoot.com"
   gitRepo: "https://github.com/chatwoot/chatwoot"
   author: "Sealos"
-  readme: "https://raw.githubusercontent.com/chatwoot/chatwoot/refs/heads/develop/README.md"
-  icon: "https://avatars.githubusercontent.com/u/23416667?s=48&v=4"
+  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatwoot/README.md
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatwoot/logo.png
+  screenshots:
+    - https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatwoot/website-screenshot.webp
   templateType: inline
   locale: en
   i18n:
@@ -647,6 +649,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/23416667?s=48&v=4"
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatwoot/logo.png
   name: "Chatwoot"
   type: link

@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/casdoor/casdoor'
   author: 'Sealos'
   description: 'Casdoor is a UI-first Identity Access Management (IAM) / Single-Sign-On (SSO) platform based on OAuth 2.0, OIDC, SAML and CAS.'
-  readme: 'https://raw.githubusercontent.com/casdoor/casdoor/refs/heads/master/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/72992104?s=48&v=4'
+  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/casdoor/README.md
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/casdoor/logo.png
+  screenshots:
+    - https://raw.githubusercontent.com/labring-sigs/templates/main/template/casdoor/website-screenshot.webp
   templateType: inline
   locale: en
   i18n:
@@ -572,6 +574,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/72992104?s=48&v=4"
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/casdoor/logo.png
   name: Casdoor
   type: link

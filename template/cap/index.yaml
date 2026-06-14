@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/CapSoftware/Cap'
   author: 'sealos'
   description: 'Open source alternative to Loom. Record, edit and share videos in seconds.'
-  readme: 'https://raw.githubusercontent.com/CapSoftware/Cap/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/151241629?s=48&v=4'
+  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/README.md
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/logo.svg
+  screenshots:
+    - https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/website-screenshot.webp
   templateType: inline
   locale: en
   i18n:
@@ -337,6 +339,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: 'https://avatars.githubusercontent.com/u/151241629?s=48&v=4'
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/logo.svg
   name: Cap
   type: link
