@@ -35,6 +35,12 @@ spec:
     encryption_salt_keys:
       type: string
       value: ${{ random(32) }}
+  inputs:
+    redpanda_image:
+      description: Redpanda broker image. The official registry may rate-limit anonymous cache builds.
+      type: string
+      default: docker.redpanda.com/redpandadata/redpanda:v25.1.9
+      required: true
 ---
 apiVersion: objectstorage.sealos.io/v1
 kind: ObjectStorageBucket
@@ -325,7 +331,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}-kafka
   annotations:
-    originImageName: docker.redpanda.com/redpandadata/redpanda:v25.1.9
+    originImageName: ${{ inputs.redpanda_image }}
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -346,7 +352,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: ${{ defaults.app_name }}-kafka
-        image: docker.redpanda.com/redpandadata/redpanda:v25.1.9
+        image: ${{ inputs.redpanda_image }}
         imagePullPolicy: IfNotPresent
         args:
         - redpanda
