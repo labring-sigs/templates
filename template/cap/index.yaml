@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/CapSoftware/Cap'
   author: 'sealos'
   description: 'Open source alternative to Loom. Record, edit and share videos in seconds.'
-  readme: 'https://raw.githubusercontent.com/CapSoftware/Cap/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/151241629?s=48&v=4'
+  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/README.md
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/logo.svg
+  screenshots:
+    - https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/website-screenshot.webp
   templateType: inline
   locale: en
   i18n:
@@ -140,7 +142,7 @@ spec:
     spec:
       containers:
         - name: mysql-init
-          image: mysql:8.0-debian
+          image: mysql:8.0
           env:
             - name: MYSQL_PASSWORD
               valueFrom:
@@ -177,7 +179,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: ghcr.io/capsoftware/cap-web@sha256:0e16ba2afad559c4bc460167b88ef14dbc980371ad172e9fa6bd0e109e9feae2
+    originImageName: ghcr.io/capsoftware/cap-web:latest
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -197,7 +199,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: ghcr.io/capsoftware/cap-web@sha256:0e16ba2afad559c4bc460167b88ef14dbc980371ad172e9fa6bd0e109e9feae2
+          image: ghcr.io/capsoftware/cap-web:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: MYSQL_PASSWORD
@@ -337,6 +339,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: 'https://avatars.githubusercontent.com/u/151241629?s=48&v=4'
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/logo.svg
   name: Cap
   type: link
