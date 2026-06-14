@@ -72,7 +72,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: wait-db
-          image: senzing/postgresql-client:2.2.4
+          image: postgres:17-alpine
           imagePullPolicy: IfNotPresent
           env:
             - name: PG_USERNAME
@@ -449,7 +449,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: wait-db
-          image: senzing/postgresql-client:2.2.4
+          image: postgres:17-alpine
           imagePullPolicy: IfNotPresent
           env:
             - name: PG_USERNAME
@@ -719,7 +719,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: wait-db
-          image: senzing/postgresql-client:2.2.4
+          image: postgres:17-alpine
           imagePullPolicy: IfNotPresent
           env:
             - name: PG_USERNAME
@@ -984,7 +984,7 @@ spec:
     spec:
       containers:
         - name: pgsql-init
-          image: senzing/postgresql-client:2.2.4
+          image: postgres:17-alpine
           env:
             - name: PG_USERNAME
               valueFrom:
