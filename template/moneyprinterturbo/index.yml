@@ -8,10 +8,15 @@ spec:
   gitRepo: 'https://github.com/harry0703/MoneyPrinterTurbo'
   author: 'Sealos'
   description: '利用AI大模型，一键生成高清短视频。只需提供一个视频 主题 或 关键词 ，就可以全自动生成视频文案、视频素材、视频字幕、视频背景音乐，然后合成一个高清的短视频。'
-  readme: 'https://raw.githubusercontent.com/harry0703/MoneyPrinterTurbo/main/README.md'
-  icon: 'https://raw.githubusercontent.com/harry0703/MoneyPrinterTurbo/main/sites/docs/.vuepress/public/logo.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/moneyprinterturbo/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/moneyprinterturbo/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/moneyprinterturbo/website-screenshot.webp'
   templateType: inline
   locale: zh
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/moneyprinterturbo/README_zh.md'
   categories:
     - tool
     - ai
@@ -23,6 +28,12 @@ spec:
     app_name:
       type: string
       value: moneyprinterturbo-${{ random(8) }}
+  inputs:
+    moneyprinterturbo_image:
+      description: MoneyPrinterTurbo image. The upstream image currently supports amd64 only.
+      type: string
+      default: ghcr.io/yangchuansheng/moneyprinterturbo:20240510083200
+      required: true
 ---
 
 apiVersion: apps/v1
@@ -30,7 +41,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: ghcr.io/yangchuansheng/moneyprinterturbo:20240510083200
+    originImageName: ${{ inputs.moneyprinterturbo_image }}
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -53,7 +64,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: ghcr.io/yangchuansheng/moneyprinterturbo:20240510083200
+          image: ${{ inputs.moneyprinterturbo_image }}
           resources:
             requests:
               cpu: 200m
@@ -158,6 +169,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/harry0703/MoneyPrinterTurbo/main/sites/docs/.vuepress/public/logo.png"
-  name: listmonk
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/moneyprinterturbo/logo.png"
+  name: moneyprinterturbo
   type: link
