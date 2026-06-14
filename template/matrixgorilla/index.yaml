@@ -33,7 +33,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}-web
   annotations:
-    originImageName: ${{ defaults.app_name }}-web
+    originImageName: registry.cn-beijing.aliyuncs.com/juliangxingqiu/sealos-java-web:latest
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -77,7 +77,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}-api
   annotations:
-    originImageName: ${{ defaults.app_name }}-api
+    originImageName: registry.cn-beijing.aliyuncs.com/juliangxingqiu/sealos-java-api:latest
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
