@@ -699,7 +699,7 @@ spec:
     spec:
       containers:
         - name: mysql-init
-          image: docker.io/arey/mysql-client:latest
+          image: mysql:8.0.30
           env:
             - name: MYSQL_USER
               valueFrom:
