@@ -185,7 +185,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: wait-for-postgres
-          image: busybox:latest
+          image: busybox:1.36.1
           env:
             - name: PG_HOST
               valueFrom:
