@@ -1435,7 +1435,7 @@ spec:
               memory: 128Mi
       containers:
         - name: ${{ defaults.app_name }}-statistics
-          image: "docker.io/library/nginx:latest"
+          image: "docker.io/library/nginx:1.25-alpine"
           imagePullPolicy: IfNotPresent
           securityContext:
             allowPrivilegeEscalation: false
