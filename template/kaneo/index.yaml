@@ -8,8 +8,10 @@ spec:
   gitRepo: https://github.com/usekaneo/kaneo
   author: 'Sealos'                        
   description: 'A modern, self-hosted project management platform that gets out of your way.'        
-  readme: 'https://raw.githubusercontent.com/usekaneo/kaneo/refs/heads/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/192649426?s=48&v=4'            
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kaneo/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kaneo/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kaneo/website-screenshot.webp'
   templateType: inline
   locale: en
   categories:
@@ -24,6 +26,9 @@ spec:
     jwt_access:
       type: string
       value:  ${{ random(36) }}
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kaneo/README_zh.md'
 ---
 apiVersion: apps.kubeblocks.io/v1alpha1
 kind: Cluster
@@ -346,6 +351,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: 'https://avatars.githubusercontent.com/u/192649426?s=48&v=4'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kaneo/logo.svg'
   name: "Kaneo"
   type: link

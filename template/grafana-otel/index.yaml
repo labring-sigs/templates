@@ -10,6 +10,8 @@ spec:
   author: "Sealos"
   readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/grafana-otel/README.md"
   icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/grafana-otel/logo.svg"
+  screenshots:
+    - "https://raw.githubusercontent.com/labring-sigs/templates/main/template/grafana-otel/website-screenshot.webp"
   templateType: inline
   locale: en
   categories:
@@ -23,6 +25,9 @@ spec:
       type: string
       value: grafana-otel-${{ random(8) }}
 
+  i18n:
+    zh:
+      readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/grafana-otel/README_zh.md"
 ---
 # ConfigMap
 apiVersion: v1
