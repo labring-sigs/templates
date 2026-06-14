@@ -15,6 +15,9 @@ spec:
   templateType: inline
   categories:
     - tool
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/stirling-pdf/README_zh.md'
   defaults:
     app_host:
       # number or string..
