@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/msgbyte/tianji'
   author: 'moonrailgun'
   description: 'Tianji: Insight into everything, Website Analytics + Uptime Monitor + Server Status. not only another GA alternatives'
-  readme: 'https://raw.githubusercontent.com/msgbyte/tianji/master/README.md'
-  icon: 'https://tianji.msgbyte.com/img/logo.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/tianji/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/tianji/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/tianji/website-screenshot.webp'
   templateType: inline
   defaults:
     app_host:
@@ -35,6 +37,9 @@ spec:
       type: string
       default: "true"
       required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/tianji/README_zh.md'
 
 ---
 apiVersion: apps/v1
@@ -280,6 +285,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://tianji.msgbyte.com/img/logo.svg"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/tianji/logo.svg"
   name: ${{ defaults.app_name }}
   type: iframe
