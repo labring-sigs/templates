@@ -41,7 +41,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: artalk/artalk-go:latest
+    originImageName: artalk/artalk-go:2.9.1
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -64,7 +64,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: artalk/artalk-go:latest
+          image: artalk/artalk-go:2.9.1
           env:
             - name: TZ
               value: Asia/Shanghai
