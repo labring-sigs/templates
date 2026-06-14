@@ -8,8 +8,10 @@ spec:
   gitRepo: "https://github.com/crmeb/CRMEB"
   author: "Sealos"
   description: "CRMEB开源商城系统PHP版"
-  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/README_cn.md"
-  icon: "https://www.crmeb.com/static/images/favicon.ico"
+  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/README.md
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/logo.png
+  screenshots:
+    - https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/website-screenshot.webp
   templateType: inline
   locale: zh
   categories:
@@ -22,6 +24,12 @@ spec:
     app_name:
       type: string
       value: crmeb-${{ random(8) }}
+  inputs:
+    app_image:
+      description: CRMEB image. The default image is amd64-only.
+      type: string
+      default: ghcr.io/yangchuansheng/crmeb:v5.4.0
+      required: true
 
 ---
 apiVersion: v1
@@ -330,7 +338,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: ghcr.io/yangchuansheng/crmeb:v5.4.0
+    originImageName: ${{ inputs.app_image }}
     deploy.cloud.sealos.io/minReplicas: "1"
     deploy.cloud.sealos.io/maxReplicas: "1"
   labels:
@@ -353,7 +361,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: take-data-dir-ownership
-          image: ghcr.io/yangchuansheng/crmeb:v5.4.0
+          image: ${{ inputs.app_image }}
           command: ["/bin/sh", "-c", "if [ ! -f /tmp/index.html ]; then cp -rf /var/www/* /tmp/; cp -rf /var/www/.* /tmp/; mkdir /tmp/backup; chmod a+w /tmp/backup; chmod a+w /tmp/public; chmod a+w /tmp/runtime; chmod a+w /tmp/.env; chmod a+w /tmp/.version; chmod a+w /tmp/.constant; fi"]
           imagePullPolicy: IfNotPresent
           volumeMounts:
@@ -384,7 +392,7 @@ spec:
               mountPath: /etc/nginx/conf.d/default.conf
               subPath: ./etc/nginx/conf.d/default.conf
         - name: ${{ defaults.app_name }}-php
-          image: ghcr.io/yangchuansheng/crmeb:v5.4.0
+          image: ${{ inputs.app_image }}
           env:
             - name: TZ
               value: Asia/Shanghai
@@ -488,6 +496,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://www.crmeb.com/static/images/favicon.ico"
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/logo.png
   name: "crmeb"
   type: link

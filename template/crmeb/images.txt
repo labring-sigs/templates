@@ -1,0 +1,1 @@
+ghcr.io/yangchuansheng/crmeb:v5.4.0 amd64
