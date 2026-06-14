@@ -470,10 +470,14 @@ kind: Service
 metadata:
   name: ${{ defaults.app_name }}
   labels:
+    app: ${{ defaults.app_name }}
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
 spec:
   ports:
-    - port: 3010
+    - name: http
+      port: 3010
+      targetPort: http
+      protocol: TCP
   selector:
     app: ${{ defaults.app_name }}
 ---
