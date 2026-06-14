@@ -4,17 +4,20 @@ metadata:
   name: strapi
 spec:
   title: "Strapi"
-  url: "https://strapi.io/"
+  url: "https://strapi.io/cms"
   gitRepo: "https://github.com/strapi/strapi"
   author: "Sealos"
   description: "Strapi is the leading open-source headless CMS. 100% JavaScript/TypeScript and fully customizable."
   readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/strapi/README.md"
-  icon: "https://avatars.githubusercontent.com/u/19872173?s=48&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/strapi/logo.svg"
+  screenshots:
+    - "https://raw.githubusercontent.com/labring-sigs/templates/main/template/strapi/website-screenshot.webp"
   templateType: inline
   locale: en
   i18n:
     zh:
       description: "Strapi 是领先的开源无头 CMS。100% JavaScript/TypeScript，完全可定制。"
+      readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/strapi/README_zh.md"
   categories:
     - backend
     - low-code
@@ -361,7 +364,7 @@ data:
       fi
 
       if [ -f "yarn.lock" ]; then
-        current_strapi_version="$(yarn list --pattern strapi --depth=0 | grep @strapi/strapi | cut -d @ -f 3)"
+        current_strapi_version="$(npm list --depth=0 2>/dev/null | grep @strapi/strapi | awk -F@ '{print $3}' || true)"
       else
         current_strapi_version="$(npm list | grep @strapi/strapi | cut -d @ -f 3)"
       fi
@@ -696,7 +699,7 @@ spec:
               memory: 307Mi
             limits:
               cpu: 2000m
-              memory: 3072Mi
+              memory: 4096Mi
       containers:
         - name: ${{ defaults.app_name }}
           image: vshadbolt/strapi:5.33.0
@@ -778,7 +781,7 @@ spec:
               memory: 25Mi
             limits:
               cpu: 1000m
-              memory: 256Mi
+              memory: 1024Mi
           volumeMounts:
             - name: ${{ defaults.app_name }}-cm
               mountPath: /usr/local/bin/docker-entrypoint.sh
@@ -795,25 +798,25 @@ spec:
     - metadata:
         annotations:
           path: /srv/app
-          value: "2"
+          value: "3"
         name: vn-srvvn-app
       spec:
         accessModes:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 2Gi
+            storage: 3Gi
     - metadata:
         annotations:
           path: /root/.npm
-          value: "1"
+          value: "2"
         name: vn-rootvn-vn-npm
       spec:
         accessModes:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 1Gi
+            storage: 2Gi
 
 ---
 # Service
@@ -884,6 +887,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/19872173?s=48&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/strapi/logo.svg"
   name: Strapi
   type: link
