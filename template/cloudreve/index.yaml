@@ -72,7 +72,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: cloudreve-init-mysql
-          image: arey/mysql-client:latest
+          image: mysql:8.0.30
           imagePullPolicy: IfNotPresent
           env:
             - name: MYSQL_USER
