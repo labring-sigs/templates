@@ -8,8 +8,10 @@ spec:
   gitRepo: "https://github.com/umami-software/umami"
   author: "Sealos"
   description: "Umami is an open source, privacy-focused alternative to Google Analytics."
-  readme: "https://raw.githubusercontent.com/umami-software/umami/master/README.md"
-  icon: "https://raw.githubusercontent.com/umami-software/umami/master/src/assets/logo.svg"
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/umami/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/umami/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/umami/website-screenshot.webp'
   templateType: inline
   categories:
     - monitor
@@ -33,6 +35,9 @@ spec:
       type: string
       default: ""
       required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/umami/README_zh.md'
 
 ---
 apiVersion: v1
@@ -294,6 +299,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/umami-software/umami/master/src/assets/logo.svg"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/umami/logo.svg"
   name: ${{ defaults.app_name }}
   type: link
