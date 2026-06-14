@@ -176,7 +176,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: registry.rocket.chat/rocketchat/rocket.chat:7.9.0
+    originImageName: rocketchat/rocket.chat:7.9.0
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -196,7 +196,7 @@ spec:
     spec:
       containers:
         - name: ${{ defaults.app_name }}
-          image: registry.rocket.chat/rocketchat/rocket.chat:7.9.0
+          image: rocketchat/rocket.chat:7.9.0
           imagePullPolicy: IfNotPresent
           env:
             - name: DEPLOY_PLATFORM
