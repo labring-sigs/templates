@@ -9,7 +9,9 @@ spec:
   author: 'Sealos'
   description: 'A web interface for MySQL and MariaDB.'
   readme: 'https://raw.githubusercontent.com/phpmyadmin/phpmyadmin/master/README.rst'
-  icon: 'https://raw.githubusercontent.com/phpmyadmin/phpmyadmin/master/public/favicon.ico'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/phpmyadmin/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/phpmyadmin/website-screenshot.webp'
   templateType: inline
   categories:
     - tool

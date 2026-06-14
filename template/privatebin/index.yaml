@@ -9,7 +9,9 @@ spec:
   author: 'Sealos'
   description: 'A minimalist, open source online pastebin where the server has zero knowledge of pasted data.'
   readme: 'https://raw.githubusercontent.com/PrivateBin/PrivateBin/master/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/20367028?s=48&v=4'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/privatebin/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/privatebin/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -395,6 +397,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/20367028?s=48&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/privatebin/logo.svg"
   name: "PrivateBin"
   type: iframe
