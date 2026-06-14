@@ -9,7 +9,9 @@ spec:
   author: 'Sealos'
   description: 'Midjourney UI is an open source txt2img UI for AI draw.'
   readme: 'https://raw.githubusercontent.com/erictik/midjourney-ui/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/108114582?s=96&v=4'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/midjourney-ui/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/midjourney-ui/website-screenshot.webp'
   templateType: inline
   categories:
     - ai

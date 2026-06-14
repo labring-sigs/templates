@@ -9,7 +9,9 @@ spec:
   author: 'Sealos'
   description: 'RedisInsight is a visual tool that provides capabilities to design, develop and optimize your Redis application. Query, analyse and interact with your Redis data.'
   readme: 'https://raw.githubusercontent.com/RedisInsight/RedisInsight/main/README.md'
-  icon: 'https://raw.githubusercontent.com/RedisInsight/RedisInsight/main/redisinsight/ui/src/assets/img/logo.svg'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/redisinsight/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/redisinsight/website-screenshot.webp'
   templateType: inline
   categories:
     - database
