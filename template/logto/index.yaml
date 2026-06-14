@@ -8,14 +8,17 @@ spec:
   gitRepo: 'https://github.com/logto-io/logto'
   author: 'Sealos'
   description: 'Logto is an open-source Identity and Access Management (IAM) platform designed to streamline Customer Identity and Access Management (CIAM) and Workforce Identity Management.'
-  readme: 'https://raw.githubusercontent.com/logto-io/logto/refs/heads/master/README.md'
-  icon: 'https://logto.io/assets/favicon-BhRIFdsJ.ico'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/logto/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/logto/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/logto/website-screenshot.webp'
   templateType: inline
   locale: en
   i18n:
     zh:
       title: 'Logto'
       description: 'Logto 是一个开源的 身份与访问管理（IAM）平台，是 Auth0 的开源替代方案，旨在帮助开发者快速构建安全、可扩展的登录注册系统和用户身份体系。'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/logto/README_zh.md'
   categories:
     - tool
   defaults:
@@ -337,6 +340,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}-admin.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://logto.io/assets/favicon-BhRIFdsJ.ico"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/logto/logo.png"
   name: "Logto"
   type: link

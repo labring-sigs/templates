@@ -8,10 +8,15 @@ spec:
   gitRepo: 'https://github.com/mindoc-org/mindoc'
   author: 'Sealos'
   description: '一款针对IT团队开发的简单好用的文档管理系统。'
-  readme: 'https://raw.githubusercontent.com/mindoc-org/mindoc/master/README.md'
-  icon: 'https://mindoc.com.cn/favicon.ico'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/mindoc/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/mindoc/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/mindoc/website-screenshot.webp'
   templateType: inline
   locale: zh
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/mindoc/README_zh.md'
   categories:
     - tool
   defaults:
@@ -417,6 +422,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://mindoc.com.cn/favicon.ico"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/mindoc/logo.png"
   name: "MinDoc"
   type: iframe

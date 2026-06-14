@@ -8,10 +8,15 @@ spec:
   gitRepo: 'https://github.com/halo-dev/halo'
   author: 'Sealos'
   description: '强大易用的开源建站工具。'
-  readme: 'https://raw.githubusercontent.com/halo-dev/halo/main/README.md'
-  icon: 'https://www.halo.run/logo'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/halo/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/halo/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/halo/website-screenshot.webp'
   templateType: inline
   locale: zh
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/halo/README_zh.md'
   categories:
     - blog
   defaults:

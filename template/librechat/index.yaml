@@ -8,9 +8,14 @@ spec:
   gitRepo: 'https://github.com/danny-avila/LibreChat'
   author: 'Sealos'
   description: 'Enhanced ChatGPT Clone'
-  readme: 'https://raw.githubusercontent.com/danny-avila/LibreChat/main/README.md'
-  icon: 'https://raw.githubusercontent.com/danny-avila/LibreChat/main/client/public/assets/logo.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/librechat/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/librechat/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/librechat/website-screenshot.webp'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/librechat/README_zh.md'
   categories:
     - ai
   defaults:
@@ -458,6 +463,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/danny-avila/LibreChat/main/client/public/assets/logo.svg"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/librechat/logo.svg"
   name: ${{ defaults.app_name }}
   type: iframe
