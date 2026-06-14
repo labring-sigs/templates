@@ -28,11 +28,6 @@ spec:
       type: string
       value: ${{ random(8) }}
   inputs:
-    nakama_image:
-      description: 'Nakama 镜像（建议固定版本）'
-      type: string
-      default: 'heroiclabs/nakama:3.35.1'
-      required: true
     enable_grpc:
       description: '是否开启 7348/7349 的外网访问（gRPC）'
       type: boolean
@@ -177,7 +172,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: ${{ inputs.nakama_image }}
+    originImageName: heroiclabs/nakama:3.35.1
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -208,7 +203,7 @@ spec:
             - -lc
             - mkdir -p /data/modules
         - name: migrate
-          image: ${{ inputs.nakama_image }}
+          image: heroiclabs/nakama:3.35.1
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: vn-data
@@ -229,7 +224,7 @@ spec:
             - $(NAKAMA_DATABASE_ADDRESS)
       containers:
         - name: ${{ defaults.app_name }}
-          image: ${{ inputs.nakama_image }}
+          image: heroiclabs/nakama:3.35.1
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: vn-data

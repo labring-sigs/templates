@@ -19,8 +19,36 @@ jobs:
       - name: Get all template files
         id: get-targets
         run: |
-          files=$(find template/ \( -name "index.yaml" -o -name "index.yml" \) -type f | sort | jq -R . | jq -s -c .)
-          echo "targets=$files" >> "$GITHUB_OUTPUT"
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          target_arch = "arm64"
+          supported_arches = {"amd64", "arm64"}
+          targets = []
+
+          indexes = sorted(Path("template").glob("*/index.yaml")) + sorted(Path("template").glob("*/index.yml"))
+          for index in indexes:
+              platform_file = index.parent / "platform.json"
+              if not platform_file.exists():
+                  raise SystemExit(f"{index.parent}: missing platform.json")
+
+              platform = json.loads(platform_file.read_text(encoding="utf-8"))
+              architectures = platform.get("architectures")
+              if not isinstance(architectures, list) or not architectures:
+                  raise SystemExit(f"{platform_file}: architectures must be a non-empty array")
+
+              invalid = [arch for arch in architectures if arch not in supported_arches]
+              if invalid:
+                  raise SystemExit(f"{platform_file}: unsupported architectures: {', '.join(invalid)}")
+
+              if target_arch in architectures:
+                  targets.append(index.as_posix())
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"targets={json.dumps(targets)}\n")
+          PY
   build:
     runs-on: ubuntu-24.04-arm
     permissions:

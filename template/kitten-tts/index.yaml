@@ -29,11 +29,6 @@ spec:
       type: string
       value: kitten-tts-${{ random(8) }}
   inputs:
-    app_image:
-      description: Kitten TTS image. The default image is amd64-only.
-      type: string
-      default: ghcr.io/yangchuansheng/kitten-tts-server:cpu-v1.2
-      required: true
     hf_hub_enable_transfer:
       description: 'Enable faster Hugging Face downloads'
       type: boolean
@@ -46,7 +41,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: ${{ inputs.app_image }}
+    originImageName: ghcr.io/yangchuansheng/kitten-tts-server:cpu-v1.2
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -67,7 +62,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: wait-for-db
-          image: ${{ inputs.app_image }}
+          image: ghcr.io/yangchuansheng/kitten-tts-server:cpu-v1.2
           command:
             - /bin/sh
             - -c
@@ -78,7 +73,7 @@ spec:
               mountPath: /app-tmp
       containers:
         - name: ${{ defaults.app_name }}
-          image: ${{ inputs.app_image }}
+          image: ghcr.io/yangchuansheng/kitten-tts-server:cpu-v1.2
           imagePullPolicy: IfNotPresent
           env:
             - name: HF_HUB_ENABLE_HF_TRANSFER

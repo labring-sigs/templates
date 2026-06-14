@@ -15,12 +15,6 @@ spec:
   templateType: inline
   locale: zh
   defaults:
-    wiki_image:
-      type: string 
-      value: crpi-owsezg1fzb71ozfl.cn-beijing.personal.cr.aliyuncs.com/ifzzh520/koala-wiki:stable
-    wiki_web_image:
-      type: string 
-      value: crpi-owsezg1fzb71ozfl.cn-beijing.personal.cr.aliyuncs.com/ifzzh520/koala-wiki-web:stable
     web_port_name:
       type: string
       value: ${{ random(12) }}
@@ -46,14 +40,6 @@ spec:
       type: string
       value: https://api.token-ai.cn/v1
   inputs:
-    wiki_image:
-      description: 'wiki后端的镜像'
-      type: string
-      default: ${{ defaults.wiki_image }}
-    wiki_web_image:
-      description: 'wiki后端的镜像'
-      type: string
-      default: ${{ defaults.wiki_web_image }}
     chat_model:
       description: '必须要支持function的模型'
       type: string
@@ -126,7 +112,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: ${{ inputs.wiki_image }}                      #Your app's Docker image url
+    originImageName: crpi-owsezg1fzb71ozfl.cn-beijing.personal.cr.aliyuncs.com/ifzzh520/koala-wiki:stable                      #Your app's Docker image url
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -153,7 +139,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: ${{ defaults.app_name }}
-          image: ${{ inputs.wiki_image }}                                 #Your app's Docker image url
+          image: crpi-owsezg1fzb71ozfl.cn-beijing.personal.cr.aliyuncs.com/ifzzh520/koala-wiki:stable                                 #Your app's Docker image url
           env: 
             - name: KOALAWIKI_REPOSITORIES
               value: ${{ inputs.KOALAWIKI_REPOSITORIES }}
@@ -296,7 +282,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.web_name }}
   annotations:
-    originImageName: ${{ inputs.wiki_web_image }}   
+    originImageName: crpi-owsezg1fzb71ozfl.cn-beijing.personal.cr.aliyuncs.com/ifzzh520/koala-wiki-web:stable
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -321,7 +307,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.web_name }}
-          image: ${{ inputs.wiki_web_image }}   
+          image: crpi-owsezg1fzb71ozfl.cn-beijing.personal.cr.aliyuncs.com/ifzzh520/koala-wiki-web:stable
           env:
             - name: NEXT_PUBLIC_API_URL
               value: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}

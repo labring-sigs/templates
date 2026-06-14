@@ -1,1 +1,0 @@
-ghcr.io/yangchuansheng/moneyprinterturbo:20240510083200 amd64

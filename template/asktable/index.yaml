@@ -27,14 +27,6 @@ spec:
     app_host:
       type: string
       value: ${{ random(8) }}
-  inputs:
-    app_image:
-      description: AskTable image. The default image is amd64-only.
-      type: string
-      default: registry.cn-shanghai.aliyuncs.com/datamini/asktable-all-in-one:latest
-      required: true
-
-
 ---
 apiVersion: app.sealos.io/v1
 kind: App
@@ -86,7 +78,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: ${{ inputs.app_image }}
+    originImageName: registry.cn-shanghai.aliyuncs.com/datamini/asktable-all-in-one:latest
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -105,7 +97,7 @@ spec:
     spec:
       containers:
         - name: ${{ defaults.app_name }}
-          image: ${{ inputs.app_image }}
+          image: registry.cn-shanghai.aliyuncs.com/datamini/asktable-all-in-one:latest
           env:
             - name: TZ
               value: Asia/Shanghai

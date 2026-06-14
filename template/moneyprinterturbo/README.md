@@ -16,9 +16,7 @@ After deployment, open `https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN
 
 ## Configuration
 
-The following user-facing inputs are available during deployment:
-
-- `moneyprinterturbo_image`: MoneyPrinterTurbo container image. The default image is pinned to `ghcr.io/yangchuansheng/moneyprinterturbo:20240510083200` and currently supports amd64 only.
+The template uses `ghcr.io/yangchuansheng/moneyprinterturbo:20240510083200` as the MoneyPrinterTurbo runtime image. The upstream image currently supports amd64 only.
 
 Keep sensitive values in Sealos-managed inputs or generated defaults. Do not commit private credentials to the template repository.
 

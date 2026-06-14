@@ -35,8 +35,6 @@ The following user-facing inputs are available during deployment:
 | `chat_model` | 必须要支持function的模型 | `true` | `${{ defaults.model }}` |
 | `volume_size_data` | 保存文档（Gi） | `true` | `1` |
 | `volume_size_repositories` | 保存仓库 (Gi) | `true` | `3` |
-| `wiki_image` | wiki后端的镜像 | `false` | `${{ defaults.wiki_image }}` |
-| `wiki_web_image` | wiki后端的镜像 | `false` | `${{ defaults.wiki_web_image }}` |
 
 Keep sensitive values in Sealos-managed inputs or generated defaults. Do not commit private credentials to the template repository.
 

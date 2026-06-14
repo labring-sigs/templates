@@ -41,8 +41,11 @@ spec:
       value: ${{ random(32) }}
   inputs:
     calcom_image:
-      description: Cal.com image. Use calcom/cal.com:v6.2.0-arm on arm64 clusters.
-      type: string
+      description: Cal.com image
+      type: choice
+      options:
+      - calcom/cal.com:v6.2.0
+      - calcom/cal.com:v6.2.0-arm
       default: calcom/cal.com:v6.2.0
       required: true
     email_from:
