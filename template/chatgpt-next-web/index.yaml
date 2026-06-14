@@ -9,7 +9,9 @@ spec:
   author: 'Sealos'
   description: 'A cross-platform ChatGPT/Gemini UI.'
   readme: 'https://raw.githubusercontent.com/Yidadaa/ChatGPT-Next-Web/main/README.md'
-  icon: 'https://raw.githubusercontent.com/Yidadaa/ChatGPT-Next-Web/main/docs/images/icon.svg'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatgpt-next-web/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatgpt-next-web/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
