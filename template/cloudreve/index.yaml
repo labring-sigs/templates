@@ -9,7 +9,9 @@ spec:
   author: 'Sealos'
   description: '🌩支持多家云存储的云盘系统'
   readme: 'https://raw.githubusercontent.com/cloudreve/Cloudreve/master/README_zh-CN.md'
-  icon: 'https://raw.githubusercontent.com/cloudreve/frontend/master/public/static/img/logo192.png'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/cloudreve/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/cloudreve/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
@@ -294,4 +296,3 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: ${{ defaults.app_name }}
-

@@ -9,7 +9,9 @@ spec:
   author: 'Sealos'
   description: 'Agora Token Service for generating RTC and RTM tokens to authenticate users before they access the Agora service or join an RTC channel'
   readme: 'https://raw.githubusercontent.com/AgoraIO/Tools/refs/heads/master/DynamicKey/AgoraDynamicKey/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/18059420?s=200&v=4'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/agora/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/agora/website-screenshot.webp'
   templateType: inline
   locale: en
   i18n:
@@ -148,6 +150,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: 'https://avatars.githubusercontent.com/u/18059420?s=200&v=4'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/agora/logo.svg'
   name: Agora Token Service
   type: link
