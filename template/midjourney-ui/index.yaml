@@ -8,11 +8,14 @@ spec:
   gitRepo: 'https://github.com/erictik/midjourney-ui'
   author: 'Sealos'
   description: 'Midjourney UI is an open source txt2img UI for AI draw.'
-  readme: 'https://raw.githubusercontent.com/erictik/midjourney-ui/main/README.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/midjourney-ui/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/midjourney-ui/logo.png'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/midjourney-ui/website-screenshot.webp'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/midjourney-ui/README_zh.md'
   categories:
     - ai
   draft: true
