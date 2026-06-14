@@ -8,7 +8,7 @@ spec:
   gitRepo: "https://github.com/elastic/logstash"
   author: "Sealos"
   description: "Logstash is a server-side data processing pipeline for ingesting Beats data and forwarding it to Elasticsearch."
-  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/logstash/README.md"
+  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/logstash/README.md"
   icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/logstash/favicon.ico"
   templateType: inline
   categories:

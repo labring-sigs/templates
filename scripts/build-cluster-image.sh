@@ -64,7 +64,7 @@ COPY images images
 
 commitDATE=$(date +%Y%m%d%H%M%S)
 repo_host=${GITHUB_SERVER_URL:-https://github.com}
-repo_repo=${GITHUB_REPOSITORY:-labring-actions/templates}
+repo_repo=${GITHUB_REPOSITORY:-labring-sigs/templates}
 repo_url="${repo_host%/}/${repo_repo}"
 sealos build -f build/Kubefile -t "$image_name" \
     --label org.opencontainers.image.description="template cluster image" \
