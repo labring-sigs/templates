@@ -44,7 +44,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: calciumion/new-api:latest
+    originImageName: calciumion/new-api:v1.0.0-rc.11
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -72,7 +72,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: calciumion/new-api:latest
+          image: calciumion/new-api:v1.0.0-rc.11
           env:
             - name: DB_PASSWORD
               valueFrom:

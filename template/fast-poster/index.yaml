@@ -31,7 +31,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: fastposter/fastposter:latest
+    originImageName: fastposter/fastposter:2.19.1
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -49,7 +49,7 @@ spec:
     spec:
       containers:
         - name: ${{ defaults.app_name }}
-          image: fastposter/fastposter:latest
+          image: fastposter/fastposter:2.19.1
           resources:
             requests:
               cpu: 100m
