@@ -79,7 +79,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: chenzhaoyu94/chatgpt-web
+    originImageName: chenzhaoyu94/chatgpt-web:v2.11.1
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -104,7 +104,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: chenzhaoyu94/chatgpt-web
+          image: chenzhaoyu94/chatgpt-web:v2.11.1
           env:
             - name: OPENAI_API_KEY
               value: ${{ inputs.OPENAI_API_KEY }}
