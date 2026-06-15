@@ -9,7 +9,7 @@ spec:
   author: 'Sealos'
   description: '通过图形化界面导出幻兽帕鲁 / PalWorld 存档数据'
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld-export/README.md'
-  icon: 'https://raw.githubusercontent.com/yangchuansheng/templates-palworld/main/template/palworld-export/logo.jpg'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld-export/logo.jpg'
   templateType: inline
   locale: zh
   categories:
