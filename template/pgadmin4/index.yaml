@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/pgadmin-org/pgadmin4'
   author: 'Sealos'
   description: 'pgAdmin 4 is a rewrite of the popular pgAdmin3 management tool for the PostgreSQL database.'
-  readme: 'https://raw.githubusercontent.com/pgadmin-org/pgadmin4/master/README.md'
-  icon: 'https://raw.githubusercontent.com/pgadmin-org/pgadmin4/master/web/pgadmin/static/img/logo-128.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pgadmin4/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pgadmin4/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pgadmin4/website-screenshot.webp'
   templateType: inline
   categories:
     - database
@@ -31,6 +33,9 @@ spec:
       type: string
       default: '123456'
       required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pgadmin4/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: Deployment
