@@ -1,1 +1,0 @@
-ghcr.io/presenton/presenton:v0.8.2-beta amd64
