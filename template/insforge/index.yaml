@@ -214,7 +214,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}-deno
   annotations:
-    originImageName: ghcr.io/insforge/deno-runtime:latest
+    originImageName: ghcr.io/insforge/deno-runtime:2.0.6
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -233,7 +233,7 @@ spec:
     spec:
       containers:
         - name: deno
-          image: ghcr.io/insforge/deno-runtime:latest
+          image: ghcr.io/insforge/deno-runtime:2.0.6
           env:
             - name: PORT
               value: '7133'
