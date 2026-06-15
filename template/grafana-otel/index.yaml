@@ -239,7 +239,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: init-step
-          image: busybox
+          image: busybox:1.37.0
           command:
             - sh
             - -c
@@ -369,7 +369,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: init-step
-          image: busybox
+          image: busybox:1.37.0
           command:
             - sh
             - -c
