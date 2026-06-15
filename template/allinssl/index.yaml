@@ -49,7 +49,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: docker.io/allinssl/allinssl
+    originImageName: docker.io/allinssl/allinssl:v1.1.3
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
