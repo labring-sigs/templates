@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/meilisearch/meilisearch'
   author: 'Sealos'
   description: 'A lightning-fast search API that fits effortlessly into your apps, websites, and workflow.'
-  readme: 'https://raw.githubusercontent.com/meilisearch/meilisearch/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/43250847?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/meilisearch/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/meilisearch/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/meilisearch/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -32,6 +34,9 @@ spec:
       type: string
       default: ""
       required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/meilisearch/README_zh.md'
 ---
 
 apiVersion: apps/v1
