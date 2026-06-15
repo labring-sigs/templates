@@ -78,7 +78,7 @@ spec:
           type: RuntimeDefault
       initContainers:
         - name: init-step
-          image: busybox
+          image: busybox:1.37.0
           imagePullPolicy: IfNotPresent
           env:
             - name: REPLICA_COUNT
