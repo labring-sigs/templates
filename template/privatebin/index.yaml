@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/PrivateBin/PrivateBin'
   author: 'Sealos'
   description: 'A minimalist, open source online pastebin where the server has zero knowledge of pasted data.'
-  readme: 'https://raw.githubusercontent.com/PrivateBin/PrivateBin/master/README.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/privatebin/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/privatebin/logo.svg'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/privatebin/website-screenshot.webp'
@@ -23,6 +23,9 @@ spec:
     app_name:
       type: string
       value: privatebin-${{ random(8) }}
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/privatebin/README_zh.md'
 ---
 
 apiVersion: v1
