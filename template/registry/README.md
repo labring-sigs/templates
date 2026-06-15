@@ -29,12 +29,12 @@ The `gui-registry` is a web UI for managing the registry, offering a user-friend
 
 2. **Tag the Image:**
     ```sh
-    docker tag nginx:latest registry.cloud.sealos.io/nginx:latest
+    docker tag nginx:1.25-alpine registry.cloud.sealos.io/nginx:1.25-alpine
     ```
 
 3. **Push the Image:**
     ```sh
-    docker push registry.cloud.sealos.io/nginx:latest
+    docker push registry.cloud.sealos.io/nginx:1.25-alpine
     ```
 
 4. **Change the root password:**

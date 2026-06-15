@@ -77,7 +77,7 @@ Done reading this promotional content? Good! Want to try Readeck on your laptop 
 To install or test Readeck with Docker or Podman, simply run the image:
 
 ```shell
-docker run --rm -ti -p 8000:8000 -v readeck-data:/readeck codeberg.org/readeck/readeck:latest
+docker run --rm -ti -p 8000:8000 -v readeck-data:/readeck codeberg.org/readeck/readeck:0.22.3
 ```
 
 You'll find all the container images there: \
