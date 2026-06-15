@@ -8,9 +8,15 @@ spec:
   gitRepo: 'https://github.com/cooderl/wewe-rss'
   author: 'sealos'
   description: '🤗更优雅的微信公众号订阅方式，支持私有化部署、微信公众号RSS生成（基于微信读书）v2.x'
-  icon: 'https://raw.githubusercontent.com/cooderl/wewe-rss/main/assets/logo.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wewe-rss/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wewe-rss/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wewe-rss/website-screenshot.webp'
   templateType: inline
   locale: zh 
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wewe-rss/README_zh.md'
   categories:
     - tool
   defaults:

@@ -8,9 +8,14 @@ spec:
   gitRepo: 'https://github.com/overleaf/overleaf'
   author: 'Sealos'
   description: 'Overleaf is an open-source online real-time collaborative LaTeX editor.'
-  readme: 'https://raw.githubusercontent.com/overleaf/overleaf/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/6359919?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/overleaf/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/overleaf/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/overleaf/website-screenshot.webp'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/overleaf/README_zh.md'
   categories:
     - tool
   defaults:
@@ -268,7 +273,7 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/6359919?s=48&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/overleaf/logo.svg"
   name: Overleaf
   type: iframe
 
