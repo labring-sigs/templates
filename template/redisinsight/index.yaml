@@ -4,7 +4,7 @@ metadata:
   name: redisinsight
 spec:
   title: 'RedisInsight'
-  url: 'https://redis.com/redis-enterprise/redis-insight/'
+  url: 'https://redis.io/insight/'
   gitRepo: 'https://github.com/RedisInsight/RedisInsight'
   author: 'Sealos'
   description: 'RedisInsight is a visual tool that provides capabilities to design, develop and optimize your Redis application. Query, analyse and interact with your Redis data.'
