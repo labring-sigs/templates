@@ -1,0 +1,1 @@
+redpandadata/redpanda:v25.1.9 amd64 arm64
