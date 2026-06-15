@@ -4,9 +4,9 @@ metadata:
   name: nexus
 spec:
   title: 'Nexus'
-  url: 'https://www.sonatype.com/products/sonatype-nexus-repository'
+  url: 'https://www.sonatype.com/products/repository-oss-download'
   gitRepo: 'https://github.com/sonatype/nexus-public'
-  author: '孤城落寞'
+  author: 'Sonatype'
   description: 'A robust package registry built on extensive enterprise storage capabilities.'
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nexus/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nexus/logo.png'
@@ -16,11 +16,11 @@ spec:
   locale: en
   i18n:
     zh:
-      title: 'Nexus'
-      description: '一个强大的软件仓库管理工具，主要用于存储和管理软件开发过程中的各类组件（artifacts）。'
+      description: '一个强大的软件仓库管理工具，用于存储和管理软件开发过程中的各类组件。'
       readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nexus/README_zh.md'
   categories:
     - tool
+    - dev-ops
   defaults:
     app_host:
       type: string
