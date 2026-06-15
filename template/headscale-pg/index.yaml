@@ -217,7 +217,7 @@ spec:
       serviceAccountName: headscale-${{ defaults.app_suffix }}
       initContainers:
         - name: copy-config
-          image: alpine
+          image: alpine:3.24.0
           env:
             - name: DATABASE_PASSWORD
               valueFrom:

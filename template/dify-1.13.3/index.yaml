@@ -1014,7 +1014,7 @@ metadata:
     app: "${{ defaults.app_name }}-ssrf"
     cloud.sealos.io/app-deploy-manager: "${{ defaults.app_name }}-ssrf"
   annotations:
-    originImageName: ubuntu/squid
+    originImageName: ubuntu/squid:6.6-24.04_edge
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
 spec:
@@ -1032,7 +1032,7 @@ spec:
         kubernetes.io/os: linux
       containers:
       - name: "${{ defaults.app_name }}-ssrf"
-        image: ubuntu/squid
+        image: ubuntu/squid:6.6-24.04_edge
         env:
         - name: HTTP_PORT
           valueFrom:
@@ -1142,7 +1142,7 @@ spec:
           claimName: "${{ defaults.app_name }}-api-storage"
       initContainers:
       - name: init-permissions
-        image: busybox
+        image: busybox:1.37.0
         command:
         - sh
         - "-c"
@@ -1267,7 +1267,7 @@ spec:
           claimName: "${{ defaults.app_name }}-api-storage"
       initContainers:
       - name: init-permissions
-        image: busybox
+        image: busybox:1.37.0
         command:
         - sh
         - "-c"
@@ -1392,7 +1392,7 @@ spec:
           claimName: "${{ defaults.app_name }}-api-storage"
       initContainers:
       - name: init-permissions
-        image: busybox
+        image: busybox:1.37.0
         command:
         - sh
         - "-c"
@@ -1825,7 +1825,7 @@ metadata:
     app: "${{ defaults.app_name }}-nginx"
     cloud.sealos.io/app-deploy-manager: "${{ defaults.app_name }}-nginx"
   annotations:
-    originImageName: nginx
+    originImageName: nginx:1.30.2
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
 spec:
@@ -1845,7 +1845,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: "${{ defaults.app_name }}-nginx"
-        image: nginx
+        image: nginx:1.30.2
         resources:
           requests:
             cpu: 50m

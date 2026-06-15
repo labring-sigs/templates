@@ -433,7 +433,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
       - name: volume-permissions
-        image: busybox
+        image: busybox:1.37.0
         command: ["sh", "-c", "chown -R 1001:1001 /bitnami/zookeeper"]
         volumeMounts:
         - name: vn-bitnamivn-zookeeper
