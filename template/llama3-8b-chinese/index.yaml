@@ -8,10 +8,15 @@ spec:
   gitRepo: 'https://github.com/llama3-8b-chinese/llama3-8b-chinese'
   author: 'Sealos'
   description: 'Llama3-8B 中文版量化模型，提供了与 OpenAI 官方接口对齐的 API。'
-  readme: 'https://huggingface.co/zhouzr/Llama3-8B-Chinese-Chat-GGUF/raw/main/README.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/llama3-8b-chinese/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/llama3-8b-chinese/logo.jpg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/llama3-8b-chinese/website-screenshot.webp'
   templateType: inline
   locale: zh
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/llama3-8b-chinese/README_zh.md'
   categories:
     - ai
   defaults:

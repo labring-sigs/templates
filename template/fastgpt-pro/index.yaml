@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/labring/FastGPT'
   author: 'Sealos'
   description: 'A free, open-source, and powerful AI knowledge base platform, offers out-of-the-box data processing, model invocation, RAG retrieval, and visual AI workflows. Easily build complex LLM applications.！'
-  readme: 'https://raw.githubusercontent.com/labring/FastGPT/main/README.md'
-  icon: 'https://raw.githubusercontent.com/labring/FastGPT/main/.github/imgs/logo.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/fastgpt-pro/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/fastgpt-pro/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/fastgpt-pro/website-screenshot.webp'
   templateType: inline
   locale: zh
   i18n:

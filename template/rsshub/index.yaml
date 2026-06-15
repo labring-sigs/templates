@@ -8,9 +8,14 @@ spec:
   gitRepo: 'https://github.com/DIYgod/RSSHub'
   author: 'Sealos'
   description: '🍰 Everything is RSSible'
-  readme: 'https://raw.githubusercontent.com/DIYgod/RSSHub/master/README.md'
-  icon: 'https://docs.rsshub.app/img/logo.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rsshub/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rsshub/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rsshub/website-screenshot.webp'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rsshub/README_zh.md'
   categories:
     - tool
   defaults:
@@ -329,6 +334,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/DIYgod/RSSHub/master/lib/static/logo.png"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rsshub/logo.png'
   name: ${{ defaults.app_name }}
   type: iframe
