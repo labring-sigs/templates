@@ -8,12 +8,17 @@ spec:
   gitRepo: 'https://github.com/songquanpeng/one-api'
   author: 'Sealos'
   description: 'Access all LLM through the standard OpenAI API format, easy to deploy & use'
-  readme: 'https://raw.githubusercontent.com/songquanpeng/one-api/main/README.md'
-  icon: 'https://openai.justsong.cn/favicon.ico'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/one-api/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/one-api/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/one-api/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
     - ai
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/one-api/README_zh.md'
   defaults:
     app_host:
       # number or string..
@@ -252,6 +257,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/songquanpeng/one-api/main/web/public/logo.png"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/one-api/logo.svg"
   name: ${{ defaults.app_name }}
   type: iframe

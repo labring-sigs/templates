@@ -8,13 +8,16 @@ spec:
   gitRepo: 'https://github.com/adrianmusante/docker-pocketbase'
   author: 'sealos'
   description: 'Open source backend consisting of embedded database (SQLite) with realtime subscriptions, built-in auth management, convenient dashboard UI and simple REST-ish API'
-  readme: 'https://raw.githubusercontent.com/adrianmusante/docker-pocketbase/refs/heads/main/README.md'
-  icon: 'https://pocketbase.io/images/logo.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pocketbase/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pocketbase/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pocketbase/website-screenshot.webp'
   templateType: inline
   locale: en
   i18n:
     zh:
       description: '开源后端服务，包含嵌入式数据库(SQLite)、实时订阅、内置认证管理、便捷的仪表盘UI和简单的REST API'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/pocketbase/README_zh.md'
   categories:
     - backend
     - low-code
@@ -246,6 +249,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: https://pocketbase.io/images/logo.svg
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/pocketbase/logo.svg
   name: ${{ defaults.app_name }}
   type: link

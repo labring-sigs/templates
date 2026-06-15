@@ -8,11 +8,16 @@ spec:
   gitRepo: 'https://github.com/minio/minio'
   author: 'Sealos'
   description: 'MinIO is a High Performance Object Storage released under GNU Affero General Public License v3.0. It is API compatible with Amazon S3 cloud storage service. Use MinIO to build high performance infrastructure for machine learning, analytics and application data workloads.'
-  readme: 'https://raw.githubusercontent.com/minio/minio/master/README.md'
-  icon: 'https://min.io/resources/favs/apple-icon-180x180.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/minio/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/minio/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/minio/website-screenshot.webp'
   templateType: inline
   categories:
     - storage
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/minio/README_zh.md'
   defaults:
     app_host:
       # number or string.
