@@ -270,7 +270,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: take-data-dir-ownership
-          image: alpine
+          image: alpine:3.24.0
           command: ["/bin/sh", "-c", "chown -R 65534:82 /srv/data"]
           imagePullPolicy: IfNotPresent
           volumeMounts:
