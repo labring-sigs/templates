@@ -384,7 +384,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: c121914yu/fast-gpt:latest
+    originImageName: c121914yu/fast-gpt:v4.8.1
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -408,7 +408,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: c121914yu/fast-gpt:latest
+    originImageName: c121914yu/fast-gpt:v4.8.1
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -427,7 +427,7 @@ spec:
     spec:
       containers:
         - name: ${{ defaults.app_name }}
-          image: c121914yu/fast-gpt:latest
+          image: c121914yu/fast-gpt:v4.8.1
           env:
             - name: MONGO_PASSWORD
               valueFrom:
