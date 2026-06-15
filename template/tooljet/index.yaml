@@ -38,6 +38,11 @@ spec:
       type: string
       value: ${{ random(64).toLowerCase().replace(/[^0-9a-f]/g, 'a') }}
   inputs:
+    tooljet_image:
+      description: ToolJet CE image. The upstream image currently supports amd64 only.
+      type: string
+      default: tooljet/tooljet-ce:v3.20.170-lts
+      required: true
     admin_email:
       description: Initial administrator email address used for first-time registration guidance
       type: string
@@ -340,7 +345,7 @@ spec:
               exit 1
       containers:
         - name: tooljet-migrate
-          image: tooljet/tooljet-ce:v3.20.170-lts
+          image: ${{ inputs.tooljet_image }}
           imagePullPolicy: IfNotPresent
           command:
             - /bin/sh
@@ -558,7 +563,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: tooljet/tooljet-ce:v3.20.170-lts
+    originImageName: ${{ inputs.tooljet_image }}
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
     docker-to-sealos.resource-override-source: "Live Sealos cold-start validation on 2026-06-02: ToolJet v3.20.170-lts required 1536Mi memory for the main web process; lower 512Mi/768Mi attempts OOMKilled."
@@ -627,7 +632,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: tooljet/tooljet-ce:v3.20.170-lts
+          image: ${{ inputs.tooljet_image }}
           imagePullPolicy: IfNotPresent
           command:
             - /bin/sh
