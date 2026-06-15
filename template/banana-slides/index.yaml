@@ -109,7 +109,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}-backend
   annotations:
-    originImageName: anoinex/banana-slides-backend:latest
+    originImageName: anoinex/banana-slides-backend:sha-74cc40b
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -129,7 +129,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}-backend
-          image: anoinex/banana-slides-backend:latest
+          image: anoinex/banana-slides-backend:sha-74cc40b
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
@@ -209,7 +209,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: anoinex/banana-slides-frontend:latest
+    originImageName: anoinex/banana-slides-frontend:sha-74cc40b
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -228,7 +228,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: anoinex/banana-slides-frontend:latest
+          image: anoinex/banana-slides-frontend:sha-74cc40b
           imagePullPolicy: Always
           ports:
             - containerPort: 80
