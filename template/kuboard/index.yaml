@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/eip-work/kuboard-press'
   author: '孤城落寞'
   description: 'Kuboard 是一款专为 Kubernetes 设计的免费管理界面'
-  readme: 'https://raw.githubusercontent.com/eip-work/kuboard-press/master/README.md'
-  icon: 'https://kuboard.cn/favicon.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kuboard/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kuboard/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kuboard/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
@@ -23,6 +25,10 @@ spec:
       type: string
       value: kuboard-${{ random(8) }}
   inputs:
+
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kuboard/README_zh.md'
 
 ---
 apiVersion: apps/v1
@@ -157,6 +163,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://kuboard.cn/favicon.png"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/kuboard/logo.png"
   name: ${{ defaults.app_name }}
   type: iframe

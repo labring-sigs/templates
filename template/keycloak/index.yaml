@@ -8,8 +8,10 @@ spec:
   gitRepo: 'https://github.com/keycloak/keycloak'
   author: 'Sealos'
   description: 'Open Source Identity and Access Management solution for modern Applications and Services'
-  readme: 'https://raw.githubusercontent.com/keycloak/keycloak/refs/heads/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/4921466?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/keycloak/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/keycloak/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/keycloak/website-screenshot.webp'
   templateType: inline
   categories:
     - tool
@@ -19,6 +21,7 @@ spec:
     zh:
       title: 'Keycloak'
       description: '面向现代应用和服务的开源身份和访问管理解决方案'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/keycloak/README_zh.md'
   defaults:
     app_name:
       type: string
@@ -353,6 +356,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/4921466?s=48&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/keycloak/logo.png"
   name: Keycloak
   type: link
