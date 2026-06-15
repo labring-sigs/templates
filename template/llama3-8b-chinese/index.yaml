@@ -12,7 +12,6 @@ spec:
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/llama3-8b-chinese/logo.jpg'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/llama3-8b-chinese/website-screenshot.webp'
-  draft: true
   templateType: inline
   locale: zh
   i18n:
