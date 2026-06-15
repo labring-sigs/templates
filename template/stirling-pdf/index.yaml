@@ -4,7 +4,7 @@ metadata:
   name: s-pdf
 spec:
   title: 'Stirling-PDF'
-  url: 'https://github.com/Stirling-Tools/Stirling-PDF'
+  url: 'https://stirling.com/'
   gitRepo: 'https://github.com/Stirling-Tools/Stirling-PDF'
   author: 'Sealos'
   description: '1 Locally hosted web application that allows you to perform various operations on PDF files.'
@@ -15,6 +15,9 @@ spec:
   templateType: inline
   categories:
     - tool
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/stirling-pdf/README_zh.md'
   defaults:
     app_host:
       # number or string..
