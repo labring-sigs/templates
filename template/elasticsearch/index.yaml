@@ -8,9 +8,14 @@ spec:
   gitRepo: 'https://github.com/elastic/elasticsearch'
   author: 'Sealos'
   description: 'Elasticsearch is a distributed search and analytics engine, scalable data store and vector database optimized for speed and relevance on production-scale workloads. Elasticsearch is the foundation of Elastic’s open Stack platform. Search in near real-time over massive datasets, perform vector searches, integrate with generative AI applications, and much more.'
-  readme: 'https://raw.githubusercontent.com/elastic/elasticsearch/refs/heads/main/README.asciidoc'
-  icon: 'https://www.elastic.co/apple-touch-icon.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/elasticsearch/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/elasticsearch/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/elasticsearch/website-screenshot.webp'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/elasticsearch/README_zh.md'
   categories:
     - tools
   defaults:
@@ -181,6 +186,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://www.elastic.co/cn/favicon.ico"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/elasticsearch/logo.svg'
   name: "ElasticSearch"
   type: link

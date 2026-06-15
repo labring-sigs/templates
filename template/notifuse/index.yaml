@@ -12,12 +12,15 @@ spec:
   author: 'Sealos'
   description: 'Transactional API, newsletters, automations, blog & real-time user segments'
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/notifuse/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/12115165?s=48&v=4'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/notifuse/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/notifuse/website-screenshot.webp'
   templateType: inline
   locale: en
   i18n:
     zh:
       description: '带交互式设置向导的事务邮件平台，支持 SMTP 中继和多工作空间隔离'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/notifuse/README_zh.md'
   categories:
     - backend
     - tool
@@ -370,6 +373,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/12115165?s=48&v=4"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/notifuse/logo.png'
   name: "Notifuse"
   type: link
