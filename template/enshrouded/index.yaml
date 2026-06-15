@@ -87,7 +87,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: take-data-dir-ownership
-          image: alpine
+          image: alpine:3.24.0
           command:
             [
               '/bin/sh',
@@ -99,7 +99,7 @@ spec:
             - name: vn-optvn-enshrouded
               mountPath: /opt/enshrouded
         - name: switch-ports
-          image: bitnamilegacy/kubectl
+          image: bitnamilegacy/kubectl:1.33.4
           env:
             - name: APP_NAME
               valueFrom:
@@ -208,7 +208,7 @@ spec:
     spec:
       containers:
         - name: ${{ defaults.app_name }}-restart
-          image: bitnamilegacy/kubectl
+          image: bitnamilegacy/kubectl:1.33.4
           command:
             - /bin/sh
             - -c
