@@ -33,7 +33,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: excalidraw/excalidraw:latest
+    originImageName: excalidraw/excalidraw:sha-4bfc5bb
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -58,7 +58,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: excalidraw/excalidraw:latest
+          image: excalidraw/excalidraw:sha-4bfc5bb
           resources:
             requests:
               cpu: 10m
