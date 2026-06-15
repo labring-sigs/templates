@@ -4,7 +4,7 @@ metadata:
   name: bytebase
 spec:
   title: 'Bytebase'
-  url: 'https://bytebase.com/'
+  url: 'https://www.bytebase.com'
   gitRepo: 'https://github.com/bytebase/bytebase'
   author: 'Sealos'
   description: 'Bytebase is GitLab/GitHub for Database DevOps, built for developers, DBAs and platform teams.'

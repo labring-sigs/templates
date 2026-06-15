@@ -8,7 +8,7 @@ spec:
   gitRepo: "https://github.com/typesense/typesense"
   author: "Sealos"
   description: "A modern, open-source search engine alternative to Algolia and an easier-to-use alternative to Elasticsearch."
-  readme: "https://raw.githubusercontent.com/typesense/typesense/master/README.md"
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/typesense/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/typesense/logo.png'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/typesense/website-screenshot.webp'
@@ -30,6 +30,7 @@ spec:
   i18n:
     zh:
       description: "现代化、开源的搜索引擎，可作为 Algolia 的替代方案，比 Elasticsearch 更易用。"
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/typesense/README_zh.md'
 
 ---
 apiVersion: apps/v1
