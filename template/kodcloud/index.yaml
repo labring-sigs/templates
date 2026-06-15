@@ -9,7 +9,9 @@ spec:
   author: '梁小灶'
   description: '可道云是一款支持多平台的私有云存储和协同办公平台，提供文件存储、协作共享、实时同步、本地编辑等功能'
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kodcloud/readme.md'
-  icon: 'https://kodcloud.com/static/images/common/ico.ico'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kodcloud/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kodcloud/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
@@ -28,6 +30,9 @@ spec:
       type: string
       default: '10'
       required: true
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kodcloud/README_zh.md'
 
 ---
 apiVersion: apps/v1
@@ -206,7 +211,7 @@ spec:
   data:
     url: "https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}:${{ SEALOS_CLOUD_PORT }}"
   displayType: normal
-  icon: "https://kodcloud.com/static/images/common/ico.ico"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/kodcloud/logo.png"
   name: ${{ defaults.app_name }}
   type: link
 
