@@ -13,6 +13,7 @@ spec:
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/llama3-8b-chinese/website-screenshot.webp'
   templateType: inline
+  draft: true
   locale: zh
   i18n:
     zh:
