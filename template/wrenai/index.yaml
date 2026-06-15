@@ -8,8 +8,13 @@ spec:
   gitRepo: 'https://github.com/Canner/WrenAI'
   author: 'sealos'
   description: '🤖 Open-source GenBI AI Agent that empowers data-driven teams to chat with their data to generate Text-to-SQL, charts, spreadsheets, reports, and BI. 📈📊📋🧑‍💻'
-  icon: 'https://raw.githubusercontent.com/Canner/WrenAI/refs/heads/main/wren-ui/public/images/logo.svg'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wrenai/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wrenai/website-screenshot.webp'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wrenai/README_zh.md'
   categories:
     - low-code
     - ai
@@ -884,6 +889,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/Canner/WrenAI/refs/heads/main/wren-ui/public/images/logo.svg"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wrenai/logo.png'
   name: "WrenAI"
   type: link

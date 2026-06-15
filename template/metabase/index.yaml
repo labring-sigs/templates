@@ -8,9 +8,14 @@ spec:
   gitRepo: 'https://github.com/metabase/metabase'
   author: 'Sealos'
   description: 'The simplest, fastest way to get business intelligence and analytics to everyone in your company 😋'
-  readme: 'https://raw.githubusercontent.com/metabase/metabase/master/README.md'
-  icon: 'https://www.metabase.com/images/logo.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/metabase/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/metabase/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/metabase/website-screenshot.webp'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/metabase/README_zh.md'
   categories:
     - database
     - low-code
@@ -287,6 +292,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://www.metabase.com/images/logo.svg"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/metabase/logo.png'
   name: metabase
   type: link

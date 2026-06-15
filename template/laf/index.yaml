@@ -8,8 +8,10 @@ spec:
   gitRepo: "https://github.com/labring/laf"
   author: "Laf"
   description: "Laf 是开源的云开发平台，提供云函数、云数据库、云存储等开箱即用的应用资源。让开发者专注于业务开发，无需折腾服务器，快速释放创意。"
-  readme: "https://raw.githubusercontent.com/labring/laf/main/README.md"
-  icon: "https://laf.run/homepage/logo_icon.svg"
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/laf/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/laf/logo.svg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/laf/website-screenshot.webp'
   templateType: inline
   locale: zh
   draft: true
@@ -45,6 +47,9 @@ spec:
       type: string
       default: laf-${{ random(8) }}
       required: true
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/laf/README_zh.md'
 ---
 # mongo sa
 apiVersion: v1
@@ -1362,7 +1367,7 @@ spec:
   data:
     url: https://${{ inputs.domain }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://laf.run/homepage/logo_icon.svg"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/laf/logo.svg'
   name: ${{ defaults.app_name }}
   type: iframe
 
