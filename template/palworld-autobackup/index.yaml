@@ -60,7 +60,7 @@ spec:
             command:
             - bash
             - -c
-            image: bitnamilegacy/kubectl
+            image: bitnamilegacy/kubectl:1.33.4
             imagePullPolicy: IfNotPresent
             name: ${{ defaults.app_name }}
           serviceAccount: ${{ SEALOS_SERVICE_ACCOUNT }}
