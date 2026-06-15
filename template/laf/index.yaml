@@ -974,7 +974,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}-minio
   annotations:
-    originImageName: quay.io/minio/minio
+    originImageName: quay.io/minio/minio:RELEASE.2023-03-22T06-36-24Z
     deploy.cloud.sealos.io/minReplicas: "1"
     deploy.cloud.sealos.io/maxReplicas: "1"
   labels:

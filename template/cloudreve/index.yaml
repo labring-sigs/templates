@@ -52,7 +52,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: cloudreve/cloudreve
+    originImageName: cloudreve/cloudreve:4.16.1
     deploy.cloud.sealos.io/maxReplicas: "1"
     deploy.cloud.sealos.io/minReplicas: "1"
   labels:
@@ -107,7 +107,7 @@ spec:
               until mysql -h $MYSQL_HOST -P $MYSQL_PORT -u $MYSQL_USER -p$MYSQL_PASSWORD -e 'source /create.sql;' &>/dev/null; do sleep 1; done
       containers:
         - name: ${{ defaults.app_name }}
-          image: cloudreve/cloudreve
+          image: cloudreve/cloudreve:4.16.1
           imagePullPolicy: IfNotPresent
           env:
             - name: MYSQL_USER
