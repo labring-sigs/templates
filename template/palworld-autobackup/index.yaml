@@ -10,6 +10,8 @@ spec:
   description: '定时存档帕鲁私服数据'
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld-autobackup/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld-autobackup/logo.jpg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld-autobackup/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
@@ -33,6 +35,9 @@ spec:
       default: "3"
       required: true
 
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld-autobackup/README_zh.md'
 ---
 apiVersion: batch/v1
 kind: CronJob

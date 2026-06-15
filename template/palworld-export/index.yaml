@@ -10,6 +10,8 @@ spec:
   description: '通过图形化界面导出幻兽帕鲁 / PalWorld 存档数据'
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld-export/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld-export/logo.jpg'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld-export/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
@@ -28,6 +30,9 @@ spec:
       default: ""
       required: true
 
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/palworld-export/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: StatefulSet

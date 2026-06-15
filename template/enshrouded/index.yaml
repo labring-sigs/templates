@@ -10,6 +10,8 @@ spec:
   description: '该私服默认可容纳 4~8 个玩家流畅玩耍'
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/enshrouded/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/enshrouded/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/enshrouded/website-screenshot.webp'
   templateType: inline
   locale: zh
   categories:
@@ -33,6 +35,9 @@ spec:
       default: ''
       required: false
 
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/enshrouded/README_zh.md'
 ---
 apiVersion: v1
 kind: Service
