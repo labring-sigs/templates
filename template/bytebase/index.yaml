@@ -22,6 +22,9 @@ spec:
     app_host:
       type: string
       value: ${{ random(8) }}
+  i18n:
+    zh:
+      readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/bytebase/README_zh.md
 
 ---
 apiVersion: v1
