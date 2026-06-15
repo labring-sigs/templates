@@ -32,7 +32,7 @@ kind: Deployment
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: yangchuansheng/inpaint-web
+    originImageName: yangchuansheng/inpaint-web:latest
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -57,7 +57,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: yangchuansheng/inpaint-web
+          image: yangchuansheng/inpaint-web:latest
           env: []
           resources:
             requests:
