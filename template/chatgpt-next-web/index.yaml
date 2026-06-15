@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/ChatGPTNextWeb/NextChat'
   author: 'Sealos'
   description: 'A cross-platform ChatGPT/Gemini UI.'
-  readme: 'https://raw.githubusercontent.com/ChatGPTNextWeb/NextChat/main/README.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatgpt-next-web/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatgpt-next-web/logo.svg'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatgpt-next-web/website-screenshot.webp'
@@ -77,7 +77,7 @@ spec:
       required: false
   i18n:
     zh:
-      readme: 'https://raw.githubusercontent.com/ChatGPTNextWeb/NextChat/main/README_CN.md'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatgpt-next-web/README_zh.md'
 
 ---
 apiVersion: apps/v1

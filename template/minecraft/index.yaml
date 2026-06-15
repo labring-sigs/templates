@@ -5,13 +5,15 @@ metadata:
 spec:
   title: 'Minecraft'
   author: 'Sealos'
-  description: 'Minecraft 专有版服务器，支持 Forge 和 Fabric。'
-  url: 'https://docker-minecraft-server.readthedocs.io/en/latest/'
+  description: 'A self-hosted Minecraft Java Edition server powered by itzg/docker-minecraft-server, with Paper, Fabric, or Forge runtime options.'
+  url: 'https://docker-minecraft-server.readthedocs.io/'
   gitRepo: 'https://github.com/itzg/docker-minecraft-server'
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/minecraft/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/minecraft/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/minecraft/website-screenshot.webp'
   templateType: inline
-  locale: zh
+  locale: en
   categories:
     - game
   defaults:
@@ -29,10 +31,14 @@ spec:
       default: 'PAPER'
       required: true
     VERSION:
-      description: 'minecraft version'
+      description: 'Minecraft server version. Use LATEST to let the selected server type resolve the newest compatible release.'
       type: string
       default: 'LATEST'
       required: true
+  i18n:
+    zh:
+      description: '基于 itzg/docker-minecraft-server 的自托管 Minecraft Java 版服务器，支持 Paper、Fabric 或 Forge 运行时。'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/minecraft/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: StatefulSet
