@@ -415,6 +415,7 @@ metadata:
   name: ${{ defaults.app_name }}-admin
   labels:
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}-admin
+    app: ${{ defaults.app_name }}-admin
 spec:
   ports:
     - port: 3000
@@ -555,6 +556,7 @@ metadata:
   name: ${{ defaults.app_name }}-api
   labels:
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}-api
+    app: ${{ defaults.app_name }}-api
 spec:
   ports:
     - port: 8000
@@ -850,6 +852,7 @@ metadata:
   name: ${{ defaults.app_name }}-space
   labels:
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}-space
+    app: ${{ defaults.app_name }}-space
 spec:
   ports:
     - port: 3000
@@ -909,6 +912,7 @@ metadata:
   name: ${{ defaults.app_name }}-web
   labels:
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}-web
+    app: ${{ defaults.app_name }}-web
 spec:
   ports:
     - port: 3000

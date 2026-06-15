@@ -633,6 +633,7 @@ metadata:
   name: ${{ defaults.app_name }}
   labels:
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
+    app: ${{ defaults.app_name }}
 spec:
   ports:
     - name: http
@@ -651,6 +652,7 @@ metadata:
   name: ${{ defaults.app_name }}-worker
   labels:
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}-worker
+    app: ${{ defaults.app_name }}-worker
 spec:
   ports:
     - name: broker
