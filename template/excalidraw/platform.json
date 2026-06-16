@@ -1,6 +1,5 @@
 {
   "architectures": [
-    "amd64",
-    "arm64"
+    "amd64"
   ]
 }
