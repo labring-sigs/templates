@@ -423,11 +423,12 @@ spec:
       app: ${{ defaults.app_name }}-zookeeper
   template:
     metadata:
-      labels:
-        app: ${{ defaults.app_name }}-zookeeper
+      annotations:
         signoz.io/scrape: "true"
         signoz.io/port: "9141"
-        signoz.io/path: "metrics"
+        signoz.io/path: "/metrics"
+      labels:
+        app: ${{ defaults.app_name }}-zookeeper
     spec:
       terminationGracePeriodSeconds: 10
       automountServiceAccountToken: false
