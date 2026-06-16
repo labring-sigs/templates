@@ -282,6 +282,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/225290400?s=48&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/openagents/logo.png"
   name: OpenAgents
   type: link
