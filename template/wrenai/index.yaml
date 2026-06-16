@@ -12,6 +12,7 @@ spec:
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wrenai/website-screenshot.webp'
   templateType: inline
+  locale: en
   i18n:
     zh:
       readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/wrenai/README_zh.md'
