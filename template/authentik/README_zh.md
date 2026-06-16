@@ -39,7 +39,7 @@ Authentik 提供集中认证、单点登录（Single Sign-On, SSO）、基于策
 
 - **Authentik Server（StatefulSet）**：运行 `ghcr.io/goauthentik/server:2025.12.3` 的 `server` 模式，对外提供 `9000` 端口 Web UI/API，并在集群内暴露 `9443`。
 - **Authentik Worker（StatefulSet）**：使用相同镜像运行 `worker` 模式，处理后台与定时任务。
-- **PostgreSQL 集群（KubeBlocks）**：部署 PostgreSQL `16.4.0`，提供持久化存储和基于 Secret 的凭据注入。
+- **PostgreSQL 集群（KubeBlocks）**：部署 PostgreSQL `14.8.0`，提供持久化存储和基于 Secret 的凭据注入。
 - **PostgreSQL 初始化任务（Init Job）**：等待数据库就绪后，若不存在则创建 `authentik` 数据库。
 - **Service + Ingress**：通过 Sealos 自动 TLS 证书集成，将 Authentik 以 HTTPS 暴露到公网。
 - **App 资源**：将访问 URL 发布到 Sealos 应用卡片，便于在 Canvas 一键进入。
