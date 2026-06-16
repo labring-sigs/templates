@@ -9,7 +9,7 @@ spec:
   author: "Sealos"
   description: "An open source, self-hosted implementation of the Tailscale control server."
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/headscale/README.md'
-  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/headscale/logo.png'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/headscale/logo.svg'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/headscale/website-screenshot.webp'
   templateType: inline
@@ -1148,6 +1148,6 @@ spec:
   data:
     url: https://headscale-${{ defaults.app_suffix }}.${{ SEALOS_CLOUD_DOMAIN }}/admin
   displayType: normal
-  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/headscale/logo.png'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/headscale/logo.svg'
   name: "Headscale"
   type: link
