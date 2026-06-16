@@ -8,12 +8,13 @@ spec:
   gitRepo: 'https://github.com/teableio/teable'
   author: 'Sealos'
   description: 'Teable is a Super fast, Real-time, Professional, Developer friendly, No-code database built on Postgres.'
-  readme: 'https://raw.githubusercontent.com/teableio/teable/develop/README.md'
-  icon: 'https://framerusercontent.com/images/x9gZmjwbtvaGd95qbfUmsZ8Jc.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/teable/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/teable/logo.png'
   templateType: inline
   locale: en
   i18n:
     zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/teable/README_zh.md'
       url: 'teable.cn'
       description: 'Teable 是一款企业级高性能多维表格解决方案，通过无代码方式快速构建业务管理系统，支持私有部署和精细权限管理。'
   categories:
@@ -504,6 +505,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://framerusercontent.com/images/x9gZmjwbtvaGd95qbfUmsZ8Jc.png"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/teable/logo.png'
   name: teable
   type: link

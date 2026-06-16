@@ -11,6 +11,10 @@ spec:
   readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/share-storage/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/share-storage/nfs.png'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/share-storage/README_zh.md'
+  locale: zh
   categories:
     - storage
   defaults:

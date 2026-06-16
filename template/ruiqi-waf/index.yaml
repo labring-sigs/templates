@@ -8,11 +8,12 @@ spec:
   gitRepo: "https://github.com/labring/RuiQi"
   author: "Sealos"
   description: "A modern web application firewall (WAF) management system built on top of HAProxy and OWASP Coraza WAF with the Coraza SPOA integration. This system provides a comprehensive backend API for managing HAProxy configurations, Coraza WAF rules, and traffic inspection."
-  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/ruiqi-waf/README.md"
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/ruiqi-waf/README.md'
   icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/ruiqi-waf/logo.png"
   screenshots:
     - "https://raw.githubusercontent.com/labring-sigs/templates/main/template/ruiqi-waf/website-screenshot.webp"
   templateType: inline
+  locale: en
   categories:
     - dev-ops
   defaults:
@@ -27,7 +28,7 @@ spec:
       value: ruiqi-${{ random(8) }}
   i18n:
     zh:
-      readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/ruiqi-waf/README_zh.md"
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/ruiqi-waf/README_zh.md'
 ---
 
 apiVersion: v1
