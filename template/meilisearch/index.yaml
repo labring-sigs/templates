@@ -188,6 +188,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/43250847?s=48&v=4"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/meilisearch/logo.png"
   name: "Meilisearch"
   type: iframe

@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/coder/code-server'
   author: 'Sealos'
   description: 'VS Code in the browser'
-  readme: 'https://raw.githubusercontent.com/coder/code-server/main/docs/README.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/code-server/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/code-server/logo.png'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/code-server/website-screenshot.webp'
@@ -32,6 +32,9 @@ spec:
       type: string
       default: 'sealos123'
       required: true
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/code-server/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: StatefulSet
