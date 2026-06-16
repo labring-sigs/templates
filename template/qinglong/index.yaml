@@ -4,7 +4,7 @@ metadata:
   name: qinglong
 spec:
   title: 'qinglong'
-  url: 'https://github.com/whyour/qinglong'
+  url: 'https://qinglong.online/en/?lang=en'
   gitRepo: 'https://github.com/whyour/qinglong'
   author: '孤城落寞'
   description: 'Timed task management platform supporting Python3, JavaScript, Shell, Typescript'

@@ -4,18 +4,21 @@ metadata:
   name: rustfs
 spec:
   title: 'RustFS'
-  url: 'https://github.com/rustfs/rustfs'
+  url: 'https://rustfs.com/download/'
   gitRepo: 'https://github.com/rustfs/rustfs'
   author: 'Sealos'
   description: 'RustFS is a high-performance, S3-compatible object storage system built with Rust, offering distributed storage capabilities with multiple volume support.'
-  readme: 'https://raw.githubusercontent.com/rustfs/rustfs/main/README.md'
-  icon: 'https://rustfs.com/favicon.ico'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rustfs/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rustfs/logo.png'
+  screenshots:
+    - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rustfs/website-screenshot.webp'
   templateType: inline
   locale: en
   i18n:
     zh:
       title: 'RustFS'
       description: 'RustFS 是一个使用 Rust 构建的高性能 S3 兼容对象存储系统，提供分布式存储能力，支持多卷存储。'
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rustfs/README_zh.md'
   categories:
     - storage
     - backend
@@ -334,6 +337,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://rustfs.com/favicon.ico"
+  icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/rustfs/logo.png"
   name: RustFS
   type: link
