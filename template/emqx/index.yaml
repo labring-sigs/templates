@@ -78,8 +78,6 @@ spec:
     spec:
       automountServiceAccountToken: false
       enableServiceLinks: false
-      imagePullSecrets:
-        - name: ${{ defaults.app_name }}
       terminationGracePeriodSeconds: 60
       securityContext:
         runAsUser: 1000
