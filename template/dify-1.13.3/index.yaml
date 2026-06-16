@@ -10,7 +10,7 @@ spec:
   description: Dify is an open-source LLM application development platform with API,
     worker, web, plugin daemon, PostgreSQL, Redis, Weaviate, sandbox, SSRF proxy,
     and Nginx.
-  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/dify-1.13.3/README.md
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/dify-1.13.3/README.md'
   icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/dify-1.13.3/logo.svg
   screenshots:
   - https://raw.githubusercontent.com/labring-sigs/templates/main/template/dify-1.13.3/website-screenshot.webp
@@ -23,7 +23,7 @@ spec:
     zh:
       description: Dify 是开源的大模型应用开发平台，此模板包含 API、Worker、Web、插件服务、PostgreSQL、Redis、Weaviate、Sandbox、SSRF
         代理和 Nginx。
-      readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/dify-1.13.3/README_zh.md
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/dify-1.13.3/README_zh.md'
   defaults:
     app_name:
       type: string
@@ -2166,6 +2166,6 @@ spec:
   data:
     url: "https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}"
   displayType: normal
-  icon: "https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}/icon-192x192.png"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/dify-1.13.3/logo.svg'
   name: Dify
   type: link

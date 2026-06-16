@@ -8,16 +8,16 @@ spec:
   gitRepo: "https://github.com/zhayujie/CowAgent"
   author: "Sealos"
   description: "CowAgent is an AI super assistant with long-term memory, skills, tools, and a web console for multi-channel agent workflows."
-  readme: "https://raw.githubusercontent.com/zhayujie/CowAgent/master/docs/en/README.md"
-  icon: "https://raw.githubusercontent.com/zhayujie/CowAgent/master/channel/web/static/logo.jpg"
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/cowagent/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/cowagent/logo.jpg'
   templateType: inline
   locale: en
   categories:
     - ai
   i18n:
     zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/cowagent/README_zh.md'
       description: "CowAgent 是一个支持长期记忆、技能系统、内置工具和 Web 控制台的超级 AI 助理。"
-      readme: "https://raw.githubusercontent.com/zhayujie/CowAgent/master/README.md"
   defaults:
     app_name:
       type: string
@@ -420,6 +420,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}/chat
   displayType: normal
-  icon: "https://raw.githubusercontent.com/zhayujie/CowAgent/master/channel/web/static/logo.jpg"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/cowagent/logo.jpg'
   name: "CowAgent"
   type: link
