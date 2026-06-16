@@ -37,8 +37,8 @@ The Sealos template includes all required runtime dependencies for Outline hosti
 This template deploys the following services:
 
 - **Outline Web Service**: Runs `outlinewiki/outline:1.8.0-1` and serves the web UI, API, and authentication callbacks on port `3000`.
-- **PostgreSQL**: Kubeblocks-managed PostgreSQL `postgresql-16.4.0` stores Outline workspace data in the `outline` database.
-- **Redis**: Kubeblocks-managed Redis `7.2.7` supports collaboration, caching, and background coordination.
+- **PostgreSQL**: Kubeblocks-managed PostgreSQL `postgresql-14.8.0` stores Outline workspace data in the `outline` database.
+- **Redis**: Kubeblocks-managed Redis `7.0.6` supports collaboration, caching, and background coordination.
 - **Attachment Storage**: Uses either a Sealos object storage bucket for S3-compatible uploads or a local persistent volume mounted at `/var/lib/outline/data`.
 - **Ingress and App Link**: Exposes Outline through a Sealos-managed HTTPS ingress and App resource.
 

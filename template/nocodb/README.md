@@ -1,6 +1,6 @@
 # Deploy and Host NocoDB on Sealos
 
-NocoDB turns databases into collaborative smart spreadsheets and no-code applications. This template deploys NocoDB with a Kubeblocks-managed PostgreSQL metadata database and persistent application storage on Sealos Cloud.
+NocoDB turns databases into collaborative smart spreadsheets and no-code applications. This template deploys NocoDB with persistent application storage on Sealos Cloud.
 
 ![NocoDB Screenshot](https://raw.githubusercontent.com/labring-sigs/templates/main/template/nocodb/website-screenshot.webp)
 
@@ -8,7 +8,7 @@ NocoDB turns databases into collaborative smart spreadsheets and no-code applica
 
 NocoDB provides a spreadsheet-style interface for building tables, views, forms, automations, and lightweight internal tools on top of relational data. It is commonly used as an open-source Airtable alternative for teams that want database-backed collaboration without writing a custom admin interface.
 
-This Sealos template runs the NocoDB web service from the pinned `nocodb/nocodb:2026.05.2` image. Sealos provisions a PostgreSQL `postgresql-16.4.0` cluster for NocoDB metadata, a persistent volume for `/usr/app/data`, an internal service, and an HTTPS ingress with a public URL.
+This Sealos template runs the NocoDB web service from the pinned `nocodb/nocodb:0.265.1` image. Sealos provisions persistent application storage for `/usr/app/data`, an internal service, and an HTTPS ingress with a public URL.
 
 ## Common Use Cases
 
@@ -32,15 +32,12 @@ The Sealos template includes all required runtime dependencies for a standalone 
 **Architecture Components:**
 
 - **NocoDB**: Web application and API service running on port `8080`
-- **PostgreSQL**: Kubeblocks-managed `postgresql-16.4.0` cluster for NocoDB metadata
 - **Persistent storage**: `1Gi` volume mounted at `/usr/app/data`
 - **Ingress**: Sealos-managed HTTPS public endpoint
 
 **Configuration:**
 
-- `NC_DB` is built from the Kubeblocks PostgreSQL connection secret.
 - `NC_PUBLIC_URL` is set to the generated Sealos HTTPS URL.
-- `NC_ADMIN_EMAIL` and `NC_ADMIN_PASSWORD` initialize the first admin account.
 
 **License Information:**
 
@@ -50,8 +47,7 @@ NocoDB is available under the GNU Affero General Public License v3.0. Review the
 
 Sealos is an AI-assisted Cloud Operating System built on Kubernetes that unifies the entire application lifecycle, from development in cloud IDEs to production deployment and management. It is ideal for running modern web applications and database-backed tools. By deploying NocoDB on Sealos, you get:
 
-- **One-Click Deployment**: Deploy NocoDB, PostgreSQL, persistent storage, service, and ingress from one template.
-- **Managed Database**: Use a Kubeblocks PostgreSQL cluster without manually operating database YAML.
+- **One-Click Deployment**: Deploy NocoDB, persistent storage, service, and ingress from one template.
 - **Persistent Storage Included**: Keep NocoDB local data across restarts and rescheduling.
 - **Instant Public Access**: Open NocoDB through a generated HTTPS URL after deployment.
 - **Easy Customization**: Adjust resources and environment variables through Sealos resource cards or the AI dialog.
@@ -60,12 +56,9 @@ Sealos is an AI-assisted Cloud Operating System built on Kubernetes that unifies
 ## Deployment Guide
 
 1. Open the [NocoDB template](https://sealos.io/products/app-store/nocodb) and click **Deploy Now**.
-2. Configure the deployment parameters:
-   - `NC_ADMIN_EMAIL`: initial admin email address.
-   - `NC_ADMIN_PASSWORD`: initial admin password. The template generates a random value by default; save the final value before opening NocoDB.
+2. Review the generated app name and public host, or keep the defaults.
 3. Wait for deployment to complete, typically 2-4 minutes. After deployment, you will be redirected to the Canvas.
-4. Open the generated NocoDB URL from the App card.
-5. Sign in with the `NC_ADMIN_EMAIL` and `NC_ADMIN_PASSWORD` values configured during deployment.
+4. Open the generated NocoDB URL from the App card and complete NocoDB's first-run setup.
 
 ## Configuration
 
@@ -73,7 +66,7 @@ After deployment, you can configure NocoDB through:
 
 - **NocoDB UI**: Create workspaces, bases, tables, views, forms, and integrations.
 - **AI Dialog**: Describe changes you want Sealos to apply to resources.
-- **Resource Cards**: Click the StatefulSet, PostgreSQL cluster, service, or ingress cards to modify settings.
+- **Resource Cards**: Click the StatefulSet, service, or ingress cards to modify settings.
 
 ## Scaling
 
@@ -90,11 +83,11 @@ The template uses a conservative single-replica deployment with persistent stora
 
 ### Cannot sign in
 
-Confirm that you are using the exact `NC_ADMIN_EMAIL` and `NC_ADMIN_PASSWORD` configured during deployment. If you kept the generated password, copy it from the deployment parameters. The template initializes this account on first start.
+Open the generated URL and complete NocoDB's first-run account setup. If an account already exists, use the credentials created inside NocoDB.
 
 ### Application is still starting
 
-NocoDB may take a few minutes during the first cold start while PostgreSQL becomes ready and metadata tables are initialized. Wait for the NocoDB StatefulSet to show `Ready` in the Sealos Canvas.
+NocoDB may take a few minutes during the first cold start while local data is initialized. Wait for the NocoDB StatefulSet to show `Ready` in the Sealos Canvas.
 
 ### Getting Help
 
