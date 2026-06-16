@@ -100,8 +100,6 @@ spec:
         fsGroup: 1000
         seccompProfile:
           type: RuntimeDefault
-      imagePullSecrets:
-        - name: ${{ defaults.app_name }}
       containers:
         - name: ${{ defaults.app_name }}
           image: docker.io/vanjayak/open-design:latest
@@ -217,8 +215,6 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
-      imagePullSecrets:
-        - name: ${{ defaults.app_name }}
       containers:
         - name: ${{ defaults.app_name }}-proxy
           image: nginxinc/nginx-unprivileged:1.25-alpine-slim
