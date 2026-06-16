@@ -13,6 +13,7 @@ spec:
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/photoprism/website-screenshot.webp'
   templateType: inline
+  locale: en
   categories:
     - tool
   defaults:
