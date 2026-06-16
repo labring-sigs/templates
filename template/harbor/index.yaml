@@ -618,8 +618,6 @@ spec:
         app: ${{ defaults.app_name }}-core
     spec:
       automountServiceAccountToken: false
-      imagePullSecrets:
-        - name: ${{ defaults.app_name }}
       containers:
         - name: ${{ defaults.app_name }}-core
           image: goharbor/harbor-core:v2.14.4
@@ -752,8 +750,6 @@ spec:
         app: ${{ defaults.app_name }}-jobservice
     spec:
       automountServiceAccountToken: false
-      imagePullSecrets:
-        - name: ${{ defaults.app_name }}
       containers:
         - name: ${{ defaults.app_name }}-jobservice
           image: goharbor/harbor-jobservice:v2.14.4
@@ -852,8 +848,6 @@ spec:
         app: ${{ defaults.app_name }}-portal
     spec:
       automountServiceAccountToken: false
-      imagePullSecrets:
-        - name: ${{ defaults.app_name }}
       containers:
         - name: ${{ defaults.app_name }}-portal
           image: goharbor/harbor-portal:v2.14.4
@@ -916,8 +910,6 @@ spec:
         app: ${{ defaults.app_name }}-registry
     spec:
       automountServiceAccountToken: false
-      imagePullSecrets:
-        - name: ${{ defaults.app_name }}
       containers:
         - name: ${{ defaults.app_name }}-registry
           image: goharbor/registry-photon:v2.14.4
@@ -1053,8 +1045,6 @@ spec:
         app: ${{ defaults.app_name }}-registryctl
     spec:
       automountServiceAccountToken: false
-      imagePullSecrets:
-        - name: ${{ defaults.app_name }}
       containers:
         - name: ${{ defaults.app_name }}-registryctl
           image: goharbor/harbor-registryctl:v2.14.4
@@ -1136,8 +1126,6 @@ spec:
       securityContext:
         fsGroup: 10000
       automountServiceAccountToken: false
-      imagePullSecrets:
-        - name: ${{ defaults.app_name }}
       containers:
         - name: ${{ defaults.app_name }}-trivy
           image: goharbor/trivy-adapter-photon:v2.14.4
