@@ -22,7 +22,7 @@ Sealos 会自动配置公网 HTTPS 路由、服务发现、持久化存储和资
 
 ## DocuSeal 托管依赖
 
-此 Sealos 模板包含运行所需的组件：DocuSeal 容器镜像、PostgreSQL `postgresql-16.4.0` 数据库、用于创建 `docuseal` 数据库的初始化 Job、应用持久化存储、Kubernetes Service、Ingress 和 Sealos App 入口。
+此 Sealos 模板包含运行所需的组件：DocuSeal 容器镜像、PostgreSQL `postgresql-14.8.0` 数据库、用于创建 `docuseal` 数据库的初始化 Job、应用持久化存储、Kubernetes Service、Ingress 和 Sealos App 入口。
 
 ### 部署依赖
 
@@ -38,7 +38,7 @@ Sealos 会自动配置公网 HTTPS 路由、服务发现、持久化存储和资
 此模板会部署以下服务：
 
 - **DocuSeal Web 服务**：运行 `docuseal/docuseal:3.0.1`，监听 `3000` 端口，提供 Web UI、API、嵌入式签署页面和后台任务。
-- **PostgreSQL**：由 Kubeblocks 管理的 PostgreSQL `postgresql-16.4.0`，用于存储用户、账号、模板、提交记录和应用元数据。
+- **PostgreSQL**：由 Kubeblocks 管理的 PostgreSQL `postgresql-14.8.0`，用于存储用户、账号、模板、提交记录和应用元数据。
 - **PostgreSQL 初始化 Job**：在 PostgreSQL 就绪后，以幂等方式创建 `docuseal` 数据库。
 - **持久化存储**：挂载到 `/data/docuseal` 的 `1Gi` 卷，用于保存 DocuSeal 运行文件和上传附件。
 - **Ingress 与 App 入口**：Sealos 暴露 HTTPS 访问域名，并在仪表盘中创建应用入口。

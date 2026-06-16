@@ -22,7 +22,7 @@ Sealos also configures the public HTTPS route, service discovery, persistent sto
 
 ## Dependencies for DocuSeal Hosting
 
-The Sealos template includes the required runtime components: the DocuSeal container image, a PostgreSQL `postgresql-16.4.0` database, a database initialization job for the `docuseal` database, persistent application storage, a Kubernetes Service, an Ingress, and a Sealos App entry.
+The Sealos template includes the required runtime components: the DocuSeal container image, a PostgreSQL `postgresql-14.8.0` database, a database initialization job for the `docuseal` database, persistent application storage, a Kubernetes Service, an Ingress, and a Sealos App entry.
 
 ### Deployment Dependencies
 
@@ -38,7 +38,7 @@ The Sealos template includes the required runtime components: the DocuSeal conta
 This template deploys the following services:
 
 - **DocuSeal Web Service**: Runs `docuseal/docuseal:3.0.1` on port `3000` and serves the web UI, API, embedded signing pages, and background jobs.
-- **PostgreSQL**: Kubeblocks-managed PostgreSQL `postgresql-16.4.0` stores users, accounts, templates, submissions, and application metadata.
+- **PostgreSQL**: Kubeblocks-managed PostgreSQL `postgresql-14.8.0` stores users, accounts, templates, submissions, and application metadata.
 - **PostgreSQL Init Job**: Creates the `docuseal` database idempotently after PostgreSQL is ready.
 - **Persistent Storage**: A `1Gi` volume mounted at `/data/docuseal` stores DocuSeal runtime files and uploaded attachments.
 - **Ingress and App Entry**: Sealos exposes the web service through an HTTPS domain and creates a dashboard entry for direct access.
