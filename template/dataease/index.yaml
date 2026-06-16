@@ -8,11 +8,14 @@ spec:
   gitRepo: 'https://github.com/dataease/dataease'
   author: 'Sealos'
   description: '🔥 人人可用的开源数据可视化分析工具，帆软、Tableau 等商业 BI 工具的开源替代。'
-  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/dataease/README.md
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/dataease/README.md'
   icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/dataease/logo.png
   screenshots:
     - https://raw.githubusercontent.com/labring-sigs/templates/main/template/dataease/website-screenshot.webp
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/dataease/README_zh.md'
   locale: zh
   categories:
     - database

@@ -8,11 +8,14 @@ spec:
   gitRepo: "https://github.com/crmeb/CRMEB"
   author: "Sealos"
   description: "CRMEB开源商城系统PHP版"
-  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/README.md
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/README.md'
   icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/logo.png
   screenshots:
     - https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/website-screenshot.webp
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/crmeb/README_zh.md'
   locale: zh
   categories:
     - tool
