@@ -13,6 +13,7 @@ spec:
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/minio/website-screenshot.webp'
   templateType: inline
+  locale: en
   categories:
     - storage
   i18n:
