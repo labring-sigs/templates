@@ -8,14 +8,15 @@ spec:
   gitRepo: "https://github.com/toeverything/AFFiNE"
   author: "Sealos"
   description: "A privacy-focussed, local-first, open-source, and ready-to-use alternative for Notion & Miro."
-  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/affine/README.md"
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/affine/README.md'
   icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/affine/logo.png"
   screenshots:
     - "https://raw.githubusercontent.com/labring-sigs/templates/main/template/affine/website-screenshot.webp"
   templateType: inline
+  locale: en
   i18n:
     zh:
-      readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/affine/README_zh.md"
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/affine/README_zh.md'
   categories:
     - tool
   defaults:

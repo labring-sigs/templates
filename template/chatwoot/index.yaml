@@ -8,7 +8,7 @@ spec:
   url: "https://www.chatwoot.com"
   gitRepo: "https://github.com/chatwoot/chatwoot"
   author: "Sealos"
-  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatwoot/README.md
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatwoot/README.md'
   icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatwoot/logo.png
   screenshots:
     - https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatwoot/website-screenshot.webp
@@ -16,6 +16,7 @@ spec:
   locale: en
   i18n:
     zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatwoot/README_zh.md'
       description: "开源客户互动平台，支持实时聊天、邮件和社交媒体集成"
   categories:
     - tool

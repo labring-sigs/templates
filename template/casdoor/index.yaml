@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/casdoor/casdoor'
   author: 'Sealos'
   description: 'Casdoor is a UI-first Identity Access Management (IAM) / Single-Sign-On (SSO) platform based on OAuth 2.0, OIDC, SAML and CAS.'
-  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/casdoor/README.md
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/casdoor/README.md'
   icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/casdoor/logo.png
   screenshots:
     - https://raw.githubusercontent.com/labring-sigs/templates/main/template/casdoor/website-screenshot.webp
@@ -16,6 +16,7 @@ spec:
   locale: en
   i18n:
     zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/casdoor/README_zh.md'
       title: 'Casdoor'
       description: 'Casdoor 是一个基于 OAuth 2.0、OIDC、SAML 和 CAS 的 UI 优先的身份访问管理（IAM）/单点登录（SSO）平台。'
   categories:

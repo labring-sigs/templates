@@ -1566,5 +1566,6 @@ kind: App
 metadata:
   name: ${{ defaults.app_name }}
 spec:
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/airbyte/logo.svg'
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}

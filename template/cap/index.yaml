@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/CapSoftware/Cap'
   author: 'sealos'
   description: 'Open source alternative to Loom. Record, edit and share videos in seconds.'
-  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/README.md
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/README.md'
   icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/logo.svg
   screenshots:
     - https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/website-screenshot.webp
@@ -16,6 +16,7 @@ spec:
   locale: en
   i18n:
     zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/cap/README_zh.md'
       title: 'Cap'
       description: 'Loom 的开源替代品。快速录制、编辑和分享视频。'
   categories:
