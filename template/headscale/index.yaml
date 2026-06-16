@@ -31,6 +31,158 @@ spec:
     cookie_secret:
       type: string
       value: ${{ random(32) }}
+  inputs:
+    use_postgresql:
+      description: "Use KubeBlocks PostgreSQL instead of the default embedded SQLite database."
+      type: boolean
+      default: "false"
+      required: false
+
+---
+${{ if(inputs.use_postgresql === 'true') }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    sealos-db-provider-cr: headscale-${{ defaults.app_suffix }}-pg
+    app.kubernetes.io/instance: headscale-${{ defaults.app_suffix }}-pg
+    app.kubernetes.io/managed-by: kbcli
+  name: headscale-${{ defaults.app_suffix }}-pg
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    sealos-db-provider-cr: headscale-${{ defaults.app_suffix }}-pg
+    app.kubernetes.io/instance: headscale-${{ defaults.app_suffix }}-pg
+    app.kubernetes.io/managed-by: kbcli
+  name: headscale-${{ defaults.app_suffix }}-pg
+rules:
+  - apiGroups:
+      - "*"
+    resources:
+      - "*"
+    verbs:
+      - "*"
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    sealos-db-provider-cr: headscale-${{ defaults.app_suffix }}-pg
+    app.kubernetes.io/instance: headscale-${{ defaults.app_suffix }}-pg
+    app.kubernetes.io/managed-by: kbcli
+  name: headscale-${{ defaults.app_suffix }}-pg
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: headscale-${{ defaults.app_suffix }}-pg
+subjects:
+  - kind: ServiceAccount
+    name: headscale-${{ defaults.app_suffix }}-pg
+
+---
+apiVersion: apps.kubeblocks.io/v1alpha1
+kind: Cluster
+metadata:
+  finalizers:
+    - cluster.kubeblocks.io/finalizer
+  labels:
+    clusterdefinition.kubeblocks.io/name: postgresql
+    clusterversion.kubeblocks.io/name: postgresql-14.8.0
+    sealos-db-provider-cr: headscale-${{ defaults.app_suffix }}-pg
+  annotations: {}
+  name: headscale-${{ defaults.app_suffix }}-pg
+spec:
+  affinity:
+    nodeLabels: {}
+    podAntiAffinity: Preferred
+    tenancy: SharedNode
+    topologyKeys: []
+  clusterDefinitionRef: postgresql
+  clusterVersionRef: postgresql-14.8.0
+  componentSpecs:
+    - componentDefRef: postgresql
+      monitor: true
+      name: postgresql
+      replicas: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 50m
+          memory: 51Mi
+      serviceAccountName: headscale-${{ defaults.app_suffix }}-pg
+      switchPolicy:
+        type: Noop
+      volumeClaimTemplates:
+        - name: data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+  terminationPolicy: Delete
+  tolerations: []
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: headscale-${{ defaults.app_suffix }}-pg-init
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      containers:
+        - name: pgsql-init
+          image: postgres:14.8-alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: headscale-${{ defaults.app_suffix }}-pg-conn-credential
+                  key: password
+            - name: PG_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: headscale-${{ defaults.app_suffix }}-pg-conn-credential
+                  key: username
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: headscale-${{ defaults.app_suffix }}-pg-conn-credential
+                  key: host
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: headscale-${{ defaults.app_suffix }}-pg-conn-credential
+                  key: port
+            - name: PG_DATABASE
+              value: headscale
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              for i in $(seq 1 60); do
+                if pg_isready -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d postgres >/dev/null 2>&1; then
+                  break
+                fi
+                sleep 2
+              done
+              pg_isready -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d postgres >/dev/null 2>&1
+              if ! PGPASSWORD="$PG_PASSWORD" psql -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='$PG_DATABASE'" | grep -q 1; then
+                PGPASSWORD="$PG_PASSWORD" psql -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d postgres -v ON_ERROR_STOP=1 -c "CREATE DATABASE \"$PG_DATABASE\";"
+              fi
+      restartPolicy: OnFailure
+  ttlSecondsAfterFinished: 300
+${{ endif() }}
 
 ---
 apiVersion: v1
@@ -98,14 +250,91 @@ spec:
       shareProcessNamespace: true
       serviceAccountName: headscale-${{ defaults.app_suffix }}
       initContainers:
+        ${{ if(inputs.use_postgresql === 'true') }}
+        - name: wait-postgres
+          image: postgres:14.8-alpine
+          env:
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: headscale-${{ defaults.app_suffix }}-pg-conn-credential
+                  key: password
+            - name: PG_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: headscale-${{ defaults.app_suffix }}-pg-conn-credential
+                  key: username
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: headscale-${{ defaults.app_suffix }}-pg-conn-credential
+                  key: host
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: headscale-${{ defaults.app_suffix }}-pg-conn-credential
+                  key: port
+            - name: PG_DATABASE
+              value: headscale
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              for i in $(seq 1 120); do
+                if PGPASSWORD="$PG_PASSWORD" psql -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d "$PG_DATABASE" -tAc "SELECT 1" >/dev/null 2>&1; then
+                  exit 0
+                fi
+                sleep 2
+              done
+              PGPASSWORD="$PG_PASSWORD" psql -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d "$PG_DATABASE" -tAc "SELECT 1" >/dev/null
+          imagePullPolicy: IfNotPresent
+        ${{ endif() }}
         - name: copy-config
           image: alpine:3.24.0
+          env:
+            - name: USE_POSTGRESQL
+              value: "${{ inputs.use_postgresql }}"
+            ${{ if(inputs.use_postgresql === 'true') }}
+            - name: DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: headscale-${{ defaults.app_suffix }}-pg-conn-credential
+                  key: host
+            - name: DATABASE_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: headscale-${{ defaults.app_suffix }}-pg-conn-credential
+                  key: port
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: headscale-${{ defaults.app_suffix }}-pg-conn-credential
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: headscale-${{ defaults.app_suffix }}-pg-conn-credential
+                  key: password
+            ${{ endif() }}
           command:
-            [
-              "/bin/sh",
-              "-c",
-              "if [ ! -f /etc/headscale/config.yaml ]; then cp /tmp/config.yaml /etc/headscale/config.yaml; fi",
-            ]
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              if [ -f /etc/headscale/config.yaml ]; then
+                exit 0
+              fi
+              cp /tmp/config.yaml /etc/headscale/config.yaml
+              if [ "$USE_POSTGRESQL" = "true" ]; then
+                escape_sed() { printf '%s' "$1" | sed 's/[\/&]/\\&/g'; }
+                sed -i \
+                  -e "s|__POSTGRES_HOST__|$(escape_sed "$DATABASE_HOST")|g" \
+                  -e "s|__POSTGRES_PORT__|$(escape_sed "$DATABASE_PORT")|g" \
+                  -e "s|__POSTGRES_USER__|$(escape_sed "$DATABASE_USER")|g" \
+                  -e "s|__POSTGRES_PASSWORD__|$(escape_sed "$DATABASE_PASSWORD")|g" \
+                  /etc/headscale/config.yaml
+              fi
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: vn-etcvn-headscale
@@ -412,31 +641,33 @@ data:
     ephemeral_node_inactivity_timeout: 30m
 
     database:
+      # Database type. Available options: sqlite, postgres
+      ${{ if(inputs.use_postgresql === 'true') }}
+      type: postgres
+      ${{ else() }}
       type: sqlite
+      ${{ endif() }}
 
-      # SQLite config
+      ${{ if(inputs.use_postgresql === 'true') }}
+      postgres:
+        # If using a Unix socket to connect to Postgres, set the socket path in the 'host' field and leave 'port' blank.
+        host: __POSTGRES_HOST__
+        port: __POSTGRES_PORT__
+        name: headscale
+        user: __POSTGRES_USER__
+        pass: __POSTGRES_PASSWORD__
+        max_open_conns: 10
+        max_idle_conns: 10
+        conn_max_idle_time_secs: 3600
+        ssl: false
+      ${{ else() }}
       sqlite:
         path: /var/lib/headscale/db.sqlite
 
         # Enable WAL mode for SQLite. This is recommended for production environments.
         # https://www.sqlite.org/wal.html
         write_ahead_log: true
-
-      # # Postgres config
-      # postgres:
-      #   # If using a Unix socket to connect to Postgres, set the socket path in the 'host' field and leave 'port' blank.
-      #   host: localhost
-      #   port: 5432
-      #   name: headscale
-      #   user: foo
-      #   pass: bar
-      #   max_open_conns: 10
-      #   max_idle_conns: 10
-      #   conn_max_idle_time_secs: 3600
-
-      #   # If other 'sslmode' is required instead of 'require(true)' and 'disabled(false)', set the 'sslmode' you need
-      #   # in the 'ssl' field. Refers to https://www.postgresql.org/docs/current/libpq-ssl.html Table 34.1.
-      #   ssl: false
+      ${{ endif() }}
 
     ### TLS configuration
     #
