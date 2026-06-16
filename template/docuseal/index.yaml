@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/docusealco/docuseal'
   author: 'Sealos'
   description: 'Open source document signing solution. Create, fill, and sign digital documents with legally binding eSignatures.'
-  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/docuseal/README.md
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/docuseal/README.md'
   icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/docuseal/logo.svg
   screenshots:
     - https://raw.githubusercontent.com/labring-sigs/templates/main/template/docuseal/website-screenshot.webp
@@ -16,6 +16,7 @@ spec:
   locale: en
   i18n:
     zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/docuseal/README_zh.md'
       title: 'DocuSeal'
       description: '开源文档签名解决方案。创建、填写和签署具有法律约束力的电子签名数字文档。'
   categories:

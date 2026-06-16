@@ -13,6 +13,7 @@ spec:
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/glitchtip/website-screenshot.webp'
   templateType: inline
+  locale: en
   categories:
     - monitor
     - tool
