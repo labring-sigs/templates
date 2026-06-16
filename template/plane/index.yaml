@@ -8,9 +8,13 @@ spec:
   gitRepo: 'https://github.com/makeplane/plane'
   author: 'Sealos'
   description: 'Open Source JIRA, Linear, Monday, and Asana Alternative. Plane helps you track your issues, epics, and product roadmaps in the simplest way possible.'
-  readme: 'https://raw.githubusercontent.com/makeplane/plane/preview/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/115727700?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/plane/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/plane/logo.png'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/plane/README_zh.md'
+  locale: en
   categories:
     - tool
   defaults:
@@ -1007,6 +1011,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/115727700?s=48&v=4"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/plane/logo.png'
   name: Plane
   type: iframe

@@ -8,11 +8,12 @@ spec:
   gitRepo: "https://github.com/AmruthPillai/Reactive-Resume"
   author: "Sealos"
   description: "A free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
-  readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/reactive-resume/README.md"
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/reactive-resume/README.md'
   icon: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/reactive-resume/logo.svg"
   screenshots:
     - "https://raw.githubusercontent.com/labring-sigs/templates/main/template/reactive-resume/website-screenshot.webp"
   templateType: inline
+  locale: en
   categories:
     - tool
   defaults:
@@ -33,7 +34,7 @@ spec:
       required: true
   i18n:
     zh:
-      readme: "https://raw.githubusercontent.com/labring-sigs/templates/main/template/reactive-resume/README_zh.md"
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/reactive-resume/README_zh.md'
 ---
 apiVersion: v1
 kind: ServiceAccount

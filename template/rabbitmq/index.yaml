@@ -8,12 +8,13 @@ spec:
   gitRepo: 'https://github.com/rabbitmq/rabbitmq-server'
   author: 'Sealos'
   description: 'Open source RabbitMQ: core server and tier 1 (built-in) plugins'
-  readme: 'https://raw.githubusercontent.com/rabbitmq/rabbitmq-server/refs/heads/main/README.md'
-  icon: 'https://www.rabbitmq.com/img/rabbitmq-logo.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rabbitmq/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rabbitmq/logo.svg'
   templateType: inline
   locale: en
   i18n:
     zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rabbitmq/README_zh.md'
       title: 'RabbitMQ'
       description: 'RabbitMQ 是一款被广泛使用的开源消息代理（Message Broker），属于主流消息中间件，它用 Erlang 语言开发，实现了高级消息队列协议（AMQP），同时还支持 MQTT、STOMP 等多种协议，以可靠性、灵活路由、多语言客户端支持和丰富的管理工具著称，是分布式系统中实现异步通信、服务解耦的核心组件。'
   categories:
@@ -125,6 +126,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: 'https://www.rabbitmq.com/img/rabbitmq-logo.svg'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/rabbitmq/logo.svg'
   name: RabbitMQ
   type: iframe
