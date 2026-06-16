@@ -132,6 +132,70 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
+  name: ${{ defaults.app_name }}-pg-init
+spec:
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 300
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: pgsql-init
+          image: postgres:14-alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: host
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: port
+            - name: PG_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: username
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: password
+            - name: PG_DATABASE
+              value: affine
+            - name: PGPASSWORD
+              value: $(PG_PASSWORD)
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 10m
+              memory: 12Mi
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              for i in $(seq 1 120); do
+                if pg_isready -h "${PG_HOST}" -p "${PG_PORT}" -U "${PG_USERNAME}" -d postgres >/dev/null 2>&1; then
+                  break
+                fi
+                echo "waiting for postgresql..."
+                sleep 2
+              done
+              pg_isready -h "${PG_HOST}" -p "${PG_PORT}" -U "${PG_USERNAME}" -d postgres >/dev/null 2>&1
+              if ! psql -h "${PG_HOST}" -p "${PG_PORT}" -U "${PG_USERNAME}" -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='${PG_DATABASE}'" | grep -q 1; then
+                psql -h "${PG_HOST}" -p "${PG_PORT}" -U "${PG_USERNAME}" -d postgres -v ON_ERROR_STOP=1 -c 'CREATE DATABASE affine;'
+              fi
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
   name: ${{ defaults.app_name }}-migration
 spec:
   backoffLimit: 3
@@ -167,8 +231,8 @@ spec:
             - /bin/sh
             - -c
             - |
-              until pg_isready -h ${PG_HOST} -p ${PG_PORT} -U ${PG_USERNAME}; do
-                echo "waiting for postgresql..."
+              until psql -h "${PG_HOST}" -p "${PG_PORT}" -U "${PG_USERNAME}" -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='affine';" | grep -q 1; do
+                echo "waiting for affine database..."
                 sleep 2
               done
       containers:
