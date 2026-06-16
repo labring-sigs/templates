@@ -13,6 +13,7 @@ spec:
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/midjourney-ui/website-screenshot.webp'
   templateType: inline
+  locale: en
   i18n:
     zh:
       readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/midjourney-ui/README_zh.md'

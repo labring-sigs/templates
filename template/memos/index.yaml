@@ -13,6 +13,7 @@ spec:
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/memos/website-screenshot.webp'
   templateType: inline
+  locale: en
   defaults:
     app_host:
       type: string
