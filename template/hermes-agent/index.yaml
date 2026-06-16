@@ -8,8 +8,8 @@ spec:
   gitRepo: "https://github.com/EKKOLearnAI/hermes-web-ui"
   author: "Sealos"
   description: "Hermes Agent with integrated Hermes Web UI, packaged as a single stable image for Sealos."
-  readme: "https://raw.githubusercontent.com/EKKOLearnAI/hermes-web-ui/main/README.md"
-  icon: "https://github.com/EKKOLearnAI.png"
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/hermes-agent/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/hermes-agent/logo.png'
   templateType: inline
   locale: en
   categories:
@@ -17,7 +17,7 @@ spec:
   i18n:
     zh:
       description: "集成 Hermes Web UI 的单镜像 Hermes Agent，适合直接在 Sealos 上稳定部署。"
-      readme: "https://raw.githubusercontent.com/EKKOLearnAI/hermes-web-ui/main/README_zh.md"
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/hermes-agent/README_zh.md'
   defaults:
     app_name:
       type: string
@@ -213,6 +213,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://github.com/EKKOLearnAI.png"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/hermes-agent/logo.png'
   name: "Hermes Agent"
   type: link
