@@ -36,7 +36,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: ghcr.io/primocms/primo:3.2.0
+    originImageName: ghcr.io/palacms/palacms:v3.0.0-beta.1
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -57,7 +57,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: ghcr.io/primocms/primo:3.2.0
+          image: ghcr.io/palacms/palacms:v3.0.0-beta.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
