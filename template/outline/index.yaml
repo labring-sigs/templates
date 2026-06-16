@@ -8,14 +8,15 @@ spec:
   gitRepo: 'https://github.com/outline/outline'
   author: 'Sealos'
   description: 'The fastest knowledge base for growing teams. Beautiful, realtime collaborative, feature packed, and markdown compatible.'
-  readme: 'https://raw.githubusercontent.com/outline/outline/refs/heads/main/README.md'
-  icon: 'https://avatars.githubusercontent.com/u/1765001?s=48&v=4'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/outline/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/outline/logo.png'
   templateType: inline
   categories:
     - tool
   locale: en
   i18n:
     zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/outline/README_zh.md'
       title: 'Outline'
       description: '为成长型团队打造的最快速的知识库。美观、实时协作、功能丰富且兼容 Markdown。'
   defaults:
@@ -664,6 +665,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://avatars.githubusercontent.com/u/1765001?s=48&v=4"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/outline/logo.png'
   name: Outline
   type: link

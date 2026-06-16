@@ -8,9 +8,13 @@ spec:
   gitRepo: 'https://github.com/nocodb/nocodb'
   author: 'Sealos'
   description: 'Turns any MySQL, PostgreSQL, SQL Server, SQLite & MariaDB into a smart spreadsheet.'
-  readme: 'https://raw.githubusercontent.com/nocodb/nocodb/develop/README.md'
-  icon: 'https://raw.githubusercontent.com/nocodb/nocodb/develop/packages/nc-gui/assets/img/brand/nocodb-logo.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nocodb/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nocodb/logo.svg'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nocodb/README_zh.md'
+  locale: en
   categories:
     - database
   defaults:
@@ -153,6 +157,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://raw.githubusercontent.com/nocodb/nocodb/develop/packages/nc-gui/assets/img/brand/nocodb-logo.svg"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nocodb/logo.svg'
   name: ${{ defaults.app_name }}
   type: iframe
