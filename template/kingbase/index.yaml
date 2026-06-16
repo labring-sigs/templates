@@ -83,7 +83,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: sealos.hub:5000/kingbase_v009r001c010b0004_single_x86:v1
+    originImageName: xuxuclassmate/kingbase:v8r3
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
     deploy.cloud.sealos.io/resize: '${{ inputs.storage }}Gi'
@@ -123,20 +123,20 @@ spec:
             - sh
             - -c
             - |
-              mkdir -p /home/kingbase/userdata/data /run/user/1000 /var/run /tmp /var/tmp
-              chown -R 1000:1000 /home/kingbase /run/user/1000 /var/run /tmp /var/tmp
-              chmod -R 700 /home/kingbase /run/user/1000
+              mkdir -p /opt/kingbase/data /run/user/1000 /var/run /tmp /var/tmp
+              chown -R 1000:1000 /opt/kingbase /run/user/1000 /var/run /tmp /var/tmp
+              chmod -R 700 /opt/kingbase /run/user/1000
               chmod 1777 /tmp /var/tmp /var/run
               echo "=== fix-permissions completed ==="
           volumeMounts:
-            - name: vn-homevn-kingbasevn-userdata
-              mountPath: /home/kingbase/userdata
+            - name: vn-optvn-kingbasevn-data
+              mountPath: /opt/kingbase/data
           securityContext:
             runAsUser: 0
       containers:
         - name: ${{ defaults.app_name }}
-          image: sealos.hub:5000/kingbase_v009r001c010b0004_single_x86:v1
-          imagePullPolicy: Always
+          image: xuxuclassmate/kingbase:v8r3
+          imagePullPolicy: IfNotPresent
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
@@ -145,8 +145,8 @@ spec:
             - sh
             - -c
             - |
-              export PGDATA=/home/kingbase/userdata/data
-              export PATH=/opt/kingbase/bin:$PATH
+              export PGDATA=/opt/kingbase/data
+              export PATH=/opt/kingbase/Server/bin:$PATH
               export DB_MODE="${DB_MODE:-pg}"
               export DB_USER="${DB_USER:-kingbase}"
               export DB_PASSWORD="${DB_PASSWORD:-kingbase123}"
@@ -167,7 +167,7 @@ spec:
                 echo "=== Initializing database with image bootstrap ==="
                 PWFILE="$(mktemp)"
                 printf '%s\n' "$DB_PASSWORD" > "$PWFILE"
-                initdb -D "$PGDATA" --locale=en_US.UTF-8 --encoding=UTF8 --username="$DB_USER" --pwfile="$PWFILE" --dbmode="$DB_MODE"
+                initdb -U"$DB_USER" -W"$DB_PASSWORD" -E UTF8 "$PGDATA" --encoding=UTF8 --case-insensitive
                 rm -f "$PWFILE"
                 echo "listen_addresses='*'" >> "$PGDATA/kingbase.conf"
                 echo "port=$DB_PORT" >> "$PGDATA/kingbase.conf"
@@ -188,7 +188,7 @@ spec:
               exec kingbase -D "$PGDATA" -p "$DB_PORT"
           env:
             - name: PGDATA
-              value: /home/kingbase/userdata/data
+              value: /opt/kingbase/data
             - name: DB_MODE
               value: ${{ inputs.db_mode }}
             - name: DB_USER
@@ -209,13 +209,13 @@ spec:
               cpu: '1'
               memory: 1Gi
           volumeMounts:
-            - name: vn-homevn-kingbasevn-userdata
-              mountPath: /home/kingbase/userdata
+            - name: vn-optvn-kingbasevn-data
+              mountPath: /opt/kingbase/data
   volumeClaimTemplates:
     - metadata:
-        name: vn-homevn-kingbasevn-userdata
+        name: vn-optvn-kingbasevn-data
         annotations:
-          path: /home/kingbase/userdata
+          path: /opt/kingbase/data
           value: '${{ inputs.storage }}'
           storageType: local
       spec:
