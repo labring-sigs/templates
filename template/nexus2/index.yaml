@@ -8,15 +8,15 @@ spec:
   gitRepo: 'GitHub - sonatype/docker-nexus: Docker image for Sonatype Nexus'
   author: '孤城落寞'
   description: 'A robust package registry built on extensive enterprise storage capabilities. This template deploys Nexus Repository OSS 2.'
-  readme: 'https://raw.githubusercontent.com/sonatype/docker-nexus/master/README.md'
-  icon: 'https://www.sonatype.com/hubfs/2-2023-Product%20Logos/Repo%20Nav%20Icon%20updated.png'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nexus2/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nexus2/logo.png'
   templateType: inline
   locale: en
   i18n:
     zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nexus2/README_zh.md'
       title: 'Nexus'
       description: '一个强大的软件仓库管理工具，主要用于存储和管理软件开发过程中的各类组件（artifacts）。此模板部署的是 Nexus Repository OSS 2。'
-      readme: 'https://git.icloudnative.io/labring-sigs/templates/main/template/nexus/README_cn.md'
   categories:
     - tool
   defaults:
@@ -203,6 +203,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: "https://www.sonatype.com/hubfs/2-2023-Product%20Logos/Repo%20Nav%20Icon%20updated.png"
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nexus2/logo.png'
   name: Nexus
   type: link
