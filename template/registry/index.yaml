@@ -5,6 +5,7 @@ metadata:
 spec:
   gitRepo: https://github.com/distribution/distribution
   templateType: inline
+  locale: en
   title: registry
   url: https://distribution.github.io/distribution
   author: sealos
