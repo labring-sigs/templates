@@ -8,7 +8,7 @@ spec:
   gitRepo: 'https://github.com/labring/nsfw'
   author: 'Sealos'
   description: 'NSFW is a project for image pornography recognition'
-  readme: 'https://raw.githubusercontent.com/labring/nsfw/master/README.md'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nsfw/README.md'
   icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nsfw/logo.png'
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nsfw/website-screenshot.webp'
@@ -28,6 +28,9 @@ spec:
       type: string
       default: ''
       required: false
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/nsfw/README_zh.md'
 ---
 apiVersion: apps/v1
 kind: Deployment
