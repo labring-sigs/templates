@@ -2773,7 +2773,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}-elasticsearch
   annotations:
-    originImageName: quay-kufddygt.sealoshzh.site/admin/es-cn:8.18.0
+    originImageName: bitnamilegacy/elasticsearch:8.18.0
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -2796,7 +2796,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}-elasticsearch
-          image: quay-kufddygt.sealoshzh.site/admin/es-cn:8.18.0
+          image: bitnamilegacy/elasticsearch:8.18.0
           env:
             - name: ES_JAVA_OPTS
               value: "-Djdk.tls.client.protocols=TLSv1.2 -Dhttps.protocols=TLSv1.2 -Djavax.net.ssl.trustAll=true -Xms2048m -Xmx2048m"
