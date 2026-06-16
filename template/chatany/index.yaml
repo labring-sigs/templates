@@ -13,6 +13,7 @@ spec:
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/chatany/website-screenshot.webp'
   templateType: inline
+  locale: en
   categories:
     - ai
   defaults:
