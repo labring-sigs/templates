@@ -8,9 +8,13 @@ spec:
   gitRepo: 'https://github.com/insforge/insforge'
   author: 'InsForge'
   description: 'Open-source backend platform with PostgreSQL, REST API, and serverless functions'
-  readme: 'https://raw.githubusercontent.com/insforge/insforge/main/README.md'
-  icon: 'https://raw.githubusercontent.com/InsForge/InsForge/main/assets/logo-light.svg'
+  readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/insforge/README.md'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/insforge/logo.svg'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/insforge/README_zh.md'
+  locale: en
   categories:
     - database
     - backend

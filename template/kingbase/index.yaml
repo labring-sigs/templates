@@ -7,8 +7,12 @@ spec:
   author: 'Sealos'
   description: 'Kingbase 单机版模板，基于 StatefulSet 部署，提供 TCP NodePort 暴露与持久化数据目录。'
   readme: ''
-  icon: 'https://www.kingbase.com.cn/favicon.ico'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kingbase/logo.ico'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/kingbase/README_zh.md'
+  locale: zh
   categories:
     - database
   defaults:
