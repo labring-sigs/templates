@@ -7,8 +7,12 @@ spec:
   author: 'Sealos'
   description: 'DM8（达梦数据库）单机版模板，基于 StatefulSet 部署并持久化数据库数据目录。'
   readme: ''
-  icon: 'https://www.dameng.com/static/cn/images/favicon.ico'
+  icon: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/dm-db/logo.ico'
   templateType: inline
+  i18n:
+    zh:
+      readme: 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/dm-db/README_zh.md'
+  locale: zh
   categories:
     - database
   defaults:
@@ -874,7 +878,7 @@ metadata:
     deploy.cloud.sealos.io/maxReplicas: '1'
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/resize: '${{ inputs.storage }}Gi'
-    originImageName: sealos.hub:5000/dm8:dm8_20251013_rev286012_x86_centos7_64
+    originImageName: sizx/dm8:1-2-128-22.08.04-166351-20005-CTM
   labels:
     app: ${{ defaults.app_name }}
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
@@ -898,7 +902,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: sealos.hub:5000/dm8:dm8_20251013_rev286012_x86_centos7_64
+          image: sizx/dm8:1-2-128-22.08.04-166351-20005-CTM
           imagePullPolicy: Always
           env:
             - name: SYSDBA_USER

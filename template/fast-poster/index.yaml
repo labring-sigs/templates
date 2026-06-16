@@ -13,6 +13,7 @@ spec:
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/fast-poster/website-screenshot.webp'
   templateType: inline
+  locale: zh
   draft: true
   defaults:
     app_host:
