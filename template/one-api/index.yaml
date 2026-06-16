@@ -75,6 +75,25 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       automountServiceAccountToken: false
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox:1.36.1
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              until nc -z ${{ defaults.app_name }}-mysql-mysql.${{ SEALOS_NAMESPACE }}.svc 3306 >/dev/null 2>&1; do
+                sleep 2
+              done
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 10m
+              memory: 12Mi
       containers:
         - name: ${{ defaults.app_name }}
           image: ghcr.io/songquanpeng/one-api:v0.6.10
