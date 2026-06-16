@@ -878,7 +878,7 @@ metadata:
     deploy.cloud.sealos.io/maxReplicas: '1'
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/resize: '${{ inputs.storage }}Gi'
-    originImageName: sealos.hub:5000/dm8:dm8_20251013_rev286012_x86_centos7_64
+    originImageName: sizx/dm8:1-2-128-22.08.04-166351-20005-CTM
   labels:
     app: ${{ defaults.app_name }}
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
@@ -902,7 +902,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: ${{ defaults.app_name }}
-          image: sealos.hub:5000/dm8:dm8_20251013_rev286012_x86_centos7_64
+          image: sizx/dm8:1-2-128-22.08.04-166351-20005-CTM
           imagePullPolicy: Always
           env:
             - name: SYSDBA_USER
