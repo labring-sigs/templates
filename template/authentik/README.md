@@ -39,7 +39,7 @@ This template deploys the following resources:
 
 - **Authentik Server (StatefulSet)**: Runs `ghcr.io/goauthentik/server:2025.12.3` with `server` mode, serves web UI/API on port `9000`, and exposes `9443` internally.
 - **Authentik Worker (StatefulSet)**: Runs the same image in `worker` mode to process background and scheduled jobs.
-- **PostgreSQL Cluster (KubeBlocks)**: Provisions PostgreSQL `16.4.0` with persistent storage and secret-based credentials.
+- **PostgreSQL Cluster (KubeBlocks)**: Provisions PostgreSQL `14.8.0` with persistent storage and secret-based credentials.
 - **PostgreSQL Init Job**: Waits for database readiness, then creates the `authentik` database if it does not exist.
 - **Service + Ingress**: Exposes Authentik through HTTPS with automatic TLS certificate integration on Sealos.
 - **App Resource**: Publishes the access URL into the Sealos app card for quick entry from Canvas.
