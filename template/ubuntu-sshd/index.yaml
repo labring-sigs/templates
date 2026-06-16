@@ -13,6 +13,7 @@ spec:
   screenshots:
     - 'https://raw.githubusercontent.com/labring-sigs/templates/main/template/ubuntu-sshd/website-screenshot.webp'
   templateType: inline
+  locale: en
   draft: true
   categories:
     - tool
