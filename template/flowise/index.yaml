@@ -310,27 +310,27 @@ spec:
             - name: S3_STORAGE_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
-                  name: object-storage-key
+                  name: object-storage-key-${{ SEALOS_SERVICE_ACCOUNT }}-${{ defaults.app_name }}
                   key: accessKey
             - name: S3_STORAGE_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: object-storage-key
+                  name: object-storage-key-${{ SEALOS_SERVICE_ACCOUNT }}-${{ defaults.app_name }}
                   key: secretKey
             - name: S3_STORAGE_BUCKET_NAME
               valueFrom:
                 secretKeyRef:
                   name: object-storage-key-${{ SEALOS_SERVICE_ACCOUNT }}-${{ defaults.app_name }}
                   key: bucket
-            - name: BACKEND_STORAGE_MINIO_EXTERNAL_ENDPOINT
+            - name: BACKEND_STORAGE_MINIO_INTERNAL_ENDPOINT
               valueFrom:
                 secretKeyRef:
                   name: object-storage-key
-                  key: external
+                  key: internal
             - name: S3_ENDPOINT_URL
-              value: 'https://$(BACKEND_STORAGE_MINIO_EXTERNAL_ENDPOINT)'
+              value: 'http://$(BACKEND_STORAGE_MINIO_INTERNAL_ENDPOINT)'
             - name: S3_FORCE_PATH_STYLE
-              value: 'true' 
+              value: 'true'
             - name: S3_STORAGE_REGION
               value: 'us-west-2'
             ${{ else() }}
@@ -357,26 +357,29 @@ spec:
           volumeMounts:
             - name: vn-rootvn-flowise
               mountPath: /root/.flowise
+          startupProbe:
+            httpGet:
+              path: /api/v1/ping
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 60
           livenessProbe:
-            exec:
-              command:
-              - /bin/sh
-              - -c
-              - curl -f http://localhost:3000/api/v1/ping | grep -q 'pong'
-            initialDelaySeconds: 30
-            periodSeconds: 10
+            httpGet:
+              path: /api/v1/ping
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 20
             timeoutSeconds: 5
-            failureThreshold: 10
+            failureThreshold: 6
           readinessProbe:
-            exec:
-              command:
-              - /bin/sh
-              - -c
-              - curl -f http://localhost:3000/api/v1/ping | grep -q 'pong'
-            initialDelaySeconds: 30
+            httpGet:
+              path: /api/v1/ping
+              port: http
+            initialDelaySeconds: 10
             periodSeconds: 10
             timeoutSeconds: 5
-            failureThreshold: 3
+            failureThreshold: 12
   volumeClaimTemplates:
     - metadata:
         annotations:
