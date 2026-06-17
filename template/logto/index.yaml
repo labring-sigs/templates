@@ -123,36 +123,6 @@ subjects:
     name: ${{ defaults.app_name }}-pg
 
 ---
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: ${{ defaults.app_name }}-pg-init
-spec:
-  completions: 1
-  template:
-    spec:
-      containers:
-        - name: pgsql-init
-          image: postgres:14.8-alpine
-          env:
-            - name: PG_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: ${{ defaults.app_name }}-pg-conn-credential
-                  key: password
-            - name: DATABASE_URL
-              value: postgresql://postgres:$(PG_PASSWORD)@${{ defaults.app_name }}-pg-postgresql.${{ SEALOS_NAMESPACE }}.svc:5432
-          command:
-            - /bin/sh
-            - -c
-            - |
-              until psql ${DATABASE_URL} -c 'CREATE DATABASE logto;' &>/dev/null; do sleep 1; done
-              until psql ${DATABASE_URL}/logto -c 'UPDATE sign_in_experiences SET password_policy='\''{"rejects": {"pwned": false}}'\'' WHERE tenant_id='\''admin'\'';' &>/dev/null; do sleep 1; done
-      restartPolicy: Never
-  backoffLimit: 0
-  ttlSecondsAfterFinished: 300
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -181,10 +151,172 @@ spec:
         app: ${{ defaults.app_name }}
     spec:
       automountServiceAccountToken: false
+      initContainers:
+        - name: init-logto-database
+          image: postgres:14.8-alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PGHOST
+              value: ${{ defaults.app_name }}-pg-postgresql.${{ SEALOS_NAMESPACE }}.svc
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: port
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: username
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: password
+            - name: PGDATABASE
+              value: logto
+          command:
+            - /bin/sh
+            - -ec
+          args:
+            - |
+              until pg_isready -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d postgres >/dev/null 2>&1; do
+                echo "waiting for PostgreSQL"
+                sleep 2
+              done
+              if ! psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='${PGDATABASE}'" | grep -q 1; then
+                psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d postgres -v ON_ERROR_STOP=1 -c "CREATE DATABASE \"${PGDATABASE}\";"
+              fi
+          resources:
+            requests:
+              cpu: 50m
+              memory: 51Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+        - name: seed-logto-database
+          image: svhd/logto:1.24
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -ec
+          args:
+            - |
+              for i in $(seq 1 90); do
+                if npm run cli db seed -- --swe; then
+                  exit 0
+                fi
+                echo "Logto database seed attempt $i failed; retrying in 5 seconds" >&2
+                sleep 5
+              done
+              echo "Timed out seeding Logto database" >&2
+              exit 1
+          env:
+            - name: TRUST_PROXY_HEADER
+              value: "1"
+            - name: DATABASE_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: port
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: password
+            - name: DB_URL
+              value: "postgres://$(DATABASE_USER):$(DATABASE_PASSWORD)@${{ defaults.app_name }}-pg-postgresql.${{ SEALOS_NAMESPACE }}.svc:$(DATABASE_PORT)/logto"
+            - name: ENDPOINT
+              value: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
+            - name: ADMIN_ENDPOINT
+              value: https://${{ defaults.app_host }}-admin.${{ SEALOS_CLOUD_DOMAIN }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+        - name: configure-logto-database
+          image: postgres:14.8-alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PGHOST
+              value: ${{ defaults.app_name }}-pg-postgresql.${{ SEALOS_NAMESPACE }}.svc
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: port
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: username
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: password
+            - name: PGDATABASE
+              value: logto
+          command:
+            - /bin/sh
+            - -ec
+          args:
+            - |
+              for i in $(seq 1 90); do
+                if psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -v ON_ERROR_STOP=1 -c "UPDATE sign_in_experiences SET password_policy='{\"rejects\": {\"pwned\": false}}' WHERE tenant_id='admin';"; then
+                  exit 0
+                fi
+                echo "Logto database configuration attempt $i failed; retrying in 5 seconds" >&2
+                sleep 5
+              done
+              echo "Timed out configuring Logto database" >&2
+              exit 1
+          resources:
+            requests:
+              cpu: 50m
+              memory: 51Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
       containers:
         - name: ${{ defaults.app_name }}
           image: svhd/logto:1.24
-          command: ["sh", "-c", "npm run cli db seed -- --swe && npm start"]
+          command:
+            - /bin/sh
+            - -ec
+          args:
+            - |
+              for i in $(seq 1 12); do
+                npm start &
+                pid="$!"
+                for j in $(seq 1 60); do
+                  if ! kill -0 "$pid" >/dev/null 2>&1; then
+                    wait "$pid" || true
+                    echo "Logto start attempt $i exited before readiness; retrying in 5 seconds" >&2
+                    sleep 5
+                    continue 2
+                  fi
+                  if node -e "fetch('http://127.0.0.1:3001/api/status').then((r) => process.exit(r.status === 204 ? 0 : 1)).catch(() => process.exit(1))"; then
+                    wait "$pid"
+                    exit "$?"
+                  fi
+                  sleep 2
+                done
+                echo "Logto start attempt $i did not become ready in time; retrying in 5 seconds" >&2
+                kill "$pid" >/dev/null 2>&1 || true
+                wait "$pid" || true
+                sleep 5
+              done
+              echo "Timed out starting Logto" >&2
+              exit 1
           env:
             - name: TRUST_PROXY_HEADER
               value: "1"
@@ -219,12 +351,21 @@ spec:
           readinessProbe:
             failureThreshold: 30
             httpGet:
-              path: /
+              path: /api/status
               port: 3001
               scheme: HTTP
             periodSeconds: 10
             successThreshold: 1
-            timeoutSeconds: 1
+            timeoutSeconds: 5
+          startupProbe:
+            failureThreshold: 30
+            httpGet:
+              path: /api/status
+              port: 3001
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
           imagePullPolicy: IfNotPresent
 
 ---
