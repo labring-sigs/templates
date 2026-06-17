@@ -489,6 +489,111 @@ spec:
         app: ${{ defaults.app_name }}-api
     spec:
       automountServiceAccountToken: false
+      initContainers:
+        - name: wait-for-postgres
+          image: postgres:14.8-alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: password
+            - name: PG_HOST
+              value: ${{ defaults.app_name }}-pg-postgresql.${{ SEALOS_NAMESPACE }}.svc
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: port
+            - name: PG_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: username
+            - name: PG_DATABASE
+              value: refly
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              export PGPASSWORD="$PG_PASSWORD"
+              until pg_isready -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USER" -d "$PG_DATABASE" >/dev/null 2>&1; do
+                echo "waiting for PostgreSQL database $PG_DATABASE"
+                sleep 2
+              done
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+        - name: wait-for-redis
+          image: busybox:1.36.1
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-redis-conn-credential
+                  key: host
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-redis-conn-credential
+                  key: port
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              until nc -z "$REDIS_HOST" "$REDIS_PORT"; do
+                echo "waiting for Redis"
+                sleep 2
+              done
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+        - name: wait-for-qdrant
+          image: busybox:1.36.1
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              until nc -z ${{ defaults.app_name }}-qdrant 6333; do
+                echo "waiting for Qdrant"
+                sleep 2
+              done
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+        - name: wait-for-elasticsearch
+          image: busybox:1.36.1
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              until nc -z ${{ defaults.app_name }}-elasticsearch 9200; do
+                echo "waiting for Elasticsearch"
+                sleep 2
+              done
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
       containers:
         - name: ${{ defaults.app_name }}-api
           image: reflyai/refly-api:8d870210470801f62a4d2adb3423c947afddf400
@@ -523,9 +628,9 @@ spec:
                   name: object-storage-key
                   key: external
             - name: MINIO_EXTERNAL_PORT
-              value: 443
+              value: 80
             - name: MINIO_EXTERNAL_USE_SSL
-              value: true
+              value: false
             - name: MINIO_EXTERNAL_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
@@ -605,8 +710,6 @@ spec:
             - name: JWT_REFRESH_EXPIRATION_TIME
             - name: PARSER_PDF
               value: pdfjs
-            - name: PARSER_PDF
-              value: marker
             - name: MARKER_API_KEY
             - name: COLLAB_TOKEN_EXPIRY
             - name: EMAIL_AUTH_ENABLED
@@ -664,11 +767,11 @@ spec:
               value: '-1'
           resources:
             requests:
-              cpu: 20m
-              memory: 51Mi
+              cpu: 100m
+              memory: 256Mi
             limits:
-              cpu: 200m
-              memory: 512Mi
+              cpu: 500m
+              memory: 768Mi
           command:
             - sh
             - '-c'
