@@ -295,22 +295,22 @@ spec:
             valueFrom:
               secretKeyRef:
                 key: username
-                name: mautic-ovqmjzyp-mysql-conn-credential
+                name: ${{ defaults.app_name }}-mysql-conn-credential
           - name: MAUTIC_DB_PASSWORD
             valueFrom:
               secretKeyRef:
                 key: password
-                name: mautic-ovqmjzyp-mysql-conn-credential
+                name: ${{ defaults.app_name }}-mysql-conn-credential
           - name: MAUTIC_DB_PORT
             valueFrom:
               secretKeyRef:
                 key: port
-                name: mautic-ovqmjzyp-mysql-conn-credential
+                name: ${{ defaults.app_name }}-mysql-conn-credential
           - name: MAUTIC_DB_HOST
             valueFrom:
               secretKeyRef:
                 key: host
-                name: mautic-ovqmjzyp-mysql-conn-credential
+                name: ${{ defaults.app_name }}-mysql-conn-credential
           - name: MAUTIC_DB_DATABASE
             value: mautic
           image: mautic/mautic:5.2.3-fpm
@@ -348,22 +348,22 @@ spec:
             valueFrom:
               secretKeyRef:
                 key: username
-                name: mautic-ovqmjzyp-mysql-conn-credential
+                name: ${{ defaults.app_name }}-mysql-conn-credential
           - name: MAUTIC_DB_PASSWORD
             valueFrom:
               secretKeyRef:
                 key: password
-                name: mautic-ovqmjzyp-mysql-conn-credential
+                name: ${{ defaults.app_name }}-mysql-conn-credential
           - name: MAUTIC_DB_PORT
             valueFrom:
               secretKeyRef:
                 key: port
-                name: mautic-ovqmjzyp-mysql-conn-credential
+                name: ${{ defaults.app_name }}-mysql-conn-credential
           - name: MAUTIC_DB_HOST
             valueFrom:
               secretKeyRef:
                 key: host
-                name: mautic-ovqmjzyp-mysql-conn-credential
+                name: ${{ defaults.app_name }}-mysql-conn-credential
           - name: MAUTIC_DB_DATABASE
             value: mautic
           image: mautic/mautic:5.2.3-fpm
