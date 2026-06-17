@@ -145,23 +145,37 @@ spec:
             - /bin/bash
             - -c
             - |
-              # Wait for MongoDB to be ready
-              until mongosh "mongodb://root:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_HOST}:27017/admin" --eval "db.adminCommand('ping')" &>/dev/null; do
-                echo "Waiting for MongoDB..."
+              for i in {1..300}; do
+                if mongosh "mongodb://root:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_HOST}:27017/admin" --eval "db.adminCommand('ping')" &>/dev/null; then
+                  break
+                fi
+
+                if [ "$i" -eq 300 ]; then
+                  echo "ERROR: MongoDB is not ready after 10 minutes. Check the ${{ defaults.app_name }}-mongo KubeBlocks cluster."
+                  exit 1
+                fi
+
+                echo "Waiting for MongoDB ($i/300)..."
                 sleep 2
               done
               
-              # Create rocketchat database and user
-              mongosh "mongodb://root:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_HOST}:27017/admin" <<EOF
-              use rocketchat
-              db.createUser({
-                user: "rocketchat",
+              # Create or update the Rocket.Chat database user before workloads start.
+              mongosh "mongodb://root:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_HOST}:27017/admin" <<'EOF'
+              const userDb = db.getSiblingDB("rocketchat");
+              const username = "rocketchat";
+              const user = {
                 pwd: "rocketchat",
                 roles: [
                   { role: "readWrite", db: "rocketchat" },
                   { role: "clusterMonitor", db: "admin" }
                 ]
-              })
+              };
+
+              if (userDb.getUser(username)) {
+                userDb.updateUser(username, user);
+              } else {
+                userDb.createUser({ user: username, ...user });
+              }
               EOF
           resources:
             requests:
@@ -238,7 +252,7 @@ spec:
   strategy:
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 1
+      maxUnavailable: 0
     type: RollingUpdate
   template:
     metadata:
@@ -246,6 +260,42 @@ spec:
         app: ${{ defaults.app_name }}
     spec:
       automountServiceAccountToken: false
+      initContainers:
+        - name: wait-for-mongo-user
+          image: mongo:6.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MONGO_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-mongo-conn-credential
+                  key: endpoint
+            - name: MONGO_URL
+              value: mongodb://rocketchat:rocketchat@$(MONGO_ENDPOINT)/rocketchat?replicaSet=${{ defaults.app_name }}-mongo-mongodb
+          command:
+            - /bin/bash
+            - -c
+            - |
+              for i in {1..300}; do
+                if mongosh "$MONGO_URL" --eval "db.runCommand({ ping: 1 })" &>/dev/null; then
+                  exit 0
+                fi
+
+                if [ "$i" -eq 300 ]; then
+                  echo "ERROR: Rocket.Chat MongoDB user is not ready after 10 minutes. Check the ${{ defaults.app_name }}-mongo-init job logs."
+                  exit 1
+                fi
+
+                echo "Waiting for Rocket.Chat MongoDB user ($i/300)..."
+                sleep 2
+              done
+          resources:
+            requests:
+              cpu: 10m
+              memory: 51Mi
+            limits:
+              cpu: 100m
+              memory: 512Mi
       containers:
         - name: ${{ defaults.app_name }}
           image: rocketchat/rocket.chat:7.9.0
@@ -298,6 +348,15 @@ spec:
               containerPort: 9100
             - name: ms-metrics
               containerPort: 9458
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 36
           livenessProbe:
             httpGet:
               path: /health
@@ -531,7 +590,7 @@ spec:
   strategy:
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 1
+      maxUnavailable: 0
     type: RollingUpdate
   template:
     metadata:
@@ -539,6 +598,42 @@ spec:
         app: ${{ defaults.app_name }}-account
     spec:
       automountServiceAccountToken: false
+      initContainers:
+      - name: wait-for-mongo-user
+        image: mongo:6.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MONGO_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: ${{ defaults.app_name }}-mongo-conn-credential
+              key: endpoint
+        - name: MONGO_URL
+          value: mongodb://rocketchat:rocketchat@$(MONGO_ENDPOINT)/rocketchat?replicaSet=${{ defaults.app_name }}-mongo-mongodb
+        command:
+        - /bin/bash
+        - -c
+        - |
+          for i in {1..300}; do
+            if mongosh "$MONGO_URL" --eval "db.runCommand({ ping: 1 })" &>/dev/null; then
+              exit 0
+            fi
+
+            if [ "$i" -eq 300 ]; then
+              echo "ERROR: Rocket.Chat MongoDB user is not ready after 10 minutes. Check the ${{ defaults.app_name }}-mongo-init job logs."
+              exit 1
+            fi
+
+            echo "Waiting for Rocket.Chat MongoDB user ($i/300)..."
+            sleep 2
+          done
+        resources:
+          requests:
+            cpu: 10m
+            memory: 51Mi
+          limits:
+            cpu: 100m
+            memory: 512Mi
       containers:
       - name: ${{ defaults.app_name }}-account
         image: rocketchat/account-service:7.9.0
@@ -620,7 +715,7 @@ spec:
   strategy:
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 1
+      maxUnavailable: 0
     type: RollingUpdate
   template:
     metadata:
@@ -628,6 +723,42 @@ spec:
         app: ${{ defaults.app_name }}-authorization
     spec:
       automountServiceAccountToken: false
+      initContainers:
+      - name: wait-for-mongo-user
+        image: mongo:6.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MONGO_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: ${{ defaults.app_name }}-mongo-conn-credential
+              key: endpoint
+        - name: MONGO_URL
+          value: mongodb://rocketchat:rocketchat@$(MONGO_ENDPOINT)/rocketchat?replicaSet=${{ defaults.app_name }}-mongo-mongodb
+        command:
+        - /bin/bash
+        - -c
+        - |
+          for i in {1..300}; do
+            if mongosh "$MONGO_URL" --eval "db.runCommand({ ping: 1 })" &>/dev/null; then
+              exit 0
+            fi
+
+            if [ "$i" -eq 300 ]; then
+              echo "ERROR: Rocket.Chat MongoDB user is not ready after 10 minutes. Check the ${{ defaults.app_name }}-mongo-init job logs."
+              exit 1
+            fi
+
+            echo "Waiting for Rocket.Chat MongoDB user ($i/300)..."
+            sleep 2
+          done
+        resources:
+          requests:
+            cpu: 10m
+            memory: 51Mi
+          limits:
+            cpu: 100m
+            memory: 512Mi
       containers:
       - name: ${{ defaults.app_name }}-authorization
         image: rocketchat/authorization-service:7.9.0
@@ -709,7 +840,7 @@ spec:
   strategy:
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 1
+      maxUnavailable: 0
     type: RollingUpdate
   template:
     metadata:
@@ -717,6 +848,42 @@ spec:
         app: ${{ defaults.app_name }}-ddp-streamer
     spec:
       automountServiceAccountToken: false
+      initContainers:
+      - name: wait-for-mongo-user
+        image: mongo:6.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MONGO_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: ${{ defaults.app_name }}-mongo-conn-credential
+              key: endpoint
+        - name: MONGO_URL
+          value: mongodb://rocketchat:rocketchat@$(MONGO_ENDPOINT)/rocketchat?replicaSet=${{ defaults.app_name }}-mongo-mongodb
+        command:
+        - /bin/bash
+        - -c
+        - |
+          for i in {1..300}; do
+            if mongosh "$MONGO_URL" --eval "db.runCommand({ ping: 1 })" &>/dev/null; then
+              exit 0
+            fi
+
+            if [ "$i" -eq 300 ]; then
+              echo "ERROR: Rocket.Chat MongoDB user is not ready after 10 minutes. Check the ${{ defaults.app_name }}-mongo-init job logs."
+              exit 1
+            fi
+
+            echo "Waiting for Rocket.Chat MongoDB user ($i/300)..."
+            sleep 2
+          done
+        resources:
+          requests:
+            cpu: 10m
+            memory: 51Mi
+          limits:
+            cpu: 100m
+            memory: 512Mi
       containers:
       - name: ${{ defaults.app_name }}-ddp-streamer
         image: rocketchat/ddp-streamer-service:7.9.0
@@ -807,7 +974,7 @@ spec:
   strategy:
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 1
+      maxUnavailable: 0
     type: RollingUpdate
   template:
     metadata:
@@ -815,6 +982,42 @@ spec:
         app: ${{ defaults.app_name }}-presence
     spec:
       automountServiceAccountToken: false
+      initContainers:
+      - name: wait-for-mongo-user
+        image: mongo:6.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MONGO_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: ${{ defaults.app_name }}-mongo-conn-credential
+              key: endpoint
+        - name: MONGO_URL
+          value: mongodb://rocketchat:rocketchat@$(MONGO_ENDPOINT)/rocketchat?replicaSet=${{ defaults.app_name }}-mongo-mongodb
+        command:
+        - /bin/bash
+        - -c
+        - |
+          for i in {1..300}; do
+            if mongosh "$MONGO_URL" --eval "db.runCommand({ ping: 1 })" &>/dev/null; then
+              exit 0
+            fi
+
+            if [ "$i" -eq 300 ]; then
+              echo "ERROR: Rocket.Chat MongoDB user is not ready after 10 minutes. Check the ${{ defaults.app_name }}-mongo-init job logs."
+              exit 1
+            fi
+
+            echo "Waiting for Rocket.Chat MongoDB user ($i/300)..."
+            sleep 2
+          done
+        resources:
+          requests:
+            cpu: 10m
+            memory: 51Mi
+          limits:
+            cpu: 100m
+            memory: 512Mi
       containers:
       - name: ${{ defaults.app_name }}-presence
         image: rocketchat/presence-service:7.9.0
@@ -904,6 +1107,42 @@ spec:
         app: ${{ defaults.app_name }}-stream-hub
     spec:
       automountServiceAccountToken: false
+      initContainers:
+      - name: wait-for-mongo-user
+        image: mongo:6.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MONGO_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: ${{ defaults.app_name }}-mongo-conn-credential
+              key: endpoint
+        - name: MONGO_URL
+          value: mongodb://rocketchat:rocketchat@$(MONGO_ENDPOINT)/rocketchat?replicaSet=${{ defaults.app_name }}-mongo-mongodb
+        command:
+        - /bin/bash
+        - -c
+        - |
+          for i in {1..300}; do
+            if mongosh "$MONGO_URL" --eval "db.runCommand({ ping: 1 })" &>/dev/null; then
+              exit 0
+            fi
+
+            if [ "$i" -eq 300 ]; then
+              echo "ERROR: Rocket.Chat MongoDB user is not ready after 10 minutes. Check the ${{ defaults.app_name }}-mongo-init job logs."
+              exit 1
+            fi
+
+            echo "Waiting for Rocket.Chat MongoDB user ($i/300)..."
+            sleep 2
+          done
+        resources:
+          requests:
+            cpu: 10m
+            memory: 51Mi
+          limits:
+            cpu: 100m
+            memory: 512Mi
       containers:
       - name: ${{ defaults.app_name }}-stream-hub
         image: rocketchat/stream-hub-service:7.9.0
