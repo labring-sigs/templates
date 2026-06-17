@@ -210,6 +210,26 @@ spec:
                 sleep 5
               done
               echo "PostgreSQL is ready!"
+        - name: install-storage-deps
+          image: ghcr.io/mlflow/mlflow:v2.22.2
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - |
+              pip install --no-cache-dir --target /opt/mlflow-deps boto3 psycopg2-binary
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 300Mi
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+              ephemeral-storage: 300Mi
+          volumeMounts:
+            - name: mlflow-deps
+              mountPath: /opt/mlflow-deps
       containers:
         - name: ${{ defaults.app_name }}
           image: ghcr.io/mlflow/mlflow:v2.22.2
@@ -269,11 +289,12 @@ spec:
               value: 0.0.0.0
             - name: MLFLOW_PORT
               value: "5000"
+            - name: PYTHONPATH
+              value: /opt/mlflow-deps
           command:
             - /bin/bash
             - -c
             - |
-              pip install --no-cache-dir mlflow[extras] boto3 psycopg2-binary
               mlflow server \
                 --backend-store-uri ${MLFLOW_BACKEND_STORE_URI} \
                 --default-artifact-root ${MLFLOW_DEFAULT_ARTIFACT_ROOT} \
@@ -282,18 +303,30 @@ spec:
           ports:
             - containerPort: 5000
               name: http
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 30
           livenessProbe:
             httpGet:
               path: /health
               port: 5000
             initialDelaySeconds: 60
             periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
           readinessProbe:
             httpGet:
               path: /health
               port: 5000
             initialDelaySeconds: 60
             periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
           resources:
             requests:
               cpu: 100m
@@ -303,6 +336,13 @@ spec:
               cpu: 1000m
               memory: 1024Mi
               ephemeral-storage: 300Mi
+          volumeMounts:
+            - name: mlflow-deps
+              mountPath: /opt/mlflow-deps
+      volumes:
+        - name: mlflow-deps
+          emptyDir:
+            sizeLimit: 300Mi
 
 ---
 apiVersion: v1
