@@ -185,7 +185,7 @@ spec:
     spec:
       initContainers:
         - name: check-app-image
-          image: sealos.hub:5000/limbo2342/tentix:dev-2025-10-23-x.3
+          image: limbo2342/tentix:dev-2025-10-23-x.3
           imagePullPolicy: IfNotPresent
           command:
             - /bin/sh
@@ -219,7 +219,7 @@ spec:
               memory: 12Mi
         - name: db-migrate
           # use dedicated migrator image built from Dockerfile.migrate
-          image: sealos.hub:5000/limbo2342/tentix:migrate.10.22.x1
+          image: limbo2342/tentix:migrate.10.22.x1
           imagePullPolicy: IfNotPresent
           command:
             - /bin/sh
@@ -340,7 +340,7 @@ spec:
       containers:
         - name: ${{ defaults.app_name }}-tentix
           securityContext: {}
-          image: sealos.hub:5000/limbo2342/tentix:dev-2025-10-23-x.3
+          image: limbo2342/tentix:dev-2025-10-23-x.3
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
