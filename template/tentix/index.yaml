@@ -184,10 +184,141 @@ spec:
         app: ${{ defaults.app_name }}-tentix
     spec:
       initContainers:
+        - name: check-app-image
+          image: limbo2342/tentix:dev-2025-10-23-x.3
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo 'Tentix preflight: application image is available.'
+          resources:
+            limits:
+              cpu: 50m
+              memory: 64Mi
+            requests:
+              cpu: 10m
+              memory: 16Mi
+        - name: wait-for-pg
+          image: busybox:1.36.1
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              until nc -z ${{ defaults.app_name }}-pg-postgresql.${{ SEALOS_NAMESPACE }}.svc 5432 >/dev/null 2>&1; do
+                sleep 2
+              done
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 10m
+              memory: 12Mi
         - name: db-migrate
           # use dedicated migrator image built from Dockerfile.migrate
           image: limbo2342/tentix:migrate.10.22.x1
           imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -lc
+            - |
+              set -eu
+
+              cat > ./tentix-pgvector-preflight.mjs <<'NODE'
+              import postgres from 'postgres'
+
+              const databaseUrl = process.env.DATABASE_URL || process.env.DEV_DATABASE_URL
+              if (!databaseUrl) {
+                console.error('Tentix preflight: DATABASE_URL or DEV_DATABASE_URL must be provided')
+                process.exit(2)
+              }
+
+              const client = postgres(databaseUrl, {
+                max: 1,
+                ssl: process.env.NODE_ENV === 'production' ? 'require' : undefined,
+              })
+
+              let exitCode = 0
+              try {
+                const [extension] = await client`
+                  SELECT default_version
+                  FROM pg_available_extensions
+                  WHERE name = 'vector'
+                `
+
+                if (!extension) {
+                  console.error('Tentix preflight: PostgreSQL must provide the pgvector extension before Tentix can start.')
+                  process.exit(1)
+                }
+
+                const parseVersion = (version) => version.split(/[.-]/).map((part) => Number.parseInt(part, 10) || 0)
+                const compareVersion = (left, right) => {
+                  const leftParts = parseVersion(left)
+                  const rightParts = parseVersion(right)
+                  const length = Math.max(leftParts.length, rightParts.length)
+                  for (let index = 0; index < length; index += 1) {
+                    const diff = (leftParts[index] || 0) - (rightParts[index] || 0)
+                    if (diff !== 0) return diff
+                  }
+                  return 0
+                }
+
+                const hasHalfvec = compareVersion(extension.default_version, '0.7.0') >= 0
+
+                console.info(
+                  'Tentix preflight: pgvector ' +
+                    extension.default_version +
+                    ' is available; halfvec=' +
+                    hasHalfvec,
+                )
+                if (!hasHalfvec) {
+                  exitCode = 42
+                }
+              } catch (error) {
+                console.error(
+                  'Tentix preflight: PostgreSQL must provide the pgvector extension before Tentix can start.',
+                  error,
+                )
+                exitCode = 1
+              } finally {
+                await client.end()
+              }
+
+              process.exit(exitCode)
+              NODE
+
+              if node ./tentix-pgvector-preflight.mjs; then
+                echo 'Tentix preflight: keeping the halfvec IVFFlat acceleration index.'
+              else
+                status="$?"
+                if [ "$status" -ne 42 ]; then
+                  exit "$status"
+                fi
+
+                migration='./db/codegen/0002_futuristic_storm.sql'
+                echo 'Tentix preflight: pgvector does not provide halfvec; skipping the optional halfvec IVFFlat acceleration index. Upgrade PostgreSQL pgvector to enable this index.'
+                awk '
+                  /CREATE INDEX idx_kb_embedding_halfvec_ivf/ { skip = 1; next }
+                  skip && /WITH \(lists = 200\);/ { skip = 0; next }
+                  skip { next }
+                  { print }
+                ' "$migration" > "${migration}.tmp"
+                mv "${migration}.tmp" "$migration"
+              fi
+
+              attempt=0
+              until node db/migrate.mjs; do
+                attempt=$((attempt+1))
+                if [ "$attempt" -ge 30 ]; then
+                  echo 'Migration failed after 30 attempts'
+                  exit 1
+                fi
+                echo 'DB not ready or migration failed, retrying...'
+                sleep 2
+              done
           env:
             - name: DATABASE_PORT
               valueFrom:
