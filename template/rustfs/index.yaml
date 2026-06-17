@@ -33,12 +33,12 @@ spec:
     access_key:
       description: 'S3 Access Key for authentication'
       type: string
-      default: ''
+      default: rustfs-${{ random(12) }}
       required: true
     secret_key:
       description: 'S3 Secret Key for authentication'
       type: string
-      default: ''
+      default: ${{ random(32) }}
       required: true
     console_enable:
       description: 'Enable web console interface'
@@ -80,36 +80,38 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       initContainers:
-        - name: init-step
+        - name: wait-for-rustfs-peers
           image: busybox:1.37.0
           imagePullPolicy: IfNotPresent
-          env:
-            - name: REPLICA_COUNT
-              value: "4"
           command:
             - sh
             - -c
             - |
-              for i in $(seq 0 $(($REPLICA_COUNT - 1))); do
-                mkdir -p /data/rustfs$i
-              done;
+              set -eu
+              for ordinal in 0 1 2 3; do
+                peer="${APP_NAME}-${ordinal}.${APP_NAME}-headless.${SEALOS_NAMESPACE}.svc.cluster.local"
+                attempts=0
+                until nslookup "$peer" >/dev/null 2>&1; do
+                  attempts=$((attempts + 1))
+                  if [ "$attempts" -ge 150 ]; then
+                    echo "RustFS peer DNS did not become available: $peer. Check that all 4 StatefulSet Pods were created and namespace quotas allow the requested CPU, memory, and storage."
+                    exit 1
+                  fi
+                  echo "waiting for RustFS peer DNS: $peer"
+                  sleep 2
+                done
+              done
+          env:
+            - name: APP_NAME
+              value: ${{ defaults.app_name }}
+            - name: SEALOS_NAMESPACE
+              value: ${{ SEALOS_NAMESPACE }}
           securityContext:
             runAsNonRoot: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:
                 - ALL
-          volumeMounts:
-            - name: vn-datavn-rustfs0
-              mountPath: /data/rustfs0
-            - name: vn-datavn-rustfs1
-              mountPath: /data/rustfs1
-            - name: vn-datavn-rustfs2
-              mountPath: /data/rustfs2
-            - name: vn-datavn-rustfs3
-              mountPath: /data/rustfs3
-            - name: vn-logs
-              mountPath: /logs
       containers:
         - name: ${{ defaults.app_name }}
           image: rustfs/rustfs:1.0.0-beta.8
@@ -129,11 +131,7 @@ spec:
             - name: RUSTFS_LOG_LEVEL
               value: "info"
             - name: RUSTFS_VOLUMES
-              value: "http://${{ defaults.app_name }}-{0...3}.${{ defaults.app_name }}-headless.${{ SEALOS_NAMESPACE }}.svc.cluster.local:9000/data/rustfs{0...3}"
-            - name: RUSTFS_OBS_LOG_DIRECTORY
-              value: "/logs"
-            - name: RUSTFS_SINKS_FILE_PATH
-              value: "/logs"
+              value: "http://${{ defaults.app_name }}-0.${{ defaults.app_name }}-headless.${{ SEALOS_NAMESPACE }}.svc.cluster.local:9000/data/rustfs0 http://${{ defaults.app_name }}-1.${{ defaults.app_name }}-headless.${{ SEALOS_NAMESPACE }}.svc.cluster.local:9000/data/rustfs0 http://${{ defaults.app_name }}-2.${{ defaults.app_name }}-headless.${{ SEALOS_NAMESPACE }}.svc.cluster.local:9000/data/rustfs0 http://${{ defaults.app_name }}-3.${{ defaults.app_name }}-headless.${{ SEALOS_NAMESPACE }}.svc.cluster.local:9000/data/rustfs0"
           securityContext:
             runAsUser: 10001
             runAsGroup: 10001
@@ -154,7 +152,7 @@ spec:
               cpu: 100m
               memory: 256Mi
             limits:
-              cpu: 2000m
+              cpu: 500m
               memory: 4096Mi
           livenessProbe:
             httpGet:
@@ -177,64 +175,12 @@ spec:
           volumeMounts:
             - name: vn-datavn-rustfs0
               mountPath: /data/rustfs0
-            - name: vn-datavn-rustfs1
-              mountPath: /data/rustfs1
-            - name: vn-datavn-rustfs2
-              mountPath: /data/rustfs2
-            - name: vn-datavn-rustfs3
-              mountPath: /data/rustfs3
-            - name: vn-logs
-              mountPath: /logs
   volumeClaimTemplates:
     - metadata:
         annotations:
           path: /data/rustfs0
           value: '1'
         name: vn-datavn-rustfs0
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 10Gi
-    - metadata:
-        annotations:
-          path: /data/rustfs1
-          value: '1'
-        name: vn-datavn-rustfs1
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 10Gi
-    - metadata:
-        annotations:
-          path: /data/rustfs2
-          value: '1'
-        name: vn-datavn-rustfs2
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 10Gi
-    - metadata:
-        annotations:
-          path: /data/rustfs3
-          value: '1'
-        name: vn-datavn-rustfs3
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 10Gi
-    - metadata:
-        annotations:
-          path: /logs
-          value: '1'
-        name: vn-logs
       spec:
         accessModes:
           - ReadWriteOnce
