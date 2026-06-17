@@ -193,21 +193,22 @@ spec:
             - |
               set -eu
               export PGPASSWORD="$PG_PASSWORD"
-              for i in $(seq 1 90); do
+              for i in $(seq 1 120); do
                 if pg_isready -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d postgres >/dev/null 2>&1; then
                   break
                 fi
-                if [ "$i" -eq 90 ]; then
-                  echo "PostgreSQL is not ready" >&2
+                if [ "$i" -eq 120 ]; then
+                  echo "PostgreSQL is not ready after 240 seconds" >&2
                   exit 1
                 fi
+                echo "Waiting for PostgreSQL to accept connections ($i/120)..." >&2
                 sleep 2
               done
               if ! psql -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='${PG_DATABASE}'" | grep -q 1; then
-                psql -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d postgres -v ON_ERROR_STOP=1 -c "CREATE DATABASE \"${PG_DATABASE}\""
+                psql -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d postgres -v ON_ERROR_STOP=1 -c "CREATE DATABASE \"${PG_DATABASE}\";"
               fi
               if ! psql -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='${SAML_DATABASE}'" | grep -q 1; then
-                psql -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d postgres -v ON_ERROR_STOP=1 -c "CREATE DATABASE \"${SAML_DATABASE}\""
+                psql -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USERNAME" -d postgres -v ON_ERROR_STOP=1 -c "CREATE DATABASE \"${SAML_DATABASE}\";"
               fi
           resources:
             limits:
@@ -341,7 +342,7 @@ metadata:
   name: ${{ defaults.app_name }}
   annotations:
     originImageName: ghcr.io/formbricks/formbricks:4.9.7
-    docker-to-sealos.resource-override-source: 'Official Formbricks 4.9.7 Docker startup runs database migrations before serving; Sealos testing moves that migration to an initContainer with a 500m CPU / 512Mi memory limit, then sets SKIP_STARTUP_MIGRATION=true so the web container runs with lower steady-state resources: https://raw.githubusercontent.com/formbricks/formbricks/4.9.7/apps/web/scripts/docker/next-start.sh'
+    docker-to-sealos.resource-override-source: 'Official Formbricks 4.9.7 Docker startup runs database migrations before serving; Sealos moves that migration to an initContainer with higher temporary resources, waits for PostgreSQL readiness first, then sets SKIP_STARTUP_MIGRATION=true so the web container only starts after schema initialization: https://raw.githubusercontent.com/formbricks/formbricks/4.9.7/apps/web/scripts/docker/next-start.sh'
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -379,14 +380,25 @@ spec:
           args:
             - |
               set -eu
-              for i in $(seq 1 90); do
+              for i in $(seq 1 120); do
+                if node -e 'const { PrismaClient } = require("@prisma/client"); const prisma = new PrismaClient(); prisma.$queryRawUnsafe("SELECT 1").then(() => process.exit(0)).catch(() => process.exit(1)).finally(() => prisma.$disconnect());'; then
+                  break
+                fi
+                if [ "$i" -eq 120 ]; then
+                  echo "PostgreSQL database formbricks is not reachable at ${POSTGRES_HOST}:${POSTGRES_PORT} after 240 seconds" >&2
+                  exit 1
+                fi
+                echo "Waiting for PostgreSQL database formbricks before running Formbricks migrations ($i/120)..." >&2
+                sleep 2
+              done
+              for i in $(seq 1 6); do
                 if node packages/database/dist/scripts/apply-migrations.js; then
                   exit 0
                 fi
-                echo "Database migration attempt $i failed; retrying in 5 seconds..." >&2
-                sleep 5
+                echo "Formbricks database migration attempt $i failed; retrying in 10 seconds..." >&2
+                sleep 10
               done
-              echo "Database migration failed after 90 attempts" >&2
+              echo "Formbricks database migration failed after 6 attempts" >&2
               exit 1
           env:
             - name: POSTGRES_HOST
@@ -415,11 +427,11 @@ spec:
               value: postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/formbricks?schema=public
           resources:
             limits:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 2000m
+              memory: 2Gi
             requests:
-              cpu: 50m
-              memory: 51Mi
+              cpu: 250m
+              memory: 512Mi
       containers:
         - name: ${{ defaults.app_name }}
           image: ghcr.io/formbricks/formbricks:4.9.7
@@ -528,11 +540,11 @@ spec:
           
           resources:
             limits:
-              cpu: 300m
-              memory: 256Mi
+              cpu: 1000m
+              memory: 1Gi
             requests:
-              cpu: 30m
-              memory: 26Mi
+              cpu: 100m
+              memory: 256Mi
           volumeMounts:
             - name: vn-homevn-nextjsvn-appsvn-webvn-uploads
               mountPath: /home/nextjs/apps/web/uploads
