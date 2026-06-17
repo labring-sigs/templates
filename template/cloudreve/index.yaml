@@ -103,8 +103,10 @@ spec:
             - -c
           args:
             - |
-              echo "CREATE DATABASE v3;" > /create.sql
-              until mysql -h $MYSQL_HOST -P $MYSQL_PORT -u $MYSQL_USER -p$MYSQL_PASSWORD -e 'source /create.sql;' &>/dev/null; do sleep 1; done
+              until mysql -h $MYSQL_HOST -P $MYSQL_PORT -u $MYSQL_USER -p$MYSQL_PASSWORD -e 'CREATE DATABASE IF NOT EXISTS v3 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;'; do
+                echo "waiting for mysql to become ready"
+                sleep 1
+              done
       containers:
         - name: ${{ defaults.app_name }}
           image: cloudreve/cloudreve:4.16.1
@@ -135,7 +137,25 @@ spec:
             - -c
           args:
             - |
-              echo -e "[System] \nDebug = false \nMode = master \nListen = :5212 \nSessionSecret = ${{ defaults.session_secret }} \nHashIDSalt = ${{ defaults.hash_id_salt }} \n[Database] \nType = mysql \nPort = $MYSQL_PORT \nUser = $MYSQL_USER \nPassword = $MYSQL_PASSWORD \nHost = $MYSQL_HOST \nName = v3 \nTablePrefix = cd \nCharset = utf8" > /cloudreve/conf.ini
+              mkdir -p /cloudreve/data
+              cat > /cloudreve/data/conf.ini <<EOF
+              [System]
+              Debug = false
+              Mode = master
+              Listen = :5212
+              SessionSecret = ${{ defaults.session_secret }}
+              HashIDSalt = ${{ defaults.hash_id_salt }}
+
+              [Database]
+              Type = mysql
+              Port = $MYSQL_PORT
+              User = $MYSQL_USER
+              Password = $MYSQL_PASSWORD
+              Host = $MYSQL_HOST
+              Name = v3
+              TablePrefix = cd
+              Charset = utf8mb4
+              EOF
               ./cloudreve
           ports:
             - containerPort: 5212
@@ -143,10 +163,10 @@ spec:
           resources:
             limits:
               cpu: 100m
-              memory: 128Mi
+              memory: 512Mi
             requests:
               cpu: 10m
-              memory: 12Mi
+              memory: 64Mi
           volumeMounts:
             - name: data
               mountPath: /cloudreve/uploads
