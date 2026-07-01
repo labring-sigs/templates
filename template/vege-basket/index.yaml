@@ -24,6 +24,9 @@ spec:
     app_host:
       type: string
       value: vege-basket-${{ random(8) }}
+    encryption_key:
+      type: string
+      value: ${{ base64(random(32)) }}
   inputs:
     AI_ENABLED:
       description: Set to true to enable AI endpoints after API credentials are configured.
@@ -269,6 +272,10 @@ spec:
                   key: password
             - name: DATABASE_URL
               value: postgresql://$(PG_USER):$(PG_PASSWORD)@$(PG_HOST):$(PG_PORT)/vegebasket
+            - name: APP_ENCRYPTION_ACTIVE_KEY_ID
+              value: v1
+            - name: APP_ENCRYPTION_KEYS
+              value: v1:${{ defaults.encryption_key }}
             - name: AI_ENABLED
               value: ${{ inputs.AI_ENABLED }}
             - name: AI_API_BASE
@@ -361,6 +368,6 @@ spec:
   data:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
-  icon: https://raw.githubusercontent.com/labring-actions/templates/main/template/sealos.svg
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/vege-basket/logo.svg
   name: Project Basket
   type: link
