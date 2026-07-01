@@ -9,7 +9,7 @@ spec:
   author: felixqiu014-wq
   description: Personal project management workspace for projects, journals, drafts, todos, risks, and AI summaries.
   readme: https://raw.githubusercontent.com/felixqiu014-wq/vege-basket/main/README.md
-  icon: https://raw.githubusercontent.com/labring-actions/templates/main/template/sealos.svg
+  icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/vege-basket/logo.svg
   templateType: inline
   categories:
     - tool
