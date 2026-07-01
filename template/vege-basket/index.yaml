@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: vege-basket
 spec:
-  title: Project Basket
+  title: Vege Basket
   url: https://github.com/felixqiu014-wq/vege-basket
   gitRepo: https://github.com/felixqiu014-wq/vege-basket
   author: felixqiu014-wq
@@ -27,27 +27,6 @@ spec:
     encryption_key:
       type: string
       value: ${{ base64(random(32)) }}
-  inputs:
-    AI_ENABLED:
-      description: Set to true to enable AI endpoints after API credentials are configured.
-      type: string
-      default: 'false'
-      required: false
-    AI_API_BASE:
-      description: OpenAI-compatible API base URL for AI summary features.
-      type: string
-      default: ''
-      required: true
-    AI_API_KEY:
-      description: API key for AI summary features. Store as a Sealos secret in updates.
-      type: string
-      default: ''
-      required: true
-    AI_MODEL:
-      description: AI model name.
-      type: string
-      default: deepseek-v3.2
-      required: false
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -276,14 +255,6 @@ spec:
               value: v1
             - name: APP_ENCRYPTION_KEYS
               value: v1:${{ defaults.encryption_key }}
-            - name: AI_ENABLED
-              value: ${{ inputs.AI_ENABLED }}
-            - name: AI_API_BASE
-              value: ${{ inputs.AI_API_BASE }}
-            - name: AI_API_KEY
-              value: ${{ inputs.AI_API_KEY }}
-            - name: AI_MODEL
-              value: ${{ inputs.AI_MODEL }}
             - name: AI_RATE_LIMIT
               value: '5'
             - name: AI_RATE_WINDOW_MS
