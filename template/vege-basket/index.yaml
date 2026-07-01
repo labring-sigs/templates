@@ -8,15 +8,18 @@ spec:
   gitRepo: https://github.com/felixqiu014-wq/vege-basket
   author: felixqiu014-wq
   description: Personal project management workspace for projects, journals, drafts, todos, risks, and AI summaries.
-  readme: https://raw.githubusercontent.com/felixqiu014-wq/vege-basket/main/README.md
+  readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/vege-basket/README.md
   icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/vege-basket/logo.svg
+  screenshots:
+    - https://raw.githubusercontent.com/labring-sigs/templates/main/template/vege-basket/website-screenshot.png
   templateType: inline
+  locale: en
   categories:
     - tool
-  locale: en
   i18n:
     zh:
       description: 用于管理项目、日记、草稿、待办、风险和 AI 总结的个人项目工作台。
+      readme: https://raw.githubusercontent.com/labring-sigs/templates/main/template/vege-basket/README_zh.md
   defaults:
     app_name:
       type: string
@@ -304,11 +307,20 @@ metadata:
   name: ${{ defaults.app_name }}
   labels:
     cloud.sealos.io/app-deploy-manager: ${{ defaults.app_name }}
-    cloud.sealos.io/app-deploy-manager-domain: ${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
+    cloud.sealos.io/app-deploy-manager-domain: ${{ defaults.app_host }}
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 32m
+    nginx.ingress.kubernetes.io/server-snippet: |
+      client_header_buffer_size 64k;
+      large_client_header_buffers 4 128k;
+    nginx.ingress.kubernetes.io/ssl-redirect: 'false'
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 64k
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 64k
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      location ~* \.(?:css|js|woff2?|png|jpg|jpeg|gif|svg|ico)$ {
+      if ($request_uri ~* \.(js|css|gif|jpe?g|png|svg|ico|woff2?)) {
         expires 7d;
         add_header Cache-Control "public, max-age=604800, immutable";
       }
@@ -318,7 +330,7 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: /
+            path: /()(.*)
             backend:
               service:
                 name: ${{ defaults.app_name }}
@@ -340,5 +352,5 @@ spec:
     url: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
   displayType: normal
   icon: https://raw.githubusercontent.com/labring-sigs/templates/main/template/vege-basket/logo.svg
-  name: Project Basket
+  name: Vege Basket
   type: link
