@@ -20,10 +20,10 @@ spec:
   defaults:
     app_name:
       type: string
-      value: vege-basket-170451
+      value: vege-basket-${{ random(8) }}
     app_host:
       type: string
-      value: vege-basket-170451
+      value: vege-basket-${{ random(8) }}
   inputs:
     AI_ENABLED:
       description: Set to true to enable AI endpoints after API credentials are configured.
