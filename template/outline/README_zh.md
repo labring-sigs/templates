@@ -48,9 +48,10 @@ Outline 以单个 Web 应用运行，使用 PostgreSQL 保存工作区数据，�
 - Email Magic Link 需要填写 `smtp_host`、`smtp_port`、`smtp_username`、`smtp_password` 和 `smtp_from_email`。
 - 如果需要外部 OAuth/SSO，`auth_provider` 也可以选择 `oidc`、`google` 或 `slack`。
 - OIDC 部署需要填写 `oidc_client_id`、`oidc_client_secret`、`oidc_auth_uri`、`oidc_token_uri` 和 `oidc_userinfo_uri`。
+- `oidc_username_claim` 默认是 `sub`，适用于不返回 `preferred_username` 的身份提供商。
 - Google 和 Slack 部署需要填写对应 OAuth 客户端 ID 和客户端密钥。
 - OAuth/OIDC 回调地址必须匹配部署后的域名，例如 `https://<your-outline-domain>/auth/oidc.callback`、`https://<your-outline-domain>/auth/google.callback` 或 `https://<your-outline-domain>/auth/slack.callback`。
-- `secret_key` 和 `utils_secret` 默认自动生成；已有部署应保持这两个值稳定。
+- `SECRET_KEY` 会在容器内生成并保存到持久卷；`utils_secret` 默认自动生成，已有部署应保持稳定。
 - 使用 OAuth 提供商时，可开启 `smtp_enabled` 发送事务邮件；当 `auth_provider` 为 `email` 时，SMTP 实际上是必需配置。
 
 **许可证信息：**
@@ -74,8 +75,8 @@ Sealos 是基于 Kubernetes 的 AI 辅助云操作系统，统一应用部署、
 2. 保持默认的 `email` 认证提供商，并填写 SMTP 设置。Outline 会用 SMTP 发送一次性登录链接或验证码。
 3. 可选：如果已有 OAuth/SSO 提供商，也可以改选 `oidc`、`google` 或 `slack`，并在对应提供商后台配置客户端 ID、客户端密钥和回调地址。
 4. 选择附件存储方式：
-   - `s3` 会创建并使用 Sealos 对象存储桶。
-   - `local` 会将附件保存到 Outline Pod 挂载的持久卷。
+   - `local` 是默认选项，会将附件保存到 Outline Pod 挂载的持久卷。
+   - `s3` 会在当前工作空间对象存储可用时创建并使用 Sealos 对象存储桶。
 5. 等待部署完成，通常需要 2-3 分钟。部署后 Sealos 会跳转到 Canvas。
 6. 从 App 资源打开生成的 Outline URL。新安装会先创建第一个工作区和管理员用户；之后使用已配置的 Email Magic Link 或 OAuth 提供商登录。
 
@@ -102,6 +103,26 @@ OIDC 使用以下回调地址：
 
 ```text
 https://<your-outline-domain>/auth/oidc.callback
+```
+
+使用 Casdoor 时，请创建或编辑一个 Casdoor 应用，并把同一个地址添加到 **重定向 URLs**。然后将 Casdoor 应用中的客户端 ID 和客户端密钥分别填入 `oidc_client_id` 和 `oidc_client_secret`。
+
+常见的 Casdoor 端点配置如下：
+
+| Outline 参数 | 使用 Casdoor 时填写 |
+|--------------|--------------------|
+| `oidc_auth_uri` | `https://<你的-casdoor-域名>/login/oauth/authorize` |
+| `oidc_token_uri` | `http://<casdoor-service-name>.<namespace>:8000/api/login/oauth/access_token` |
+| `oidc_userinfo_uri` | `http://<casdoor-service-name>.<namespace>:8000/api/userinfo` |
+| `oidc_username_claim` | `sub` |
+
+`oidc_auth_uri` 使用 Casdoor 的公网 HTTPS 域名，因为浏览器会被重定向到这里。`oidc_token_uri` 和 `oidc_userinfo_uri` 可以使用集群内 HTTP Service 地址，让 Outline Pod 直接访问 Casdoor。
+
+例如 Casdoor 应用的内网服务名是 `casdoor-gaklguki`，命名空间是 `ns-admin`，则填写：
+
+```text
+oidc_token_uri: http://casdoor-gaklguki.ns-admin:8000/api/login/oauth/access_token
+oidc_userinfo_uri: http://casdoor-gaklguki.ns-admin:8000/api/userinfo
 ```
 
 Google OAuth 使用以下回调地址：

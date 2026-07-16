@@ -31,14 +31,14 @@ spec:
       value: casdoor-${{ random(8) }}
   inputs:
     driver_name:
-      description: 'Database driver name (mysql, postgres, sqlite)'
+      description: 'Database driver name (postgres, mysql, sqlite)'
       type: choice
-      default: 'sqlite'
+      default: 'postgres'
       required: false
       options:
-        - sqlite
-        - mysql
         - postgres
+        - mysql
+        - sqlite
 
 ---
 apiVersion: v1
@@ -201,8 +201,8 @@ spec:
               mysql -h${MYSQL_HOST} -P${MYSQL_PORT} -u${MYSQL_USER} -p${MYSQL_PASSWORD} \
                 -e "CREATE DATABASE IF NOT EXISTS \`${DATABASE_NAME}\` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;"
               echo "Database '${DATABASE_NAME}' ensured!"
-      restartPolicy: Never
-  backoffLimit: 0
+      restartPolicy: OnFailure
+  backoffLimit: 5
   ttlSecondsAfterFinished: 300
 ${{ endif() }}
 
@@ -305,22 +305,56 @@ spec:
     spec:
       containers:
         - name: pgsql-init
-          image: postgres:14-alpine
+          image: postgres:14.8-alpine
+          imagePullPolicy: IfNotPresent
           env:
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: host
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: port
+            - name: PG_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: username
             - name: PG_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ${{ defaults.app_name }}-pg-conn-credential
                   key: password
-            - name: DATABASE_URL
-              value: postgresql://postgres:$(PG_PASSWORD)@${{ defaults.app_name }}-pg-postgresql.${{ SEALOS_NAMESPACE }}.svc:5432
+            - name: PG_DATABASE
+              value: casdoor
           command:
             - /bin/sh
-            - -c
+            - -ec
             - |
-              until psql ${DATABASE_URL} -c 'CREATE DATABASE casdoor;' &>/dev/null; do sleep 1; done
-      restartPolicy: Never
-  backoffLimit: 0
+              export PGPASSWORD="$PG_PASSWORD"
+              for i in $(seq 1 180); do
+                if pg_isready -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USER" -d postgres >/dev/null 2>&1; then
+                  break
+                fi
+                echo "Waiting for PostgreSQL..."
+                sleep 2
+              done
+              pg_isready -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USER" -d postgres >/dev/null 2>&1
+              if ! psql -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USER" -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='$PG_DATABASE'" | grep -q 1; then
+                createdb -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USER" "$PG_DATABASE"
+              fi
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 20m
+              memory: 25Mi
+      restartPolicy: OnFailure
+  backoffLimit: 5
   ttlSecondsAfterFinished: 300
 ${{ endif() }}
 
@@ -350,6 +384,21 @@ spec:
         app: ${{ defaults.app_name }}
     spec:
       automountServiceAccountToken: false
+      initContainers:
+        - name: init-sqlite-permissions
+          image: casbin/casdoor:v2.32.0
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -p /home
+              chown -R 1000:1000 /home
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: data
+              mountPath: /home
       containers:
         - name: ${{ defaults.app_name }}
           image: casbin/casdoor:v2.32.0
@@ -362,7 +411,7 @@ spec:
             - name: driverName
               value: sqlite
             - name: dataSourceName
-              value: /tmp/casdoor.db
+              value: 'file:/home/casdoor.db?cache=shared&_journal_mode=WAL&_busy_timeout=10000'
           ports:
             - name: http
               containerPort: 8000
@@ -374,6 +423,27 @@ spec:
             requests:
               cpu: 20m
               memory: 25Mi
+          startupProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 30
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 3
+            failureThreshold: 3
           volumeMounts:
             - name: vn-confvn-appvn-conf
               mountPath: /conf/app.conf
@@ -420,9 +490,106 @@ spec:
         app: ${{ defaults.app_name }}
     spec:
       automountServiceAccountToken: false
+      initContainers:
+        ${{ if(inputs.driver_name === 'mysql') }}
+        - name: wait-for-mysql
+          image: mysql:8.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-mysql-conn-credential
+                  key: password
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-mysql-conn-credential
+                  key: username
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-mysql-conn-credential
+                  key: host
+            - name: MYSQL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-mysql-conn-credential
+                  key: port
+            - name: DB_DATABASE
+              value: casdoor
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              for i in $(seq 1 180); do
+                if mysql -h"$MYSQL_HOST" -P"$MYSQL_PORT" -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$DB_DATABASE" -e "SELECT 1" >/dev/null 2>&1; then
+                  exit 0
+                fi
+                echo "Waiting for MySQL database..."
+                sleep 2
+              done
+              echo "Timed out waiting for MySQL database $DB_DATABASE" >&2
+              exit 1
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 20m
+              memory: 25Mi
+        ${{ elif(inputs.driver_name === 'postgres') }}
+        - name: wait-for-postgres
+          image: postgres:14.8-alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: host
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: port
+            - name: PG_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: username
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: password
+            - name: PG_DATABASE
+              value: casdoor
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              export PGPASSWORD="$PG_PASSWORD"
+              for i in $(seq 1 180); do
+                if psql -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USER" -d "$PG_DATABASE" -c "SELECT 1" >/dev/null 2>&1; then
+                  exit 0
+                fi
+                echo "Waiting for PostgreSQL database..."
+                sleep 2
+              done
+              echo "Timed out waiting for PostgreSQL database $PG_DATABASE" >&2
+              exit 1
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 20m
+              memory: 25Mi
+        ${{ endif() }}
       containers:
         - name: ${{ defaults.app_name }}
-          image: casbin/casdoor:v1.702.0
+          image: casbin/casdoor:v2.32.0
           imagePullPolicy: IfNotPresent
           env:
             - name: RUNNING_IN_DOCKER
@@ -491,6 +658,27 @@ spec:
             requests:
               cpu: 20m
               memory: 25Mi
+          startupProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 30
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 3
+            failureThreshold: 3
           volumeMounts:
             - name: vn-confvn-appvn-conf
               mountPath: /conf/app.conf

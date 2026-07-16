@@ -30,11 +30,11 @@ spec:
     storage_type:
       description: 'Storage type for attachments'
       type: choice
-      default: 's3'
+      default: 'local'
       required: true
       options:
-        - s3
         - local
+        - s3
     auth_provider:
       description: 'Authentication provider'
       type: choice
@@ -43,11 +43,6 @@ spec:
       options:
         - oidc
         - email
-    secret_key:
-      description: 'Secret key for encrypting data (32 bytes hex)'
-      type: string
-      default: ${{ random(64) }}
-      required: true
     utils_secret:
       description: 'Utility secret for internal operations'
       type: string
@@ -66,22 +61,28 @@ spec:
       required: true
       if: inputs.auth_provider === 'oidc'
     oidc_auth_uri:
-      description: 'OIDC Authorization URI'
+      description: '/login/oauth/authorize'
       type: string
       default: ''
       required: true
       if: inputs.auth_provider === 'oidc'
     oidc_token_uri:
-      description: 'OIDC Token URI'
+      description: '/api/login/oauth/access_token'
       type: string
       default: ''
       required: true
       if: inputs.auth_provider === 'oidc'
     oidc_userinfo_uri:
-      description: 'OIDC User Info URI'
+      description: '/api/userinfo'
       type: string
       default: ''
       required: true
+      if: inputs.auth_provider === 'oidc'
+    oidc_username_claim:
+      description: 'OIDC username claim. Use sub for Casdoor.'
+      type: string
+      default: 'sub'
+      required: false
       if: inputs.auth_provider === 'oidc'
     smtp_enabled:
       description: 'Enable SMTP for sending emails'
@@ -339,23 +340,52 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: pgsql-init
-          image: postgres:14-alpine
+          image: postgres:14.8-alpine
           imagePullPolicy: IfNotPresent
           env:
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: host
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: port
+            - name: PG_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: username
             - name: PG_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ${{ defaults.app_name }}-pg-conn-credential
                   key: password
-            - name: DATABASE_URL
-              value: postgresql://postgres:$(PG_PASSWORD)@${{ defaults.app_name }}-pg-postgresql.${{ SEALOS_NAMESPACE }}.svc:5432
+            - name: PG_DATABASE
+              value: outline
           command:
             - /bin/sh
             - -c
             - |
-              until psql ${DATABASE_URL} -c 'CREATE DATABASE outline;' &>/dev/null; do sleep 1; done
-      restartPolicy: Never
-  backoffLimit: 0
+              export PGPASSWORD="${PG_PASSWORD}"
+              echo "Waiting for PostgreSQL to be ready..."
+
+              until pg_isready -h "${PG_HOST}" -p "${PG_PORT}" -U "${PG_USER}" >/dev/null 2>&1; do
+                echo "PostgreSQL is not ready, retrying..."
+                sleep 2
+              done
+
+              echo "PostgreSQL ready. Creating database if not exists..."
+              if psql -h "${PG_HOST}" -p "${PG_PORT}" -U "${PG_USER}" -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='${PG_DATABASE}'" | grep -q 1; then
+                echo "Database '${PG_DATABASE}' already exists."
+              else
+                createdb -h "${PG_HOST}" -p "${PG_PORT}" -U "${PG_USER}" "${PG_DATABASE}"
+                echo "Database '${PG_DATABASE}' created."
+              fi
+      restartPolicy: OnFailure
+  backoffLimit: 5
   ttlSecondsAfterFinished: 300
 
 ---
@@ -364,7 +394,7 @@ kind: StatefulSet
 metadata:
   name: ${{ defaults.app_name }}
   annotations:
-    originImageName: outlinewiki/outline:0.86
+    originImageName: outlinewiki/outline:1.9.1
     deploy.cloud.sealos.io/minReplicas: '1'
     deploy.cloud.sealos.io/maxReplicas: '1'
   labels:
@@ -383,10 +413,154 @@ spec:
         app: ${{ defaults.app_name }}
     spec:
       automountServiceAccountToken: false
+      initContainers:
+        - name: init-outline-permissions
+          image: postgres:14.8-alpine
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - |
+              chown -R 1001:1001 /var/lib/outline/secrets
+              chmod 700 /var/lib/outline/secrets
+              if [ -d /var/lib/outline/data ]; then
+                chown -R 1001:1001 /var/lib/outline/data
+              fi
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+              ephemeral-storage: 32Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+              ephemeral-storage: 64Mi
+          volumeMounts:
+            - name: vn-varvn-libvn-outlinevn-secrets
+              mountPath: /var/lib/outline/secrets
+          ${{ if(inputs.storage_type === 'local') }}
+            - name: vn-varvn-libvn-outlinevn-data
+              mountPath: /var/lib/outline/data
+          ${{ endif() }}
+        - name: wait-for-postgres
+          image: postgres:14.8-alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: host
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: port
+            - name: PG_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: username
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-pg-conn-credential
+                  key: password
+            - name: PG_DATABASE
+              value: outline
+          command:
+            - /bin/sh
+            - -c
+            - |
+              export PGPASSWORD="${PG_PASSWORD}"
+              echo "Waiting for PostgreSQL database '${PG_DATABASE}'..."
+
+              for i in $(seq 1 180); do
+                if psql -h "${PG_HOST}" -p "${PG_PORT}" -U "${PG_USER}" -d "${PG_DATABASE}" -c "SELECT 1" >/dev/null 2>&1; then
+                  echo "PostgreSQL database is ready."
+                  exit 0
+                fi
+
+                echo "PostgreSQL database is not ready, retrying..."
+                sleep 2
+              done
+
+              echo "Timed out waiting for PostgreSQL database."
+              exit 1
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+              ephemeral-storage: 32Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 128Mi
+        - name: wait-for-redis
+          image: redis:7.0.6-alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-redis-conn-credential
+                  key: host
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-redis-conn-credential
+                  key: port
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-redis-conn-credential
+                  key: password
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Waiting for Redis..."
+
+              for i in $(seq 1 180); do
+                if redis-cli -h "${REDIS_HOST}" -p "${REDIS_PORT}" -a "${REDIS_PASSWORD}" ping 2>/dev/null | grep -q PONG; then
+                  echo "Redis is ready."
+                  exit 0
+                fi
+
+                echo "Redis is not ready, retrying..."
+                sleep 2
+              done
+
+              echo "Timed out waiting for Redis."
+              exit 1
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+              ephemeral-storage: 32Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+              ephemeral-storage: 128Mi
       containers:
         - name: ${{ defaults.app_name }}
-          image: outlinewiki/outline:0.86
+          image: outlinewiki/outline:1.9.1
           imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eu
+              SECRET_KEY_FILE=/var/lib/outline/secrets/secret_key
+              mkdir -p "$(dirname "$SECRET_KEY_FILE")"
+
+              if [ ! -s "$SECRET_KEY_FILE" ]; then
+                node -e "process.stdout.write(require('crypto').randomBytes(32).toString('hex'))" > "$SECRET_KEY_FILE"
+                chmod 600 "$SECRET_KEY_FILE"
+              fi
+
+              export SECRET_KEY="$(cat "$SECRET_KEY_FILE")"
+              exec node ./build/server/index.js
           env:
             - name: NODE_ENV
               value: production
@@ -394,8 +568,6 @@ spec:
               value: https://${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
             - name: PORT
               value: '3000'
-            - name: SECRET_KEY
-              value: ${{ inputs.secret_key }}
             - name: UTILS_SECRET
               value: ${{ inputs.utils_secret }}
             - name: DEFAULT_LANGUAGE
@@ -439,8 +611,18 @@ spec:
                 secretKeyRef:
                   name: ${{ defaults.app_name }}-redis-conn-credential
                   key: password
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-redis-conn-credential
+                  key: host
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ defaults.app_name }}-redis-conn-credential
+                  key: port
             - name: REDIS_URL
-              value: redis://:$(REDIS_PASSWORD)@${{ defaults.app_name }}-redis-redis.${{ SEALOS_NAMESPACE }}.svc:6379
+              value: redis://:$(REDIS_PASSWORD)@$(REDIS_HOST):$(REDIS_PORT)
             ${{ if(inputs.storage_type === 'local') }}
             - name: FILE_STORAGE
               value: local
@@ -489,7 +671,7 @@ spec:
             - name: OIDC_USERINFO_URI
               value: ${{ inputs.oidc_userinfo_uri }}
             - name: OIDC_USERNAME_CLAIM
-              value: preferred_username
+              value: ${{ inputs.oidc_username_claim }}
             - name: OIDC_DISPLAY_NAME
               value: OpenID Connect
             - name: OIDC_SCOPES
@@ -541,23 +723,46 @@ spec:
             httpGet:
               path: /_health
               port: 3000
-            initialDelaySeconds: 60
+            initialDelaySeconds: 300
             periodSeconds: 30
             timeoutSeconds: 10
+            failureThreshold: 10
           readinessProbe:
+            httpGet:
+              path: /_health
+              port: 3000
+            initialDelaySeconds: 120
+            periodSeconds: 15
+            timeoutSeconds: 10
+            failureThreshold: 20
+          startupProbe:
             httpGet:
               path: /_health
               port: 3000
             initialDelaySeconds: 30
             periodSeconds: 10
-            timeoutSeconds: 5
-          ${{ if(inputs.storage_type === 'local') }}
+            timeoutSeconds: 10
+            failureThreshold: 120
           volumeMounts:
+            - name: vn-varvn-libvn-outlinevn-secrets
+              mountPath: /var/lib/outline/secrets
+          ${{ if(inputs.storage_type === 'local') }}
             - name: vn-varvn-libvn-outlinevn-data
               mountPath: /var/lib/outline/data
           ${{ endif() }}
-  ${{ if(inputs.storage_type === 'local') }}
   volumeClaimTemplates:
+    - metadata:
+        annotations:
+          path: /var/lib/outline/secrets
+          value: '1'
+        name: vn-varvn-libvn-outlinevn-secrets
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+    ${{ if(inputs.storage_type === 'local') }}
     - metadata:
         annotations:
           path: /var/lib/outline/data
@@ -569,7 +774,7 @@ spec:
         resources:
           requests:
             storage: 1Gi
-  ${{ endif() }}
+    ${{ endif() }}
 
 ---
 apiVersion: v1

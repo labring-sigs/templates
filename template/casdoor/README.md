@@ -20,9 +20,29 @@ The following user-facing inputs are available during deployment:
 
 | Name | Description | Required | Default |
 |------|-------------|----------|---------|
-| `driver_name` | Database driver name (mysql, postgres, sqlite) | `false` | `sqlite` |
+| `driver_name` | Database driver name (postgres, mysql, sqlite) | `false` | `postgres` |
 
 Keep sensitive values in Sealos-managed inputs or generated defaults. Do not commit private credentials to the template repository.
+
+PostgreSQL is the recommended default for production deployments. SQLite is available for lightweight testing and stores its database on the Casdoor data volume.
+
+## OIDC Redirect URLs
+
+When Casdoor is used as an OIDC provider, each client application must define its own redirect URL in the Casdoor application settings. This value cannot be filled automatically by the Casdoor template because it depends on the external application domain.
+
+For Outline, add this redirect URL:
+
+```text
+https://<your-outline-domain>/auth/oidc.callback
+```
+
+For example, if Outline is available at `https://outline-example.example.com`, the redirect URL is:
+
+```text
+https://outline-example.example.com/auth/oidc.callback
+```
+
+After saving the Casdoor application, copy its client ID and client secret into the client application, such as the Outline OIDC deployment inputs.
 
 ## Official Links
 
