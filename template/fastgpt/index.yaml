@@ -71,31 +71,31 @@ spec:
       type: string
       value: ${{ random(40) }}
   inputs:
-    use_pro:
-      description: 'Deploy the FastGPT Pro/Admin commercial service'
+    enable_pro:
+      description: 'Deploy the commercial edition / 部署商业版'
       type: boolean
       default: 'false'
       required: false
-    use_embedded_s3:
-      description: 'Deploy Silo, an S3-compatible object-storage service, instead of using Sealos ObjectStorage'
+    install_s3:
+      description: 'Deploy S3-compatible storage / 部署 S3'
       type: boolean
       default: 'false'
       required: false
-    enable_opensandbox:
-      description: 'Enable Agent Sandbox with the Sealos Kubernetes OpenSandbox runtime'
+    enable_skills:
+      description: 'Enable Skills / 开启 Skills 功能'
       type: boolean
       default: 'false'
       required: false
     s3_storage_size:
-      description: 'Persistent volume size for embedded S3-compatible object storage in Gi'
+      description: 'S3 storage size (Gi); only used when install_s3 is enabled / S3 存储卷大小（Gi），仅开启 install_s3 时生效'
       type: number
       default: '1'
       required: false
     root_password:
-      description: 'root user''s password，username is: root'
+      description: 'FastGPT root login password; random by default / FastGPT root 登录密码，默认随机生成，可自定义'
       type: string
-      default: ''
-      required: true
+      default: '${{ random(32) }}'
+      required: false
 
 ---
 apiVersion: v1
@@ -183,11 +183,11 @@ spec:
               value: math,cmath,decimal,fractions,random,statistics,collections,array,heapq,bisect,queue,copy,itertools,functools,operator,string,re,difflib,textwrap,unicodedata,codecs,datetime,time,calendar,_strptime,json,csv,base64,binascii,struct,hashlib,hmac,secrets,uuid,typing,abc,enum,dataclasses,contextlib,pprint,weakref,numpy,pandas,matplotlib
           resources:
             requests:
-              cpu: 50m
-              memory: 102Mi
+              cpu: 100m
+              memory: 256Mi
             limits:
               cpu: 500m
-              memory: 1024Mi
+              memory: 1Gi
           ports:
             - name: http
               containerPort: 3000
@@ -283,7 +283,7 @@ spec:
                 echo "waiting for redis";
                 sleep 2;
               done
-              ${{ if(inputs.use_embedded_s3 === 'true') }}
+              ${{ if(inputs.install_s3 === 'true') }}
               until nc -z ${{ defaults.app_name }}-s3.${{ SEALOS_NAMESPACE }}.svc.cluster.local 9000; do
                 echo "waiting for S3 storage";
                 sleep 2;
@@ -342,7 +342,7 @@ spec:
               value: http://${{ defaults.app_name }}-aiproxy.${{ SEALOS_NAMESPACE }}.svc:3000
             - name: AIPROXY_API_TOKEN
               value: ${{ defaults.aiproxy_key }}
-            ${{ if(inputs.use_pro === 'true') }}
+            ${{ if(inputs.enable_pro === 'true') }}
             - name: PRO_URL
               value: http://${{ defaults.app_name }}-pro.${{ SEALOS_NAMESPACE }}.svc.cluster.local:3000
             - name: PRO_TOKEN
@@ -433,7 +433,7 @@ spec:
             - name: no_proxy
               value: localhost,127.0.0.1,::1,${{ defaults.app_name }},${{ defaults.app_name }}-plugin,${{ defaults.app_name }}-code-sandbox,${{ defaults.app_name }}-aiproxy,${{ defaults.app_name }}-mcp-server,${{ defaults.app_name }}-s3,${{ defaults.app_name }}-opensandbox-server,${{ defaults.app_name }}-volume-manager,*.svc,*.svc.cluster.local
 
-            ${{ if(inputs.enable_opensandbox === 'true') }}
+            ${{ if(inputs.enable_skills === 'true') }}
             - name: AGENT_SANDBOX_PROVIDER
               value: opensandbox
             - name: AGENT_ENGINE
@@ -445,9 +445,9 @@ spec:
             - name: AGENT_SANDBOX_PROXY_SECRET
               value: ${{ defaults.agent_sandbox_proxy_secret }}
             - name: AGENT_SANDBOX_CPU_COUNT
-              value: '1'
+              value: '0.1'
             - name: AGENT_SANDBOX_MEMORY_MIB
-              value: '2048'
+              value: '512'
             - name: AGENT_SANDBOX_STORAGE_SIZE_GI
               value: '1'
             - name: AGENT_SANDBOX_SUSPEND_MINUTES
@@ -484,7 +484,7 @@ spec:
               value: fastgpt-session
             ${{ endif() }}
 
-            ${{ if(inputs.use_pro === 'false') }}
+            ${{ if(inputs.enable_pro === 'false') }}
             - name: DATASET_PARSE_MAX_PROCESS
               value: '10'
             - name: VECTOR_MAX_PROCESS
@@ -522,7 +522,7 @@ spec:
               value: '3'
             - name: STORAGE_DOWNLOAD_URL_MODE
               value: short-proxy
-            ${{ if(inputs.use_embedded_s3 === 'true') }}
+            ${{ if(inputs.install_s3 === 'true') }}
             - name: STORAGE_ACCESS_KEY_ID
               value: ${{ defaults.s3_access_key }}
             - name: STORAGE_SECRET_ACCESS_KEY
@@ -586,7 +586,7 @@ spec:
               value: '10'
           resources:
             requests:
-              cpu: 50m
+              cpu: 100m
               memory: 256Mi
             limits:
               cpu: 500m
@@ -678,7 +678,7 @@ spec:
         - ${{ defaults.app_host }}.${{ SEALOS_CLOUD_DOMAIN }}
       secretName: ${{ SEALOS_CERT_SECRET_NAME }}
 
-${{ if(inputs.use_pro === 'true') }}
+${{ if(inputs.enable_pro === 'true') }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -721,7 +721,7 @@ spec:
               until nc -z ${{ defaults.app_name }}-pg-postgresql.${{ SEALOS_NAMESPACE }}.svc 5432; do sleep 2; done
               until nc -z ${{ defaults.app_name }}-redis-redis.${{ SEALOS_NAMESPACE }}.svc.cluster.local 6379; do sleep 2; done
               until nc -z ${{ defaults.app_name }}.${{ SEALOS_NAMESPACE }}.svc.cluster.local 3000; do sleep 2; done
-              ${{ if(inputs.use_embedded_s3 === 'true') }}
+              ${{ if(inputs.install_s3 === 'true') }}
               until nc -z ${{ defaults.app_name }}-s3.${{ SEALOS_NAMESPACE }}.svc.cluster.local 9000; do sleep 2; done
               ${{ endif() }}
       containers:
@@ -798,7 +798,7 @@ spec:
               value: 'true'
             - name: STORAGE_S3_MAX_RETRIES
               value: '3'
-            ${{ if(inputs.use_embedded_s3 === 'true') }}
+            ${{ if(inputs.install_s3 === 'true') }}
             - name: STORAGE_ACCESS_KEY_ID
               value: ${{ defaults.s3_access_key }}
             - name: STORAGE_SECRET_ACCESS_KEY
@@ -899,7 +899,7 @@ spec:
               value: localhost,127.0.0.1,::1,${{ defaults.app_name }},${{ defaults.app_name }}-plugin,${{ defaults.app_name }}-code-sandbox,${{ defaults.app_name }}-aiproxy,${{ defaults.app_name }}-mcp-server,${{ defaults.app_name }}-s3,${{ defaults.app_name }}-opensandbox-server,${{ defaults.app_name }}-volume-manager,*.svc,*.svc.cluster.local
             - name: no_proxy
               value: localhost,127.0.0.1,::1,${{ defaults.app_name }},${{ defaults.app_name }}-plugin,${{ defaults.app_name }}-code-sandbox,${{ defaults.app_name }}-aiproxy,${{ defaults.app_name }}-mcp-server,${{ defaults.app_name }}-s3,${{ defaults.app_name }}-opensandbox-server,${{ defaults.app_name }}-volume-manager,*.svc,*.svc.cluster.local
-            ${{ if(inputs.enable_opensandbox === 'true') }}
+            ${{ if(inputs.enable_skills === 'true') }}
             - name: AGENT_SANDBOX_PROVIDER
               value: opensandbox
             - name: AGENT_ENGINE
@@ -929,9 +929,9 @@ spec:
             - name: AGENT_SANDBOX_OPENSANDBOX_VOLUME_MANAGER_TOKEN
               value: ${{ defaults.volume_manager_auth_token }}
             - name: AGENT_SANDBOX_CPU_COUNT
-              value: '1'
+              value: '0.1'
             - name: AGENT_SANDBOX_MEMORY_MIB
-              value: '2048'
+              value: '512'
             - name: AGENT_SANDBOX_STORAGE_SIZE_GI
               value: '1'
             - name: AGENT_SANDBOX_SUSPEND_MINUTES
@@ -958,10 +958,10 @@ spec:
           resources:
             requests:
               cpu: 100m
-              memory: 512Mi
+              memory: 256Mi
             limits:
-              cpu: 1000m
-              memory: 2Gi
+              cpu: 500m
+              memory: 1Gi
 
 ---
 apiVersion: v1
@@ -1062,7 +1062,7 @@ spec:
                 echo "waiting for redis";
                 sleep 2;
               done
-              ${{ if(inputs.use_embedded_s3 === 'true') }}
+              ${{ if(inputs.install_s3 === 'true') }}
               until nc -z ${{ defaults.app_name }}-s3.${{ SEALOS_NAMESPACE }}.svc.cluster.local 9000; do
                 echo "waiting for S3-compatible storage";
                 sleep 2;
@@ -1096,7 +1096,7 @@ spec:
               value: localhost,127.0.0.1,::1,${{ defaults.app_name }},${{ defaults.app_name }}-mongo-mongodb,${{ defaults.app_name }}-redis-redis,${{ defaults.app_name }}-s3,${{ defaults.app_name }}-plugin,*.svc,*.svc.cluster.local
             - name: no_proxy
               value: localhost,127.0.0.1,::1,${{ defaults.app_name }},${{ defaults.app_name }}-mongo-mongodb,${{ defaults.app_name }}-redis-redis,${{ defaults.app_name }}-s3,${{ defaults.app_name }}-plugin,*.svc,*.svc.cluster.local
-            ${{ if(inputs.use_embedded_s3 === 'true') }}
+            ${{ if(inputs.install_s3 === 'true') }}
             - name: STORAGE_ACCESS_KEY_ID
               value: ${{ defaults.s3_access_key }}
             - name: STORAGE_SECRET_ACCESS_KEY
@@ -1173,9 +1173,9 @@ spec:
           resources:
             requests:
               cpu: 20m
-              memory: 25Mi
+              memory: 128Mi
             limits:
-              cpu: 200m
+              cpu: 100m
               memory: 256Mi
           ports:
             - containerPort: 3000
@@ -1279,11 +1279,11 @@ spec:
               value: Asia/Shanghai
           resources:
             requests:
-              cpu: 100m
-              memory: 102Mi
+              cpu: 20m
+              memory: 64Mi
             limits:
-              cpu: 1000m
-              memory: 1024Mi
+              cpu: 100m
+              memory: 256Mi
           ports:
             - containerPort: 3000
               name: http
@@ -1354,11 +1354,11 @@ spec:
             value: http://${{ defaults.app_name }}.${{ SEALOS_NAMESPACE }}.svc.cluster.local:3000
           resources:
             requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
               cpu: 50m
               memory: 128Mi
-            limits:
-              cpu: 500m
-              memory: 1024Mi
           ports:
             - containerPort: 3000
           imagePullPolicy: IfNotPresent
@@ -1436,8 +1436,8 @@ spec:
       replicas: 1
       resources:
         limits:
-          cpu: 500m
-          memory: 1Gi
+          cpu: 200m
+          memory: 512Mi
         requests:
           cpu: 50m
           memory: 128Mi
@@ -1522,8 +1522,8 @@ spec:
       replicas: 1
       resources:
         limits:
-          cpu: 500m
-          memory: 1Gi
+          cpu: 200m
+          memory: 512Mi
         requests:
           cpu: 50m
           memory: 128Mi
@@ -1605,10 +1605,10 @@ spec:
       replicas: 1
       resources:
         limits:
-          cpu: 1000m
-          memory: 2Gi
+          cpu: 200m
+          memory: 1Gi
         requests:
-          cpu: 100m
+          cpu: 50m
           memory: 256Mi
       serviceAccountName: ${{ defaults.app_name }}-redis
       switchPolicy:
@@ -1626,11 +1626,11 @@ spec:
       replicas: 1
       resources:
         limits:
-          cpu: 500m
-          memory: 512Mi
-        requests:
           cpu: 50m
-          memory: 51Mi
+          memory: 64Mi
+        requests:
+          cpu: 10m
+          memory: 16Mi
       serviceAccountName: ${{ defaults.app_name }}-redis
       volumeClaimTemplates:
         - name: data
@@ -1679,7 +1679,7 @@ subjects:
     name: ${{ defaults.app_name }}-redis
     namespace: ${{ SEALOS_NAMESPACE }}
 
-${{ if(inputs.use_embedded_s3 === 'false') }}
+${{ if(inputs.install_s3 === 'false') }}
 ---
 apiVersion: objectstorage.sealos.io/v1
 kind: ObjectStorageBucket
@@ -1701,7 +1701,7 @@ spec:
   policy: private
 ${{ endif() }}
 
-${{ if(inputs.enable_opensandbox === 'true') }}
+${{ if(inputs.enable_skills === 'true') }}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -1865,10 +1865,10 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 256Mi
+              memory: 128Mi
             limits:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 200m
+              memory: 256Mi
           volumeMounts:
             - name: config
               mountPath: /etc/opensandbox
@@ -2020,8 +2020,8 @@ spec:
               cpu: 20m
               memory: 64Mi
             limits:
-              cpu: 200m
-              memory: 128Mi
+              cpu: 100m
+              memory: 256Mi
 
 ---
 apiVersion: v1
@@ -2108,11 +2108,11 @@ spec:
             failureThreshold: 3
           resources:
             requests:
-              cpu: 20m
-              memory: 64Mi
+              cpu: 10m
+              memory: 16Mi
             limits:
-              cpu: 200m
-              memory: 256Mi
+              cpu: 50m
+              memory: 64Mi
 
 ---
 apiVersion: networking.k8s.io/v1
@@ -2152,7 +2152,7 @@ spec:
       secretName: ${{ SEALOS_CERT_SECRET_NAME }}
 ${{ endif() }}
 
-${{ if(inputs.use_embedded_s3 === 'true') }}
+${{ if(inputs.install_s3 === 'true') }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -2220,11 +2220,11 @@ spec:
             failureThreshold: 5
           resources:
             requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
               cpu: 200m
               memory: 256Mi
-            limits:
-              cpu: 1000m
-              memory: 1Gi
           volumeMounts:
             - name: data
               mountPath: /data

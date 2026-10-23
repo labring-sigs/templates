@@ -4,10 +4,10 @@
 
 ## 部署选项
 
-- `use_pro`：默认 `false`，部署开源版；设为 `true` 时额外部署 FastGPT Pro/Admin `v4.17.2`，并配置主应用与 Pro 服务间凭证。
-- `use_embedded_s3`：默认 `false`，使用 Sealos ObjectStorage；设为 `true` 时部署单节点 Silo S3 兼容对象存储，并使用独立的 S3 API 与 Console 域名。
-- `enable_opensandbox`：默认 `false`；设为 `true` 时部署 Agent Sandbox Proxy、OpenSandbox Server 和 Volume Manager。
-- `s3_storage_size`：内置 S3 对象存储持久卷大小，单位 Gi，默认 `1`。仅在开启内置 S3 存储时使用。
+- `enable_pro`：默认 `false`；设为 `true` 部署 FastGPT Pro/Admin 商业版。
+- `install_s3`：默认 `false` 使用 Sealos ObjectStorage；设为 `true` 部署 Silo S3。
+- `enable_skills`：默认 `false`；设为 `true` 部署 Agent Sandbox 组件以开启 Skills。
+- `s3_storage_size`：S3 存储卷大小（Gi），默认 `1`，仅在 `install_s3` 开启时生效。
 
 镜像版本固定为 FastGPT / Pro `v4.17.2`、Code Sandbox `v4.17.0`、Plugin `v1.1.4`、MCP Server `v4.15.0-beta2` 和 AIProxy `v0.7.3`。
 FastGPT/Labring 组件使用 GHCR 镜像；内置 S3 存储使用 `docker.io/pgsty/silo:RELEASE.2026-10-18T00-00-00Z`，OpenSandbox 使用其上游公开镜像。
@@ -15,10 +15,10 @@ FastGPT/Labring 组件使用 GHCR 镜像；内置 S3 存储使用 `docker.io/pgs
 ## 使用说明
 
 1. 部署完成后等待 MongoDB、PostgreSQL、Redis 和 AIProxy 初始化完成。
-2. 登录用户名是 `root`，密码为部署时填写的 `root_password`。
+2. 登录用户名是 `root`；密码为部署表单中默认生成的 `root_password`，也可以自行修改。
 3. AI 模型仍需在部署后配置。AIProxy 以内网服务方式部署，由 FastGPT 调用。
 4. MCP Server 地址会自动写入 FastGPT 配置。
-5. OpenSandbox 使用 Kubernetes runtime 和 Sealos PVC，不使用 Docker Socket。启用前需在集群安装 Sealos Agent Sandbox 组件，包括 BatchSandbox CRD 和 `opensandbox-manager` ClusterRole。模板只部署当前应用所需的 Server、Proxy 和 Volume Manager；沙盒 PVC 使用 `openebs-vg-lvm` StorageClass。
+5. OpenSandbox 使用 Kubernetes runtime 和 Sealos PVC，不使用 Docker Socket。启用前需在集群安装 Sealos Agent Sandbox 组件，包括 BatchSandbox CRD 和 `opensandbox-manager` ClusterRole。模板只部署当前应用所需的 Server、Proxy 和 Volume Manager；沙盒 PVC 使用 `openebs-vg-lvm` StorageClass。每个运行态 sandbox 的资源上限为 `0.1 CPU` 和 `512Mi` 内存。
 
 ## 存储架构
 
