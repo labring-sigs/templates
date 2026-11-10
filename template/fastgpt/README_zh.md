@@ -1,6 +1,6 @@
 # FastGPT
 
-统一模板部署 FastGPT `v4.17.3`，将上游 Docker Compose 服务映射为 Sealos 原生资源，并支持按需选择商业版、对象存储和 Agent Sandbox。
+统一模板部署 FastGPT `v4.17.4`，将上游 Docker Compose 服务映射为 Sealos 原生资源，并支持按需选择商业版、对象存储和 Agent Sandbox。
 
 ## 部署选项
 
@@ -9,7 +9,7 @@
 - `enable_skills`：默认 `false`；设为 `true` 部署 Agent Sandbox 组件以开启 Skills。
 - `s3_storage_size`：S3 存储卷大小（Gi），默认 `1`，仅在 `install_s3` 开启时生效。
 
-镜像版本固定为 FastGPT / Pro `v4.17.3`、Code Sandbox `v5.0.0`、Plugin `v1.2.0`、MCP Server `v4.15.0-beta2` 和 AIProxy `v0.7.7`；Agent Sandbox 组件固定为 Proxy / Volume Manager / Sandbox `v0.4.0`。
+镜像版本固定为 FastGPT / Pro `v4.17.4`、Code Sandbox `v5.0.0`、Plugin `v1.2.0`、MCP Server `v4.15.0-beta2` 和 AIProxy `v0.7.7`；Agent Sandbox 组件固定为 Proxy / Volume Manager / Sandbox `v0.4.0`。
 FastGPT/Labring 组件使用 GHCR 镜像；内置 S3 存储使用 `docker.io/pgsty/silo:RELEASE.2026-10-18T00-00-00Z`，OpenSandbox 使用其上游公开镜像。
 
 ## 使用说明
