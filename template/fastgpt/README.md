@@ -1,6 +1,6 @@
 # FastGPT
 
-This unified template deploys FastGPT `v4.17.3` as Sealos-native resources and lets you select the commercial service, object-storage backend, and Agent Sandbox components independently.
+This unified template deploys FastGPT `v4.17.4` as Sealos-native resources and lets you select the commercial service, object-storage backend, and Agent Sandbox components independently.
 
 ## Options
 
@@ -9,7 +9,7 @@ This unified template deploys FastGPT `v4.17.3` as Sealos-native resources and l
 - `enable_skills`: defaults to `false`; set to `true` to deploy the Agent Sandbox components required for Skills.
 - `s3_storage_size`: S3 persistent volume size in GiB; defaults to `1` and applies only when `install_s3` is enabled.
 
-The image versions are pinned to FastGPT / Pro `v4.17.3`, Code Sandbox `v5.0.0`, Plugin `v1.2.0`, MCP Server `v4.15.0-beta2`, and AIProxy `v0.7.7`; the Agent Sandbox components (Proxy, Volume Manager, and Sandbox) are pinned to `v0.4.0`.
+The image versions are pinned to FastGPT / Pro `v4.17.4`, Code Sandbox `v5.0.0`, Plugin `v1.2.0`, MCP Server `v4.15.0-beta2`, and AIProxy `v0.7.7`; the Agent Sandbox components (Proxy, Volume Manager, and Sandbox) are pinned to `v0.4.0`.
 FastGPT/Labring component images use GHCR. Embedded S3 storage uses `docker.io/pgsty/silo:RELEASE.2026-10-18T00-00-00Z`; OpenSandbox uses its upstream public images.
 
 ## Notes
